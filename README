@@ -5,6 +5,9 @@ RightJS goods is a collection of additional plugins and features for the
 RightJS framework which are not included in the standard build but still an
 actual part of the project.
 
+All the features will be available as standalone modules as well as in form
+of the custom build options.
+
 
 --
 The code released under terms of the MIT License
