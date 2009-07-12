@@ -12,19 +12,13 @@ Event.Mouse = new Class(Event.Base, {
   extend: {
     NAMES: $w('click middleclick rightclick dblclick mousedown mouseup mouseover mouseout mousemove'),
     
-    BUTTONS: {
-      click:       0,
-      middleclick: 1,
-      rightclick:  2
-    },
-    
     Methods: {
       isLeftClick: function() {
-        return this.which == 0;
+        return this.which == Event.BUTTONS.LEFT;
       },
 
       isRightClick : function() {
-        return this.which == 2;
+        return this.which == Event.BUTTONS.RIGHT;
       }
     },
     

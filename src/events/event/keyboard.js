@@ -12,33 +12,13 @@ Event.Keyboard = new Class(Event.Base, {
   extend: {
     NAMES: $w('keypress keydown keyup'),
     
-    KEYS: {
-      BACKSPACE:  8,
-      TAB:        9,
-      ENTER:     13,
-      ESCAPE:    27,
-      SPACE:     32,
-      PAGE_UP:   33,
-      PAGE_DOWN: 34,
-      END:       35,
-      HOME:      36,
-      LEFT:      37,
-      UP:        38,
-      RIGHT:     39,
-      DOWN:      40,
-      INSERT:    45,
-      DELETE:    46
-    },
-    
     /**
      * automatically generates the key checking methods like
      * isEscape()
      * isEnter()
      * etc
      */
-    Methods: Object.walk(Object.clone(Event.KEYS), function(key, value) {
-      return [('is_'+key.toLowerCase()).camelize(), function() { return (this.keyCode || this.charCode) == value; }];
-    }),
+    Methods: {}, // generated at the end of the file
     
     /**
      * processes the event extending as a keyboard event
@@ -112,3 +92,10 @@ Event.Keyboard = new Class(Event.Base, {
     event.charCode = options.charCode;
   }
 });
+
+// generates the key checking methods
+for (var key in Event.KEYS) {
+  Event.Keyboard.Methods[('is_'+key.toLowerCase()).camelize()] = function() {
+    return this.keyCode == Event.KEYS[key];
+  };
+};

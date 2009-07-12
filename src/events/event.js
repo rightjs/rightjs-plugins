@@ -13,6 +13,7 @@ Event.extend({
   ext: function(event) {
     if (!event.stop) {
       Event._ext(event);
+      Event.Base.ext(event);
       
       if (Event.Mouse.NAMES.includes(event.eventName)) {
         Event.Mouse.ext(event);
@@ -23,7 +24,34 @@ Event.extend({
     
     return event;
   },
-  _ext: Event.ext
+  _ext: Event.ext,
+  
+  // keyboard key codes
+  KEYS: {
+    BACKSPACE:  8,
+    TAB:        9,
+    ENTER:     13,
+    ESCAPE:    27,
+    SPACE:     32,
+    PAGE_UP:   33,
+    PAGE_DOWN: 34,
+    END:       35,
+    HOME:      36,
+    LEFT:      37,
+    UP:        38,
+    RIGHT:     39,
+    DOWN:      40,
+    INSERT:    45,
+    DELETE:    46
+  },
+  
+  // mouse button codes
+  BUTTONS: {
+    LEFT:   0,
+    MIDDLE: Browser.IE ? 4 : 1,
+    RIGHT:  2
+  }
+  
 });
 
 Event.include({

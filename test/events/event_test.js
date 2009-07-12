@@ -9,7 +9,7 @@ var EventTest = TestCase.create({
   testReInstanceEvent: function() {
     var mock_event = {mock: 'event'};
     
-    this.assertCalled(Event, 'ext', function() {
+    this.assertCalled(Event, '_ext', function() {
       var event = new Event(mock_event);
     });
     
