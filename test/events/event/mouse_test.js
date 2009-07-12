@@ -47,5 +47,12 @@ var EventMouseTest = TestCase.create({
     
     this.assert(defined(ev.pageX));
     this.assert(defined(ev.pageY));
+  },
+  
+  testTarget: function() {
+    var ev = null;
+    this.el.onClick(function(e) { ev = e; }).click();
+    
+    this.assertSame(this.el, ev.target);
   }
 });

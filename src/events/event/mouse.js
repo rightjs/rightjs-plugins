@@ -35,21 +35,28 @@ Event.Mouse = new Class(Event.Base, {
     ext: function(event) {
       $ext(event, this.Methods, true);
       
-      // faking the which button so we could work with it in a crossbrowser way
-      if (!event.which) {
+      if (Browser.IE) {
+        // faking the which button so we could work with it in a crossbrowser way
         event.which = event.button == Event.BUTTONS.RIGHT ? 3 : event.button == Event.BUTTONS.MIDDLE ? 2 : 1;
-      }
-      
-      // fake the mouse position for IE browsers
-      if (!defined(event.pageX)) {
+        
+        // fake the mouse position for IE browsers
         var scrolls = window.scrolls();
         
         event.pageX = event.clientX + scrolls.x;
         event.pageY = event.clientY + scrolls.y;
-      }
+        
+        
+        // faking the relatedElement unit for IE browsers
+        event.relatedElement = event.type == 'mouseover' ? event.fromEvent :
+          event.type == 'mouseout' ? event.toEvent : null;
+        
+        // faking the target property  
+        event.target = event.srcElement;
+      } 
       
-      
-      // TODO all the reset of the event extending
+      // Safari bug fix
+      if (event.target && event.target.nodeType == 3)
+        event.target = event.target.parentNode;
       
       return event;
     }
