@@ -19,6 +19,10 @@ Event.Mouse = new Class(Event.Base, {
 
       isRightClick : function() {
         return this.which == 3;
+      },
+      
+      position: function() {
+        return {x: this.pageX, y: this.pageY};
       }
     },
     
@@ -36,6 +40,13 @@ Event.Mouse = new Class(Event.Base, {
         event.which = event.button == Event.BUTTONS.RIGHT ? 3 : event.button == Event.BUTTONS.MIDDLE ? 2 : 1;
       }
       
+      // fake the mouse position for IE browsers
+      if (!defined(event.pageX)) {
+        var scrolls = window.scrolls();
+        
+        event.pageX = event.clientX + scrolls.x;
+        event.pageY = event.clientY + scrolls.y;
+      }
       
       
       // TODO all the reset of the event extending
