@@ -6,6 +6,14 @@
 var EventMouseTest = TestCase.create({
   name: 'EventMouseTest',
   
+  setup: function() {
+    this.el = $E('div').insertTo(document.body);
+  },
+  
+  tearDown: function() {
+    this.el.remove();
+  },
+  
   testExt: function() {
     var mock_event = {mock: 'event'};
     
@@ -13,5 +21,23 @@ var EventMouseTest = TestCase.create({
     
     this.assertNotNull(mock_event.isLeftClick);
     this.assertNotNull(mock_event.isRightClick);
+  },
+  
+  testLeftClick: function() {
+    var ev = null;
+    this.el.onClick(function(e) { ev = e }).click();
+    
+    this.assertEqual(1, ev.which);
+    this.assert(ev.isLeftClick());
+    this.assertFalse(ev.isRightClick());
+  },
+  
+  testRightClick: function() {
+    var ev = null;
+    this.el.onRightclick(function(e) { ev = e }).rightclick();
+    
+    this.assertEqual(3, ev.which);
+    this.assert(ev.isRightClick());
+    this.assertFalse(ev.isLeftClick());
   }
 });

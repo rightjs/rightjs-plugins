@@ -77,11 +77,12 @@ var EventTest = TestCase.create({
         this.event = new Event(event_name);
       }, this);
       
-      if (this.util.Browser.IE) {
+      if (!this.util.Browser.Konqueror) {
         if (event_name == 'rightclick') {
           event_name = 'contextmenu';
         }
-        event_name = 'on'+event_name;
+        if (this.util.Browser.IE)
+          event_name = 'on'+event_name;
       }
       
       this.assertEqual(event_name, this.event.type);

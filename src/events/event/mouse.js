@@ -14,11 +14,11 @@ Event.Mouse = new Class(Event.Base, {
     
     Methods: {
       isLeftClick: function() {
-        return this.which == Event.BUTTONS.LEFT;
+        return this.which == 1;
       },
 
       isRightClick : function() {
-        return this.which == Event.BUTTONS.RIGHT;
+        return this.which == 3;
       }
     },
     
@@ -30,6 +30,13 @@ Event.Mouse = new Class(Event.Base, {
      */
     ext: function(event) {
       $ext(event, this.Methods, true);
+      
+      // faking the which button so we could work with it in a crossbrowser way
+      if (!event.which) {
+        event.which = event.button == Event.BUTTONS.RIGHT ? 3 : event.button == Event.BUTTONS.MIDDLE ? 2 : 1;
+      }
+      
+      
       
       // TODO all the reset of the event extending
       
@@ -53,11 +60,9 @@ Event.Mouse = new Class(Event.Base, {
   
   options: function(name, options) {
     options = this.$super(name, options);
-    options.button = Event.BUTTONS[options.name] || 0;
+    options.button = Event.BUTTONS[options.name == 'rightclick' ? 'RIGHT' : options.name == 'middleclick' ? 'MIDDLE' : 'LEFT'];
     options.name   = Event.realName(options.name);
-    if (Browser.IE) {
-      options.button = options.button == 1 ? 4 : options.button; // <- IE gets the middle button as 4
-    }
+    
     return options;
   },
   

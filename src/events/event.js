@@ -46,9 +46,13 @@ Event.extend({
   },
   
   // mouse button codes
-  BUTTONS: {
+  BUTTONS: (Browser.IE || Browser.Konqueror) ? {
+    LEFT:   1,
+    MIDDLE: 4,
+    RIGHT:  2
+  } : {
     LEFT:   0,
-    MIDDLE: Browser.IE ? 4 : 1,
+    MIDDLE: 1,
     RIGHT:  2
   }
   
