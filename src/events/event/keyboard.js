@@ -29,8 +29,6 @@ Event.Keyboard = new Class(Event.Base, {
     ext: function(event) {
       $ext(event, this.Methods, true);
       
-      // TODO other extending stuff in here
-      
       return event;
     }
   },
@@ -51,7 +49,7 @@ Event.Keyboard = new Class(Event.Base, {
     } else try {
       // Gecko, WebKit, Chrome
       event = document.createEvent('KeyboardEvent');
-      this['init'+Browser.WebKit ? 'Webkit' : 'Gecko'](event, options);
+      this['init'+(Browser.WebKit ? 'Webkit' : 'Gecko')](event, options);
     } catch(e) {
       // basically Opera
       event = document.createEvent('UIEvent');
@@ -77,7 +75,7 @@ Event.Keyboard = new Class(Event.Base, {
   },
   
   initDOM2: function(event, options) {
-    event.initUIEvent(options.ame, options.bubbles, options.cancelable, document.defaultView, 1);
+    event.initUIEvent(options.name, options.bubbles, options.cancelable, document.defaultView, 1);
 
     event.keyCode   = options.keyCode;
     event.charCode  = options.charCode;
@@ -94,8 +92,12 @@ Event.Keyboard = new Class(Event.Base, {
 });
 
 // generates the key checking methods
-for (var key in Event.KEYS) {
-  Event.Keyboard.Methods[('is_'+key.toLowerCase()).camelize()] = function() {
-    return this.keyCode == Event.KEYS[key];
+(function() {
+  for (var key in Event.KEYS) {
+    (function(key, key_code) {
+      Event.Keyboard.Methods[('is_'+key.toLowerCase()).camelize()] = function() {
+        return this.keyCode == key_code;
+      };
+    })(key, Event.KEYS[key]);
   };
-};
+})();

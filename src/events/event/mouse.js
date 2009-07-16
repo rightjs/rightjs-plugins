@@ -39,19 +39,19 @@ Event.Mouse = new Class(Event.Base, {
         // faking the which button so we could work with it in a crossbrowser way
         event.which = event.button == Event.BUTTONS.RIGHT ? 3 : event.button == Event.BUTTONS.MIDDLE ? 2 : 1;
         
-        // fake the mouse position for IE browsers
+        // fake the mouse position
         var scrolls = window.scrolls();
         
         event.pageX = event.clientX + scrolls.x;
         event.pageY = event.clientY + scrolls.y;
         
         
-        // faking the relatedElement unit for IE browsers
+        // faking the relatedElement
         event.relatedElement = event.type == 'mouseover' ? event.fromEvent :
           event.type == 'mouseout' ? event.toEvent : null;
         
         // faking the target property  
-        event.target = event.srcElement;
+        event['target'] = event.srcElement;
       } 
       
       // Safari bug fix
@@ -73,7 +73,7 @@ Event.Mouse = new Class(Event.Base, {
   build: function(options) {
     var event = Browser.IE ? this.$super(options) : document.createEvent("MouseEvent");
     this[Browser.IE ? 'initIE' : 'initW3C'](event, options);
-    return $ext(event, this.Methods);
+    return event;
   },
   
   options: function(name, options) {

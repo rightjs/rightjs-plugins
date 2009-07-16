@@ -13,7 +13,6 @@ Event.extend({
   ext: function(event) {
     if (!event.stop) {
       Event._ext(event);
-      Event.Base.ext(event);
       
       if (Event.Mouse.NAMES.includes(event.eventName)) {
         Event.Mouse.ext(event);
@@ -69,7 +68,7 @@ Event.include({
    */
   initialize: function() {
     var args = $A(arguments), event = args.shift(), options = args.pop() || {};
-
+    
     if (isString(event)) {
       var name = Event.cleanName(event);
       if (Event.Mouse.NAMES.includes(name)) {

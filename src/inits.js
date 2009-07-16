@@ -21,7 +21,8 @@ var files = {
     'event',
     'event/base',
     'event/mouse',
-    'event/keyboard'
+    'event/keyboard',
+    'element'
   ],
   
   lang: [

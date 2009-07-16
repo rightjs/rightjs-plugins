@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008-2009 Nikolay V. Nemshilov aka St. <nemshilov#gma-ilc-om>
  */
-Event.Base = new Class(Event.NATIVE, {
+Event.Base = new Class({
   extend: {
     // basic default events options
     Options: {
@@ -13,21 +13,6 @@ Event.Base = new Class(Event.NATIVE, {
       ctrlKey:    false,
       shiftKey:   false,
       metaKey:    false
-    },
-    
-    /**
-     * the basic events extending method
-     *
-     * NOTE: does not process the mouse/keyboard events related extensions
-     *       see the Mouse/Keyboard classes for the code
-     *
-     * @param Event new event
-     * @return Event extended event
-     */
-    ext: function(event) {
-      // TODO all the rest of the extensions in here
-      
-      return event;
     }
   },
   
@@ -42,7 +27,7 @@ Event.Base = new Class(Event.NATIVE, {
    * @return Event new event
    */
   initialize: function(name, options) {
-    return this.build(this.options(name, options || {}));
+    return this.build(this.options(name, options));
   },
   
 // protected

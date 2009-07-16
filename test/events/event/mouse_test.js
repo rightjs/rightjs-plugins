@@ -51,7 +51,8 @@ var EventMouseTest = TestCase.create({
   
   testTarget: function() {
     var ev = null;
-    this.el.onClick(function(e) { ev = e; }).click();
+    
+    this.el.onClick(function(e) { Event.Mouse.ext(e); ev = e; }).click();
     
     this.assertSame(this.el, ev.target);
   }
