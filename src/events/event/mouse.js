@@ -51,7 +51,7 @@ Event.Mouse = new Class(Event.Base, {
           event.type == 'mouseout' ? event.toEvent : null;
         
         // faking the target property  
-        event['target'] = event.srcElement;
+        event.target = event.srcElement;
       } 
       
       // Safari bug fix
