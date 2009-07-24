@@ -19,10 +19,6 @@ Event.Mouse = new Class(Event.Base, {
 
       isRightClick : function() {
         return this.which == 3;
-      },
-      
-      position: function() {
-        return {x: this.pageX, y: this.pageY};
       }
     },
     
@@ -34,30 +30,7 @@ Event.Mouse = new Class(Event.Base, {
      */
     ext: function(event) {
       $ext(event, this.Methods, true);
-      
-      if (Browser.IE) {
-        // faking the which button so we could work with it in a crossbrowser way
-        event.which = event.button == Event.BUTTONS.RIGHT ? 3 : event.button == Event.BUTTONS.MIDDLE ? 2 : 1;
-        
-        // fake the mouse position
-        var scrolls = window.scrolls();
-        
-        event.pageX = event.clientX + scrolls.x;
-        event.pageY = event.clientY + scrolls.y;
-        
-        
-        // faking the relatedElement
-        event.relatedElement = event.type == 'mouseover' ? event.fromEvent :
-          event.type == 'mouseout' ? event.toEvent : null;
-        
-        // faking the target property  
-        event.target = event.srcElement;
-      } 
-      
-      // Safari bug fix
-      if (event.target && event.target.nodeType == 3)
-        event.target = event.target.parentNode;
-      
+            
       return event;
     }
   },

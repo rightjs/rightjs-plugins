@@ -39,21 +39,5 @@ var EventMouseTest = TestCase.create({
     this.assertEqual(3, ev.which);
     this.assert(ev.isRightClick());
     this.assertFalse(ev.isLeftClick());
-  },
-  
-  testPosition: function() {
-    var ev = null;
-    this.el.onClick(function(e) { ev = e;}).click({pointerX: 20, pointerY: 20});
-    
-    this.assert(defined(ev.pageX));
-    this.assert(defined(ev.pageY));
-  },
-  
-  testTarget: function() {
-    var ev = null;
-    
-    this.el.onClick(function(e) { Event.Mouse.ext(e); ev = e; }).click();
-    
-    this.assertSame(this.el, ev.target);
   }
 });
