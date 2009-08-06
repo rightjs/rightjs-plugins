@@ -14,7 +14,9 @@ include_js('lib/testcase');
 var files = {
   effects: [
     'fx/move',
-    'fx/zoom'
+    'fx/zoom',
+    'fx/bounce',
+    'element'
   ],
   
   events: [
@@ -28,6 +30,7 @@ var files = {
   lang: [
     'hash',
     'range',
+    'string',
     'shortcuts'
   ]
 };
