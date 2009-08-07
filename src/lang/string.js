@@ -9,10 +9,10 @@
  */
 
 if (String.prototype.trim.toString().include('return')) {
-  String.WSPS = {};
-  ("0009,000a,000b,000c,000d,0020,0085,00a0,1680,180e,2000,2001,2002,2003,2004,2005,"+
-   "2006,2007,2008,2009,200a,200b,2028,2029,202f,205f,3000").split(',').each(function(key) {
-    String.WSPS[key.toInt(16)] = true;
+  String.WSPS = [];
+  $w("0009 000a 000b 000c 000d 0020 0085 00a0 1680 180e 2000 2001 2002 2003 2004 2005 "+
+     "2006 2007 2008 2009 200a 200b 2028 2029 202f 205f 3000").each(function(key) {
+       String.WSPS[key.toInt(16)] = 1;
   });
   
   String.prototype.trim = function() {
