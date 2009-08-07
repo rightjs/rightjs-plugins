@@ -8,7 +8,10 @@ var tests = {
   EventTest:         'events/event',
   EventBaseTest:     'events/event/base',
   EventMouseTest:    'events/event/mouse',
-  EventKeyboardTest: 'events/event/keyboard'
+  EventKeyboardTest: 'events/event/keyboard',
+  
+  
+  StringTest:        'lang/string'
   
 };
 
@@ -19,6 +22,6 @@ for (var key in tests) {
   document.writeln('<scr'+'ipt src="'+tests[key]+'_test.js"></scr'+'ipt>');
 }
 
-window.onload = function() {
+document.onReady(function() {
   eval('new TestSuite('+test_names.join(',')+').run()');
-};
+});
