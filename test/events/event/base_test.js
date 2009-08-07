@@ -11,8 +11,8 @@ var EventBaseTest = TestCase.create({
     
     this.assertSame(mock_event, Event.ext(mock_event));
     
-    this.assertNotNull(mock_event.stop);
-    this.assertNotNull(mock_event.preventDefault);
-    this.assertNotNull(mock_event.stopPropagation);
+    this.assertNotNull(mock_event.stop, "should have 'stop' method");
+    this.assertNotNull(mock_event.preventDefault, "should have 'preventDefault' method");
+    this.assertNotNull(mock_event.stopPropagation, "should have 'stopPropagation' method");
   }
 });

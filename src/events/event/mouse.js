@@ -71,3 +71,8 @@ Event.Mouse = new Class(Event.Base, {
     );
   }
 });
+
+try {
+  // boosting up the native events by preextending the prototype if available
+  $ext(Event.parent.prototype, Event.Mouse.Methods, true);
+} catch(e) {};

@@ -100,4 +100,8 @@ Event.Keyboard = new Class(Event.Base, {
       };
     })(key, Event.KEYS[key]);
   };
+  try {
+    // boosting up the native events by preextending the prototype if available
+    $ext(Event.parent.prototype, Event.Keyboard.Methods, true);
+  } catch(e) {};
 })();

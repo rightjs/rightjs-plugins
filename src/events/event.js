@@ -3,7 +3,10 @@
  *
  * Copyright (C) 2008-2009 Nikolay V. Nemshilov aka St. <nemshilov#gma-il>
  */
-Event.extend({
+Event.extend((function() {
+  var old_ext = Event.ext;
+
+return {
   /**
    * extends a native object with additional functionality
    *
@@ -12,9 +15,9 @@ Event.extend({
    */
   ext: function(event) {
     if (!event.stop) {
-      Event._ext(event);
+      old_ext.call(Event, event);
       
-      if (Event.Mouse.NAMES.includes(event.eventName)) {
+      if (Event.Mouse.NAMES.includes(event.type)) {
         Event.Mouse.ext(event);
       } else if (defined(event.keyCode)){
         Event.Keyboard.ext(event);
@@ -23,7 +26,6 @@ Event.extend({
     
     return event;
   },
-  _ext: Event.ext,
   
   // keyboard key codes
   KEYS: {
@@ -55,7 +57,7 @@ Event.extend({
     RIGHT:  2
   }
   
-});
+}})());
 
 Event.include({
   /**
@@ -79,7 +81,7 @@ Event.include({
         event = new Event.Custom(name, options);
       }
     }
-
+    
     return Event.ext(event);
   }
 });

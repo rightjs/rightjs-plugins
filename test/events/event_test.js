@@ -6,16 +6,6 @@
 var EventTest = TestCase.create({
   name: 'EventTest',
   
-  testReInstanceEvent: function() {
-    var mock_event = {mock: 'event'};
-    
-    this.assertCalled(Event, '_ext', function() {
-      var event = new Event(mock_event);
-    });
-    
-    this.assertSame(mock_event, new Event(mock_event));
-  },
-  
   testDefaultExtending: function() {
     var mock_event = {mock: 'event'};
     
@@ -61,11 +51,7 @@ var EventTest = TestCase.create({
     for (var i=0; i < Event.Mouse.NAMES.length; i++) {
       var event_name = Event.Mouse.NAMES[i];
       
-      this.assertCalled([
-        [Event.Mouse, 'ext']  // should call the mouse extentions
-      ], function() {
-        this.event = new Event(event_name);
-      }, this, "checking "+event_name);
+      this.event = new Event(event_name);
       
       if (!this.util.Browser.Konqueror) {
         if (event_name == 'rightclick') {
@@ -82,12 +68,7 @@ var EventTest = TestCase.create({
   testKeyboardEventInstance: function() {
     for (var i=0; i < Event.Keyboard.NAMES.length; i++) {
       var event_name = Event.Keyboard.NAMES[i];
-      
-      this.assertCalled([
-        [Event.Keyboard, 'ext']  // should call the keyboard extensions
-      ], function() {
-        this.event = new Event(event_name);
-      }, this);
+      this.event = new Event(event_name);
     }
   },
     
