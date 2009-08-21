@@ -32,6 +32,16 @@ var files = {
     'range',
     'string',
     'shortcuts'
+  ],
+  
+  json: [
+    'string',
+    'date',
+    'number',
+    'boolean',
+    'array',
+    'json',
+    'cookie'
   ]
 };
 

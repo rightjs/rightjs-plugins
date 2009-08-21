@@ -207,10 +207,18 @@ var Hash = new Class({
   /**
    * converts a hash-object into an equivalent url query string
    *
-   * @param Object object
    * @return String query
    */
   toQueryString: function() {
     return Object.toQueryString(this.toObject());
+  },
+  
+  /**
+   * Exports to JSON string
+   *
+   * @return String JSON
+   */
+  toJSON: function() {
+    return window['JSON'].encode(this.toObject());
   }
 });

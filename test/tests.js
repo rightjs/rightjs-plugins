@@ -11,7 +11,10 @@ var tests = {
   EventKeyboardTest: 'events/event/keyboard',
   
   
-  StringTest:        'lang/string'
+  StringTest:        'lang/string',
+  
+  
+  JsonTest:          'json/json'
   
 };
 
