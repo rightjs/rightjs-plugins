@@ -60,7 +60,7 @@ Fx.Zoom = new Class(Fx.Move, {
   
   // getting the position adjustments
   _getEndPosition: function(proportion) {
-    var position = {x: undefined, y: undefined};
+    var position = {};
     var sizes    = this.element.sizes();
     var x_diff   = sizes.x * (proportion - 1);
     var y_diff   = sizes.y * (proportion - 1);
