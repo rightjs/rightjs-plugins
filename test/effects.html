@@ -38,8 +38,19 @@
     <h2>Fx.Move</h2>
     <p>
       <div class="fx-test" id="move-test">I move</div>
-      <a href="" onclick="$('move-test').move({x: 400}, {position: 'relative'}); return false;">move right</a> |
-      <a href="" onclick="$('move-test').move({x:-400}, {position: 'relative'}); return false;">move left</a>
+      <a href="" onclick="$('move-test').move({x: 400}, {position: 'relative'}); return false;">right</a> |
+      <a href="" onclick="$('move-test').move({x:-400}, {position: 'relative'}); return false;">left</a> |
+      <a href="" onclick="$('move-test').move({y:-400}, {position: 'relative'}); return false;">top</a> |
+      <a href="" onclick="$('move-test').move({y: 400}, {position: 'relative'}); return false;">bottom</a>
+    </p>
+    
+    <h2>Fx.Run</h2>
+    <p>
+      <div style="height: 9em;">
+        <div class="fx-test" id="run-test">I run</div>
+      </div>
+      <a href="" onclick="try{ $('run-test').run(); } catch(e){ alert(e);} return false;">run left</a> |
+      <a href="" onclick="$('run-test').run('toggle', {direction: 'top'}); return false;">run top</a>
     </p>
     
     <h2>Fx.Zoom</h2>
@@ -54,7 +65,6 @@
       <div class="fx-test" id="bounce-test">I bounce</div>
       <a href="" onclick="$('bounce-test').bounce(20); return false;">make it bounce</a>
     </p>
-    
     
     
     <p>&nbsp;</p>

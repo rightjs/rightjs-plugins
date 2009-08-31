@@ -16,6 +16,7 @@ var files = {
     'fx/move',
     'fx/zoom',
     'fx/bounce',
+    'fx/run',
     'element'
   ],
   

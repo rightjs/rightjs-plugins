@@ -35,5 +35,16 @@ Element.addMethods({
    */
   zoom: function(size, options) {
     return this.fx('zoom', [size, options || {}]);
+  },
+  
+  /**
+   * Initiates the Fx.Run effect
+   *
+   * @param String running direction
+   * @param Object fx options
+   * @return Element self
+   */
+  run: function() {
+    return this.fx('run', arguments);
   }
 });

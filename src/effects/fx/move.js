@@ -12,6 +12,11 @@ Fx.Move = new Class(Fx.Morph, {
   },
   
   prepare: function(end_position) {
+    return this.$super(this.getEndPosition(end_position));
+  },
+  
+  // moved to a separated method to be able to call it from subclasses
+  getEndPosition: function(end_position) {
     var position = this.element.getStyle('position'), end_style = {};
     
     if (position != 'absolute' || position != 'relative') {
@@ -50,7 +55,7 @@ Fx.Move = new Class(Fx.Morph, {
       }
     }
     
-    return this.$super(end_style);
+    return end_style;
   },
   
   getParentPosition: function() {
