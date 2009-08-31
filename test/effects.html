@@ -21,12 +21,15 @@
       div.fx-test {
         font-size: 1.4em;
         width: 9em;
-        height: 6em;
-        line-height: 6em;
+        height: 5em;
+        line-height: 5em;
         background: orange;
         color: brown;
         text-align: center;
         border: 2px solid brown;
+      }
+      div.test-holder {
+        height: 8.8em;
       }
     </style>
   </head>
@@ -46,7 +49,7 @@
     
     <h2>Fx.Run</h2>
     <p>
-      <div style="height: 9em;">
+      <div class="test-holder">
         <div class="fx-test" id="run-test">I run</div>
       </div>
       <a href="" onclick="try{ $('run-test').run(); } catch(e){ alert(e);} return false;">run left</a> |

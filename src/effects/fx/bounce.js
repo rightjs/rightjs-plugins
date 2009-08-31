@@ -35,9 +35,11 @@ Fx.Bounce = new Class(Fx, {
     up_pos[key]   = -value;
     down_pos[key] = value;
     
-    this.fxUp   = new Fx.Move(this.element, move_options).start(up_pos);
-    this.fxDown = new Fx.Move(this.element, move_options).start(down_pos);
+    new Fx.Move(this.element, move_options).start(up_pos);
+    new Fx.Move(this.element, move_options).start(down_pos);
     
-    return this.finish();
+    this.finish.bind(this).delay(1);
+    
+    return this;
   }
 });
