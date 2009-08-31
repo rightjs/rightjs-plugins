@@ -23,12 +23,12 @@ var JsonTest = TestCase.create({
   
   testDateToJSON: function() {
     var date = new Date();
-    date.setYear(2008);
-    date.setMonth(8);
-    date.setDate(8);
-    date.setHours(8);
-    date.setMinutes(8);
     date.setSeconds(8);
+    date.setMinutes(8);
+    date.setHours(8);
+    date.setDate(8);
+    date.setMonth(8);
+    date.setYear(2008);
     
     this.assertEqual('2008-09-08T04:08:08Z', date.toJSON())
   },
