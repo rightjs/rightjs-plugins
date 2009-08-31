@@ -17,6 +17,7 @@ var files = {
     'fx/zoom',
     'fx/bounce',
     'fx/run',
+    'fx/puff',
     'element'
   ],
   

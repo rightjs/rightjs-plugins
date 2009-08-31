@@ -14,16 +14,22 @@ Fx.Zoom = new Class(Fx.Move, {
     })
   },
   
-  prepare: function(size) {
-    var proportion = this._getProportion(size);
-
-    return this.$super(Object.merge(
-      this._getBasicStyle(proportion),
-      this._getEndPosition(proportion)
-    ));
+  prepare: function(size, additional_styles) {
+    return this.$super(this._getZoomedStyle(size, additional_styles));
   },
   
 // private
+
+  // calculates the end zoommed style
+  _getZoomedStyle: function(size, additional_styles) {
+    var proportion = this._getProportion(size);
+    
+    return Object.merge(
+      this._getBasicStyle(proportion),
+      this._getEndPosition(proportion),
+      additional_styles || {}
+    );
+  },
 
   // calculates the zooming proportion
   _getProportion: function(size) {
@@ -49,10 +55,14 @@ Fx.Zoom = new Class(Fx.Move, {
     
     for (var key in style) {
       if (style[key][0] > 0) {
-        style[key] = (style[key][0] * proportion) + style[key][1];
+        style[key] = (proportion * style[key][0]) + style[key][1];
       } else {
         delete(style[key]);
       }
+    }
+    // preventing the border disappearance
+    if (style.borderWidth && style.borderWidth.toFloat() < 1) {
+      style.borderWidth = '1px';
     }
     
     return style;

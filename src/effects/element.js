@@ -46,5 +46,16 @@ Element.addMethods({
    */
   run: function() {
     return this.fx('run', arguments);
+  },
+  
+  /**
+   * The puff effect shortcut
+   *
+   * @param String running direction in|out|toggle
+   * @param Object fx options
+   * @return Element self
+   */
+  puff: function() {
+    return this.fx('puff', arguments);
   }
 });

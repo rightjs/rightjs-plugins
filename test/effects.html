@@ -19,14 +19,14 @@
         padding: .4em 4em;
       }
       div.fx-test {
-        font-size: 1.4em;
-        width: 9em;
-        height: 5em;
-        line-height: 5em;
+        font-size: 20px;
+        width: 200px;
+        height: 100px;
+        line-height: 100px;
         background: orange;
         color: brown;
         text-align: center;
-        border: 2px solid brown;
+        border: 1px solid brown;
       }
       div.test-holder {
         height: 8.8em;
@@ -67,6 +67,14 @@
     <p>
       <div class="fx-test" id="bounce-test">I bounce</div>
       <a href="" onclick="$('bounce-test').bounce(20); return false;">make it bounce</a>
+    </p>
+    
+    <h2>Fx.Puff</h2>
+    <p>
+      <div class="test-holder">
+        <div class="fx-test" id="puff-test">I puff</div>
+      </div>
+      <a href="" onclick="try { $('puff-test').puff(); } catch(e) { alert(e)} return false;">puff it</a>
     </p>
     
     
