@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>RightJS Goods - Additional Visual Effects - Test</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    
+    <script type="text/javascript">
+    // <!--
+      var RIGHTJS_GOODS_ROOT = '../';
+      document.writeln('<scr'+'ipt src="../src/inits.js"></scr'+'ipt>');
+    // -->
+    </script>
+    
+    <style type="text/css">
+      html, body {
+        font-size: 10pt;
+        font-family: Verdana;
+        padding: .4em 4em;
+      }
+      div.fx-test {
+        font-size: 1.4em;
+        width: 9em;
+        height: 6em;
+        line-height: 6em;
+        background: orange;
+        color: brown;
+        text-align: center;
+        border: 2px solid brown;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RightJS Goods Additional Visual Effects Tests</h1>
+    
+    <p>Some additional tests</p>
+    
+    <h2>Fx.Move</h2>
+    <p>
+      <div class="fx-test" id="move-test">I move</div>
+      <a href="" onclick="$('move-test').move({x: 400}, {position: 'relative'}); return false;">move right</a> |
+      <a href="" onclick="$('move-test').move({x:-400}, {position: 'relative'}); return false;">move left</a>
+    </p>
+    
+    <h2>Fx.Zoom</h2>
+    <p>
+      <div class="fx-test" id="zoom-test">I zoom</div>
+      <a href="" onclick="$('zoom-test').zoom(1.4, {from: 'left-top'}); return false;">x1.4 zoom</a> |
+      <a href="" onclick="$('zoom-test').zoom(0.7, {from: 'left-top'}); return false;">x0.7 minify</a>
+    </p>
+    
+    <h2>Fx.Bounce</h2>
+    <p>
+      <div class="fx-test" id="bounce-test">I bounce</div>
+      <a href="" onclick="$('bounce-test').bounce(20); return false;">make it bounce</a>
+    </p>
+    
+    
+    
+    <p>&nbsp;</p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+    </p>
+  </body>
+</html>
