@@ -43,17 +43,21 @@ task :build do
   sources.each do |name, source|
     puts " * Building the #{name} module"
     
-    source = File.open("src/#{name}/header.js").read + source
+    header   = File.open("src/#{name}/header.js").read
+    minified = @builder.compact_js(source)
     
-    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}-src.js", "w").write(source)
-    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}.js", "w").write(@builder.compact_js(source).create_self_build)
+    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}-src.js", "w").write(header + source)
+    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}-min.js", "w").write(header + minified)
+    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}.js", "w").write(header + minified.create_self_build)
   end
   
   puts " * Building the whole thing"
   
   source = File.open("src/header.js").read + sources.collect{|k, v| v}.join("\n")
+  minified = @builder.compact_js(source)
   
   File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-goods-src.js", "w").write(source)
-  File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-goods.js", "w").write(@builder.compact_js(source).create_self_build)
+  File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-goods-min.js", "w").write(minified)
+  File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-goods.js", "w").write(minified.create_self_build)
   
 end
