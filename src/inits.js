@@ -40,8 +40,10 @@ var files = {
     'number',
     'boolean',
     'array',
+    'hash',
     'json',
-    'cookie'
+    'cookie',
+    'xhr'
   ]
 };
 

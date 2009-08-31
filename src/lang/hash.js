@@ -177,7 +177,7 @@ var Hash = new Class({
    * @return Hash all
    */
   merge: function() {
-    var args = $A(arguments);
+    var args = arguments;
     for (var i=0; i < args.length; i++) {
       if (isHash(args[i])) {
         if (args[i] instanceof Hash) {
@@ -211,14 +211,5 @@ var Hash = new Class({
    */
   toQueryString: function() {
     return Object.toQueryString(this.toObject());
-  },
-  
-  /**
-   * Exports to JSON string
-   *
-   * @return String JSON
-   */
-  toJSON: function() {
-    return window['JSON'].encode(this.toObject());
   }
 });
