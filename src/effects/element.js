@@ -57,5 +57,19 @@ Element.addMethods({
    */
   puff: function() {
     return this.fx('puff', arguments);
+  },
+  
+  /**
+   * The Fx.Class effect shortcut
+   *
+   * @param String css-class name to add
+   * @param String css-class name to remove
+   * @param Object fx options
+   */
+  morphToClass: function() {
+    var args = $A(arguments);
+    if (args[0] === null) args[0] = '';
+    
+    return this.fx('CSS', args);
   }
 });

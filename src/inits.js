@@ -18,6 +18,7 @@ var files = {
     'fx/bounce',
     'fx/run',
     'fx/puff',
+    'fx/css',
     'element'
   ],
   
@@ -31,7 +32,7 @@ var files = {
   
   lang: [
     'hash',
-    'range',
+    'num_range',
     'string',
     'shortcuts'
   ],
