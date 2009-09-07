@@ -23,7 +23,8 @@ Fx.Puff = new Class(Fx.Zoom, {
       });
       
     } else {
-      this.element.setStyle('visibility: hidden').show();
+      this.element.setStyle('visibility: visible').show();
+      
       var width = this.element.offsetWidth;
       var initial_style = this.getEndPosition(this._getZoomedStyle(1));
       

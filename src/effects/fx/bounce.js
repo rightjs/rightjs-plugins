@@ -8,7 +8,7 @@ Fx.Bounce = new Class(Fx, {
     Options: Object.merge(Fx.Options, {
       duration:  'short',
       direction: 'top',
-      value:     10 // the shake distance
+      value:     16 // the shake distance
     })
   },
   
