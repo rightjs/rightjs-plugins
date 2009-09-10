@@ -15,6 +15,10 @@ Fx.CSS = new Class(Fx.Morph, {
     var style = this._getStyle(dummy, this.STYLES);
     dummy.remove();
     
+    // Opera 10 has some trash in the borderWidth style if it was not set
+    if (Browser.Opera && !/^\d+[a-z]+/.test(style.borderWidth))
+      delete(style.borderWidth)
+    
     // wiring the classes add/remove on-finish
     if (add_class)    this.onFinish(this.element.addClass.bind(this.element, add_class));
     if (remove_class) this.onFinish(this.element.removeClass.bind(this.element, remove_class));
