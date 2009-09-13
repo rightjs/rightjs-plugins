@@ -47,6 +47,12 @@ var files = {
     'json',
     'cookie',
     'xhr'
+  ],
+  
+  behavior: [
+    'behavior',
+    'element',
+    'string'
   ]
 };
 
