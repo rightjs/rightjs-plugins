@@ -6,7 +6,7 @@
  * on the page, and will watch any updates on the page
  * and refresh the behaves automatically
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
  */
 var Behavior = new Class({
   extend: {
@@ -22,8 +22,9 @@ var Behavior = new Class({
      */
     add: function() {
       var args = $A(arguments);
-      
-      return new Behavior(args.shift()).on(args).start();
+      var behavior = new Behavior(args.shift());
+
+      return behavior.on.apply(behavior, args).start();
     },
     
     /**
@@ -33,7 +34,7 @@ var Behavior = new Class({
      * @return Behavior stopped behavior or null if there weren't any
      */
     stop: function(rule) {
-      var behavior = Behavior.active(rule);
+      var behavior = Behavior.active[rule];
       if (behavior)  behavior.stop();
       
       return behavior;
@@ -51,7 +52,7 @@ var Behavior = new Class({
     },
     
     // a hash of active behaviors
-    active:   {},
+    active:   {}
   },
   
   
@@ -92,10 +93,12 @@ var Behavior = new Class({
     var args = this.args;
     
     // converting a non-hash args into a hash
-    if (!isHash(args)) {
+    if (!isHash(args[0])) {
       var hash = {};
       hash[args.shift()] = args;
       args = hash;
+    } else {
+      args = args[0];
     }
     
     // unregistering the listeners
@@ -103,13 +106,38 @@ var Behavior = new Class({
       var uid = $uid(element);
       if (this.regs[uid]) {
         for (var key in args) {
-          element.stopObserving.apply(element, [key].concat(args[key]));
+          
+          // if the definition had some nauty arrays and call-by name definitions
+          if (isArray(args[key])) {
+            args[key].each(function(option) {
+              if (isArray(option)) {
+                element.stopObserving.apply(element, [key].concat(options[0]));
+              }
+            });
+            if (!isArray(args[key][0])) {
+              element.stopObserving.apply(element, [key].concat(args[key][0]));
+            }
+          } else {
+            element.stopObserving.apply(element, [key].concat(args[key]));
+          }
         }
       }
     }, this);
     
     this.regs = [];
+    
+    delete(Behavior.active[this.rule]);
+    
     return this;
+  },
+  
+  /**
+   * Checks if the given behavior is active
+   *
+   * @return boolean check result
+   */
+  active: function() {
+    return Behavior.active[this.rule] === this;
   },
   
 // private
@@ -125,7 +153,6 @@ var Behavior = new Class({
    */
   on: function() {
     this.args = $A(arguments);
-    
     return this;
   },
   
@@ -142,6 +169,8 @@ var Behavior = new Class({
         this.regs[uid] = 1;
       }
     }, this);
+    
+    return this;
   }
 });
 

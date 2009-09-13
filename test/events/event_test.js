@@ -57,7 +57,7 @@ var EventTest = TestCase.create({
         if (event_name == 'rightclick') {
           event_name = 'contextmenu';
         }
-        if (this.util.Browser.IE)
+        if (this.util.Browser.IE && event_name != 'contextmenu')
           event_name = 'on'+event_name;
       }
       

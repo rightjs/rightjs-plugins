@@ -14,8 +14,9 @@ var tests = {
   StringTest:        'lang/string',
   
   
-  JsonTest:          'json/json'
+  JsonTest:          'json/json',
   
+  BehaviorTest:      'behavior/behavior'
 };
 
 var test_names = [];

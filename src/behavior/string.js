@@ -15,7 +15,7 @@ $ext(String.prototype, {
    * Takes all the same params as the {Behavior#on} method
    */
   behave: function() {
-    return Behavior.add.apply(Behavior, [this].concat($A(arguments)));
+    return Behavior.add.apply(Behavior, [''+this].concat($A(arguments)));
   },
   
   /**
@@ -24,6 +24,6 @@ $ext(String.prototype, {
    * Takes all the same params as the {Behavior#stop} method
    */
   stopBehave: function() {
-    return Behavior.stop.apply(Behavior, [this].concat($A(arguments)));
+    return Behavior.stop.apply(Behavior, [''+this].concat($A(arguments)));
   }
 });
