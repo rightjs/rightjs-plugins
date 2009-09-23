@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>RightJS Goods - Drag'n'Drops - Test</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    
+    <script type="text/javascript">
+    // <!--
+      var RIGHTJS_GOODS_ROOT = '../';
+      document.writeln('<scr'+'ipt src="../src/inits.js"></scr'+'ipt>');
+    // -->
+    </script>
+    
+    <style type="text/css">
+      html, body {
+        font-size: 10pt;
+        font-family: Verdana;
+        padding: .4em 4em;
+      }
+      
+      div.drag-test {
+        border: 1px solid brown;
+        color: brown;
+        background: orange;
+        height: 6em;
+        line-height: 6em;
+        width: 10em;
+        text-align: center;
+        float: left;
+        margin-right: 1em;
+        cursor: move;
+      }
+      div.test-container {
+        height: 6em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RightJS Goods Drag'n'Drop Tests</h1>
+    
+    <p>Some basic draggables live tests</p>
+    
+    <h2>Simple draggables</h2>
+    <p>
+      <div class="test-container">
+        <div class="drag-test" id="simple-draggable-1">drag me around</div>
+        <div class="drag-test" id="simple-draggable-2">or me</div>
+        <div class="drag-test" id="simple-draggable-3">drag me too!</div>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Draggable('simple-draggable-1');
+        new Draggable('simple-draggable-2');
+        new Draggable('simple-draggable-3');
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>Revertable Draggables</h2>
+    <p>
+      <div class="test-container">
+        <div class="drag-test" id="revertable-draggable-1">I move back</div>
+        <div class="drag-test" id="revertable-draggable-2">I do it faster!</div>
+        <div class="drag-test" id="revertable-draggable-3">I do it instantly!</div>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Draggable('revertable-draggable-1', {revert: true});
+        new Draggable('revertable-draggable-2', {revert: true, revertDuration: 'short'});
+        new Draggable('revertable-draggable-3', {revert: true, revertDuration: 0});
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>Cloned Draggables</h2>
+    <p>
+      <div class="test-container">
+        <div class="drag-test" id="cloned-draggable-1">I leave clone</div>
+        <div class="drag-test" id="cloned-draggable-2">So do I</div>
+        <div class="drag-test" id="cloned-draggable-3">Me too!</div>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Draggable('cloned-draggable-1', {clone: true, revert: true});
+        new Draggable('cloned-draggable-2', {clone: true, revert: true, revertDuration: 'short'});
+        new Draggable('cloned-draggable-3', {clone: true, revert: true, revertDuration: 0});
+      // ]]>
+      </script>
+    </p>
+  </body>
+</html>

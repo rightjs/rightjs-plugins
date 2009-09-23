@@ -53,6 +53,11 @@ var files = {
     'behavior',
     'element',
     'string'
+  ],
+  
+  dnd: [
+    'draggable',
+    'droppable'
   ]
 };
 
