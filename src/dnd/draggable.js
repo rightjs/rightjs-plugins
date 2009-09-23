@@ -5,13 +5,13 @@
  */
 var Draggable = new Class(Observer, {
   extend: {
-    EVENTS: $w('start drag finish drop'),
+    EVENTS: $w('start drag stop drop'),
     
     Options: {
       handle:         null,            // a handle element that will start the drag
       
       snap:           0,               // a number in pixels or [x,y]
-      restrict:       null,            // null or 'x' or 'y'
+      constraint:     null,            // null or 'x' or 'y' or 'vertical' or 'horizontal'
       
       dragClass:      'dragging',      // the in-process class name
       
@@ -61,6 +61,33 @@ var Draggable = new Class(Observer, {
       this.snapX = this.snapY = this.options.snap;
     }
     
+    this.constraintX = ['x', 'horizontal'].include(this.options.constraint);
+    this.constraintY = ['y', 'vertical'].include(this.options.constraint);
+    
+    return this;
+  },
+  
+  /**
+   * Moves the element back to the original position
+   *
+   * @return this
+   */
+  revert: function() {
+    var end_style = {
+      left: this.startPos.x + 'px',
+      top:  this.startPos.y + 'px'
+    };
+    
+    if (this.options.revertDuration) {
+      this.element.morph(end_style, {
+        duration: this.options.revertDuration,
+        onFinish: this.swapBack.bind(this)
+      })
+    } else {
+      this.element.setStyle(end_style);
+      this.swapBack();
+    }
+    
     return this;
   },
   
@@ -107,15 +134,15 @@ var Draggable = new Class(Observer, {
   
   // catches the mouse move event
   dragProcess: function(event) {
-    var x = event.pageX - this.xDiff, y = event.pageY - this.yDiff;
+    var x = event.pageX - this.xDiff, y = event.pageY - this.yDiff, position = {};
     
     if (this.snapX) x = x - x % this.snapX;
     if (this.snapY) y = y - y % this.snapY;
     
-    this.element.setStyle({
-      left: x + 'px',
-      top:  y + 'px'
-    });
+    if (!this.constraintY) position.left = x + 'px';
+    if (!this.constraintX) position.top  = y + 'px';
+    
+    this.element.setStyle(position);
     
     this.fire('drag');
   },
@@ -126,31 +153,20 @@ var Draggable = new Class(Observer, {
     document.stopObserving('mouseup', this._dragStop).stopObserving('mousemove', this._dragProc);
     
     if (this.options.revert) {
-      var end_style = {
-        left: this.startPos.x + 'px',
-        top:  this.startPos.y + 'px'
-      };
-      
-      if (this.options.revertDuration) {
-        this.element.morph(end_style, {
-          duration: this.options.revertDuration,
-          onFinish: this.getItBack.bind(this)
-        })
-      } else {
-        this.element.setStyle(end_style);
-        this.getItBack();
-      }
+      this.revert();
     }
     
-    this.fire('finish');
+    this.fire('stop');
   },
   
-  // restores the before style
-  getItBack: function() {
-    this.element.setStyle({
-      position: this.clone.getStyle('position')
-    }).insertTo(this.clone, 'before');
-    
-    this.clone.remove();
+  // swaps the clone element to the actual element back
+  swapBack: function() {
+    if (this.clone) {
+      this.clone.insert(
+        this.element.setStyle({
+          position: this.clone.getStyle('position')
+        }), 'before'
+      ).remove();
+    }
   }
 });
