@@ -8,19 +8,23 @@ var Draggable = new Class(Observer, {
     EVENTS: $w('start drag stop drop'),
     
     Options: {
-      handle:         null,            // a handle element that will start the drag
+      handle:            null,            // a handle element that will start the drag
       
-      snap:           0,               // a number in pixels or [x,y]
-      constraint:     null,            // null or 'x' or 'y' or 'vertical' or 'horizontal'
-      range:          null,            // {x: [min, max], y:[min, max]} or reference to another element
+      snap:              0,               // a number in pixels or [x,y]
+      axis:              null,            // null or 'x' or 'y' or 'vertical' or 'horizontal'
+      range:             null,            // {x: [min, max], y:[min, max]} or reference to another element
       
-      dragClass:      'dragging',      // the in-process class name
+      dragClass:         'dragging',      // the in-process class name
       
-      clone:          false,           // if should keep a clone in place
-      revert:         false,           // marker if the object should be moved back on finish
-      revertDuration: self.Fx ? 'normal' : 0,  // the moving back fx duration
+      clone:             false,           // if should keep a clone in place
+      revert:            false,           // marker if the object should be moved back on finish
+      revertDuration:    'normal',        // the moving back fx duration
       
-      relName:        'draggable'      // the audodiscovery feature key
+      scroll:            true,
+      scrollSensitivity: 20,
+      scrollSpeed:       20,
+      
+      relName:           'draggable'      // the audodiscovery feature key
     }
   },
   
@@ -62,8 +66,6 @@ var Draggable = new Class(Observer, {
       this.snapX = this.snapY = this.options.snap;
     }
     
-    
-    
     return this;
   },
   
@@ -78,11 +80,11 @@ var Draggable = new Class(Observer, {
       top:  this.startPos.y + 'px'
     };
     
-    if (this.options.revertDuration) {
+    if (this.options.revertDuration && this.element.morph) {
       this.element.morph(end_style, {
         duration: this.options.revertDuration,
         onFinish: this.swapBack.bind(this)
-      })
+      });
     } else {
       this.element.setStyle(end_style);
       this.swapBack();
@@ -149,8 +151,8 @@ var Draggable = new Class(Observer, {
     if (this.snapY) y = y - y % this.snapY;
     
     // checking the constraints
-    if (!this.constraintY) position.left = x + 'px';
-    if (!this.constraintX) position.top  = y + 'px';
+    if (!this.axisY) position.left = x + 'px';
+    if (!this.axisX) position.top  = y + 'px';
     
     this.element.setStyle(position);
     
@@ -182,10 +184,11 @@ var Draggable = new Class(Observer, {
   
   // calculates the constraints
   calcConstraints: function() {
-    var constraint = this.options.constraint;
-    this.constraintX = ['x', 'horizontal'].include(constraint);
-    this.constraintY = ['y', 'vertical'].include(constraint);
+    var axis = this.options.axis;
+    this.axisX = ['x', 'horizontal'].include(axis);
+    this.axisY = ['y', 'vertical'].include(axis);
     
+    this.ranged = false;
     var range = this.options.range;
     if (range) {
       this.ranged = true;

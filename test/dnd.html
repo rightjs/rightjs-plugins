@@ -105,7 +105,7 @@
       </script>
     </p>
     
-    <h2>Constrainted Draggables</h2>
+    <h2>Axis Draggables</h2>
     <p>
       <div class="test-container">
         <div class="drag-test" id="constrainted-draggable-1">I move around</div>
@@ -115,8 +115,8 @@
       <script type="text/javascript">
       // <![CDATA[
         new Draggable('constrainted-draggable-1', {revert: true});
-        new Draggable('constrainted-draggable-2', {revert: true, constraint: 'x'});
-        new Draggable('constrainted-draggable-3', {revert: true, constraint: 'y'});
+        new Draggable('constrainted-draggable-2', {revert: true, axis: 'x'});
+        new Draggable('constrainted-draggable-3', {revert: true, axis: 'y'});
       // ]]>
       </script>
     </p>
@@ -158,11 +158,11 @@
     </p>
     <p>
       Range defined by another element
-      <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid grey" id="ranging-field-1">
+      <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid #CCC" id="ranging-field-1">
         <div class="drag-test" id="ranged-draggable-4">I move only here</div>
       </div>
       
-      <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid grey; margin-top: 1em" id="ranging-field-2">
+      <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid #CCC; margin-top: 1em" id="ranging-field-2">
         <div class="drag-test" id="ranged-draggable-5">Seems like me too</div>
       </div>
       
