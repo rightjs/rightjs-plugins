@@ -12,6 +12,7 @@ var Draggable = new Class(Observer, {
       
       snap:           0,               // a number in pixels or [x,y]
       constraint:     null,            // null or 'x' or 'y' or 'vertical' or 'horizontal'
+      range:          null,            // {x: [min, max], y:[min, max]} or reference to another element
       
       dragClass:      'dragging',      // the in-process class name
       
@@ -61,8 +62,7 @@ var Draggable = new Class(Observer, {
       this.snapX = this.snapY = this.options.snap;
     }
     
-    this.constraintX = ['x', 'horizontal'].include(this.options.constraint);
-    this.constraintY = ['y', 'vertical'].include(this.options.constraint);
+    
     
     return this;
   },
@@ -129,16 +129,26 @@ var Draggable = new Class(Observer, {
     document.on('mousemove', this._dragProc);
     document.on('mouseup',   this._dragStop);
     
-    this.fire('start');
+    this.calcConstraints().fire('start');
   },
   
   // catches the mouse move event
   dragProcess: function(event) {
     var x = event.pageX - this.xDiff, y = event.pageY - this.yDiff, position = {};
     
+    // checking the range
+    if (this.ranged) {
+      if (this.minX > x) x = this.minX;
+      if (this.maxX < x) x = this.maxX;
+      if (this.minY > y) y = this.minY;
+      if (this.maxY < y) y = this.maxY;
+    }
+    
+    // checking the snaps
     if (this.snapX) x = x - x % this.snapX;
     if (this.snapY) y = y - y % this.snapY;
     
+    // checking the constraints
     if (!this.constraintY) position.left = x + 'px';
     if (!this.constraintX) position.top  = y + 'px';
     
@@ -168,5 +178,43 @@ var Draggable = new Class(Observer, {
         }), 'before'
       ).remove();
     }
+  },
+  
+  // calculates the constraints
+  calcConstraints: function() {
+    var constraint = this.options.constraint;
+    this.constraintX = ['x', 'horizontal'].include(constraint);
+    this.constraintY = ['y', 'vertical'].include(constraint);
+    
+    var range = this.options.range;
+    if (range) {
+      this.ranged = true;
+      
+      // if the range is defined by another element
+      var element = $(range);
+      if (isElement(element)) {
+        var dims = element.dimensions();
+        
+        range = {
+          x: [dims.left, dims.left + dims.width],
+          y: [dims.top,  dims.top + dims.height]
+        };
+      }
+
+      if (isHash(range)) {
+        var size = this.element.sizes();
+        
+        if (range.x) {
+          this.minX = range.x[0];
+          this.maxX = range.x[1] - size.x;
+        }
+        if (range.y) {
+          this.minY = range.y[0];
+          this.maxY = range.y[1] - size.y;
+        }
+      }
+    }
+    
+    return this;
   }
 });

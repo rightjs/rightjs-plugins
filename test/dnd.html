@@ -45,8 +45,8 @@
     <p>
       <div class="test-container">
         <div class="drag-test" id="simple-draggable-1">drag me around</div>
-        <div class="drag-test" id="simple-draggable-2">or me</div>
-        <div class="drag-test" id="simple-draggable-3">drag me too!</div>
+        <div class="drag-test" id="simple-draggable-2">drag me too!</div>
+        <div class="drag-test" id="simple-draggable-3">or me!</div>
       </div>
       <script type="text/javascript">
       // <![CDATA[
@@ -107,7 +107,6 @@
     
     <h2>Constrainted Draggables</h2>
     <p>
-      Vertical/Horizontal constraints
       <div class="test-container">
         <div class="drag-test" id="constrainted-draggable-1">I move around</div>
         <div class="drag-test" id="constrainted-draggable-2">I move only X</div>
@@ -118,6 +117,59 @@
         new Draggable('constrainted-draggable-1', {revert: true});
         new Draggable('constrainted-draggable-2', {revert: true, constraint: 'x'});
         new Draggable('constrainted-draggable-3', {revert: true, constraint: 'y'});
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>Ranged Draggables</h2>
+    <p>
+      Ranged by simple positions
+      <div class="test-container">
+        <div class="drag-test" id="ranged-draggable-1">I move 100px</div>
+        <div class="drag-test" id="ranged-draggable-2">I move 200px</div>
+        <div class="drag-test" id="ranged-draggable-3">I move [200, 100]</div>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        var el1 = $('ranged-draggable-1');
+        var el2 = $('ranged-draggable-2');
+        var el3 = $('ranged-draggable-3');
+        
+        var dims1 = el1.dimensions();
+        var dims2 = el2.dimensions();
+        var dims3 = el3.dimensions();
+        
+        new Draggable(el1, {revert: true, range: {
+          x: [dims1.left - 100, dims1.left + dims1.width  + 100],
+          y: [dims1.top  - 100, dims1.top  + dims1.height + 100]
+        }});
+        
+        new Draggable(el2, {revert: true, range: {
+          x: [dims2.left - 200, dims2.left + dims2.width  + 200],
+          y: [dims2.top  - 200, dims2.top  + dims2.height + 200]
+        }});
+        
+        new Draggable(el3, {revert: true, range: {
+          x: [dims3.left - 200, dims3.left + dims3.width  + 200],
+          y: [dims3.top  - 100, dims3.top  + dims3.height + 100]
+        }});
+      // ]]>
+      </script>
+    </p>
+    <p>
+      Range defined by another element
+      <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid grey" id="ranging-field-1">
+        <div class="drag-test" id="ranged-draggable-4">I move only here</div>
+      </div>
+      
+      <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid grey; margin-top: 1em" id="ranging-field-2">
+        <div class="drag-test" id="ranged-draggable-5">Seems like me too</div>
+      </div>
+      
+      <script type="text/javascript">
+      // <![CDATA[
+        new Draggable('ranged-draggable-4', {range: $('ranging-field-1')});
+        new Draggable('ranged-draggable-5', {range:   'ranging-field-2' });
       // ]]>
       </script>
     </p>
