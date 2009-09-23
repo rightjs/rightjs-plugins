@@ -42,7 +42,7 @@ var Draggable = new Class(Observer, {
    * @return this
    */
   destroy: function() {
-    this.options.handle.stopObserving('mousedown', this._dragStart).stopObserving('mouseup', this._dragStop);
+    this.handle.stopObserving('mousedown', this._dragStart);
     return this;
   },
   
@@ -51,7 +51,15 @@ var Draggable = new Class(Observer, {
     this.$super(options);
     
     // checking the handle
-    this.options.handle = this.options.handle ? $(this.options.handle) : this.element;
+    this.handle = this.options.handle ? $(this.options.handle) : this.element;
+    
+    // checking the spappings
+    if (isArray(this.options.snap)) {
+      this.snapX = this.options.snap[0];
+      this.snapY = this.options.snap[1];
+    } else {
+      this.snapX = this.snapY = this.options.snap;
+    }
     
     return this;
   },
@@ -64,20 +72,18 @@ var Draggable = new Class(Observer, {
     this._dragStop  = this.dragStop.bind(this);
     this._dragProc  = this.dragProcess.bind(this);
     
-    this.options.handle.onMousedown(this._dragStart).onMouseup(this._dragStop);
+    this.handle.onMousedown(this._dragStart);
   },
   
   // handles the event start
   dragStart: function(event) {
     event.stop(); // prevents the text selection
     
-    // calculating the positions
-    var el_position = this.element.position();
-    var ev_position = event.position();
+    // calculating the positions diff
+    this.startPos = this.element.position();
     
-    this.xDiff = ev_position.x - el_position.x;
-    this.yDiff = ev_position.y - el_position.y;
-    
+    this.xDiff = event.pageX - this.startPos.x;
+    this.yDiff = event.pageY - this.startPos.y;
     
     // building a clone element if necessary
     if (this.options.clone || this.options.revert) {
@@ -89,22 +95,26 @@ var Draggable = new Class(Observer, {
     // reinserting the element to the body so it was over all the other elements
     this.element.setStyle({
       position: 'absolute',
-      left:      el_position.x + 'px',
-      top:       el_position.y + 'px'
+      left:      this.startPos.x + 'px',
+      top:       this.startPos.y + 'px'
     }).addClass(this.options.dragClass).insertTo(document.body);
     
     document.on('mousemove', this._dragProc);
+    document.on('mouseup',   this._dragStop);
     
     this.fire('start');
   },
   
   // catches the mouse move event
   dragProcess: function(event) {
-    var x = event.pageX, y = event.pageY;
+    var x = event.pageX - this.xDiff, y = event.pageY - this.yDiff;
+    
+    if (this.snapX) x = x - x % this.snapX;
+    if (this.snapY) y = y - y % this.snapY;
     
     this.element.setStyle({
-      left: (x - this.xDiff) + 'px',
-      top:  (y - this.yDiff) + 'px'
+      left: x + 'px',
+      top:  y + 'px'
     });
     
     this.fire('drag');
@@ -112,14 +122,13 @@ var Draggable = new Class(Observer, {
   
   // handles the event stop
   dragStop: function(event) {
-    document.stopObserving('mousemove', this._dragProc);
     this.element.removeClass(this.options.dragClass);
+    document.stopObserving('mouseup', this._dragStop).stopObserving('mousemove', this._dragProc);
     
     if (this.options.revert) {
-      var end_position = this.clone.position();
       var end_style = {
-        left: end_position.x + 'px',
-        top:  end_position.y + 'px'
+        left: this.startPos.x + 'px',
+        top:  this.startPos.y + 'px'
       };
       
       if (this.options.revertDuration) {
