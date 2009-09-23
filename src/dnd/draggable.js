@@ -8,23 +8,22 @@ var Draggable = new Class(Observer, {
     EVENTS: $w('start drag stop drop'),
     
     Options: {
-      handle:            null,            // a handle element that will start the drag
-      
-      snap:              0,               // a number in pixels or [x,y]
-      axis:              null,            // null or 'x' or 'y' or 'vertical' or 'horizontal'
-      range:             null,            // {x: [min, max], y:[min, max]} or reference to another element
-      
-      dragClass:         'dragging',      // the in-process class name
-      
-      clone:             false,           // if should keep a clone in place
-      revert:            false,           // marker if the object should be moved back on finish
-      revertDuration:    'normal',        // the moving back fx duration
-      
-      scroll:            true,
-      scrollSensitivity: 20,
-      scrollSpeed:       20,
-      
-      relName:           'draggable'      // the audodiscovery feature key
+      handle:            null,        // a handle element that will start the drag
+                                      
+      snap:              0,           // a number in pixels or [x,y]
+      axis:              null,        // null or 'x' or 'y' or 'vertical' or 'horizontal'
+      range:             null,        // {x: [min, max], y:[min, max]} or reference to another element
+                                      
+      dragClass:         'dragging',  // the in-process class name
+                                      
+      clone:             false,       // if should keep a clone in place
+      revert:            false,       // marker if the object should be moved back on finish
+      revertDuration:    'normal',    // the moving back fx duration
+                                      
+      scroll:            true,        // if it should automatically scroll        
+      scrollSensitivity: 32,          // the scrolling area size in pixels
+                                      
+      relName:           'draggable'  // the audodiscovery feature key
     }
   },
   
@@ -109,7 +108,10 @@ var Draggable = new Class(Observer, {
     event.stop(); // prevents the text selection
     
     // calculating the positions diff
-    this.startPos = this.element.position();
+    this.startPos   = this.element.position();
+    this.elSizes    = this.element.sizes();
+    this.winScrolls = window.scrolls(); // caching the scrolls
+    this.winSizes   = window.sizes();
     
     this.xDiff = event.pageX - this.startPos.x;
     this.yDiff = event.pageY - this.startPos.y;
@@ -136,7 +138,7 @@ var Draggable = new Class(Observer, {
   
   // catches the mouse move event
   dragProcess: function(event) {
-    var x = event.pageX - this.xDiff, y = event.pageY - this.yDiff, position = {};
+    var page_x = event.pageX, page_y = event.pageY, x = page_x - this.xDiff, y = page_y - this.yDiff, position = {};
     
     // checking the range
     if (this.ranged) {
@@ -144,6 +146,33 @@ var Draggable = new Class(Observer, {
       if (this.maxX < x) x = this.maxX;
       if (this.minY > y) y = this.minY;
       if (this.maxY < y) y = this.maxY;
+    }
+    
+    // checking the scrolls
+    if (this.options.scroll) {
+      var scrolls = {x: this.winScrolls.x, y: this.winScrolls.y},
+        sensitivity = this.options.scrollSensitivity;
+      
+      if ((page_y - scrolls.y) < sensitivity) {
+        scrolls.y = page_y - sensitivity;
+      } else if ((scrolls.y + this.winSizes.y - page_y) < sensitivity){
+        scrolls.y = page_y - this.winSizes.y + sensitivity;
+      }
+      
+      if ((page_x - scrolls.x) < sensitivity) {
+        scrolls.x = page_x - sensitivity;
+      } else if ((scrolls.x + this.winSizes.x - page_x) < sensitivity){
+        scrolls.x = page_x - this.winSizes.x + sensitivity;
+      }
+      
+      if (scrolls.y < 0) scrolls.y = 0;
+      if (scrolls.x < 0) scrolls.x = 0;
+      
+      if (scrolls.y < this.winScrolls.y || scrolls.y > this.winScrolls.y ||
+        scrolls.x < this.winScrolls.x || scrolls.x > this.winScrolls.x) {
+        
+          window.scrollTo(this.winScrolls = scrolls);
+      }
     }
     
     // checking the snaps
