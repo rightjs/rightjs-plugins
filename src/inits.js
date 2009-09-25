@@ -58,7 +58,8 @@ var files = {
   dnd: [
     'draggable',
     'droppable',
-    'document'
+    'document',
+    'element'
   ]
 };
 
