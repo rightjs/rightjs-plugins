@@ -41,10 +41,22 @@
         background: #FF8;
       }
       
+      div.red {
+        background: #F88;
+      }
+      div.blue {
+        background: #88F;
+      }
+      
       div.droppable-allow {
         background: #8F8 !important;
         font-weight: bold;
         border: 1px dashed brown;
+      }
+      div.droppable-deny {
+        background: #EEE !important;
+        color: #444;
+        border-color: #444;
       }
       
       
@@ -233,7 +245,7 @@
       <div class="test-container">
         <div class="drop-test" id="overlapping-droppable-3">Both Overlap</div>
         <div class="drop-test" id="overlapping-droppable-4">Overlap Y 30%</div>
-        <div class="drop-test" id="overlapping-droppable-5">Overlap X 80%</div>
+        <div class="drop-test" id="overlapping-droppable-5">Overlap X 70%</div>
       </div>
       
       <script type="text/javascript">
@@ -242,7 +254,58 @@
         new Droppable('overlapping-droppable-2', {overlap: 'y'});
         new Droppable('overlapping-droppable-3', {overlap: 'both'});
         new Droppable('overlapping-droppable-4', {overlap: 'vertical',   overlapSize: 0.3});
-        new Droppable('overlapping-droppable-5', {overlap: 'horizontal', overlapSize: 0.8});
+        new Droppable('overlapping-droppable-5', {overlap: 'horizontal', overlapSize: 0.7});
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>Selective Droppables</h2>
+    <p>
+      Selective by a css-rule
+      <div class="test-container">
+        <div class="drag-test red" rel="draggable" data-draggable-options="{revert: true}">Drag me</div>
+        <div class="drop-test" id="selective-droppable-1">Reds Only</div>
+        <div class="drop-test" id="selective-droppable-2">Blues Only</div>
+      </div>
+    </p>
+    <p>
+      <div class="test-container">
+        <div class="drag-test blue" rel="draggable" data-draggable-options="{revert: true}">Drag me</div>
+        <div class="drop-test" id="selective-droppable-3">Reds Only</div>
+        <div class="drop-test" id="selective-droppable-4">Blues Only</div>
+      </div>
+      
+      <script type="text/javascript">
+      // <![CDATA[
+        new Droppable('selective-droppable-1', {accept: '.red'});
+        new Droppable('selective-droppable-3', {accept: '.red'});
+        new Droppable('selective-droppable-2', {accept: '.blue'});
+        new Droppable('selective-droppable-4', {accept: '.blue'});
+      // ]]>
+      </script>
+    </p>
+    
+    <p>
+      Selective by an elements list
+      <div class="test-container">
+        <div class="drag-test" id="the-first-draggable" rel="draggable" data-draggable-options="{revert: true}">First</div>
+        <div class="drop-test" id="selective-droppable-5">First Only</div>
+        <div class="drop-test" id="selective-droppable-6">Second Only</div>
+      </div>
+    </p>
+    <p>
+      <div class="test-container">
+        <div class="drag-test" id="the-second-draggable" rel="draggable" data-draggable-options="{revert: true}">Second</div>
+        <div class="drop-test" id="selective-droppable-7">First Only</div>
+        <div class="drop-test" id="selective-droppable-8">Second Only</div>
+      </div>
+      
+      <script type="text/javascript">
+      // <![CDATA[
+        new Droppable('selective-droppable-5', {containment: [$('the-first-draggable')]});
+        new Droppable('selective-droppable-6', {containment: [$('the-second-draggable')]});
+        new Droppable('selective-droppable-7', {containment: ['the-first-draggable']});
+        new Droppable('selective-droppable-8', {containment: ['the-second-draggable']});
       // ]]>
       </script>
     </p>

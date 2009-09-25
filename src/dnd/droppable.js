@@ -9,6 +9,7 @@ var Droppable = new Class(Observer, {
     
     Options: {
       accept:      '*',
+      containment: null,    // the list of elements (or ids) that should to be accepted
       
       overlap:     null,    // 'x', 'y', 'horizontal', 'vertical', 'both'  makes it respond only if the draggable overlaps the droppable
       overlapSize: 0.5,     // the overlapping level 0 for nothing 1 for the whole thing
@@ -172,7 +173,15 @@ var Droppable = new Class(Observer, {
   
   // checks if the object accepts the draggable
   allows: function(draggable) {
-    return this.options.accept == '*' ? true : draggable.element.match(this.options.accept);
+    if (this.options.containment && !this._scanned) {
+      this.options.containment.walk($);
+      this._scanned = true;
+    }
+    
+    // checking the invitations list
+    var welcomed = this.options.containment ? this.options.containment.includes(draggable.element) : true;
+    
+    return welcomed && (this.options.accept == '*' ? true : draggable.element.match(this.options.accept));
   }
   
 });
