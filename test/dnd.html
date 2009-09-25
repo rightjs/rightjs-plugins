@@ -41,12 +41,10 @@
         background: #FF8;
       }
       
-      div.droppable-accept {
-        background: #8F8;
+      div.droppable-allow {
+        background: #8F8 !important;
         font-weight: bold;
         border: 1px dashed brown;
-        -moz-box-shadow: #AAA .4em .4em .4em;
-        -webkit-box-shadow: #AAA .4em .4em .4em;
       }
       
       
@@ -199,6 +197,8 @@
       </div>
     </p>
     
+    <p>&nbsp;</p>
+    
     <h2>Simple Droppable</h2>
     <p>
       <div class="test-container">
@@ -208,8 +208,41 @@
       </div>
       <script type="text/javascript">
       // <![CDATA[
-        new Droppable('simple-droppable-1', {onDrop: function() {this.element.highlight('green'); }});
-        new Droppable('simple-droppable-2', {onDrop: function() {this.element.highlight('green'); }});
+      
+        // all the droppables are getting hightlighted green on drop
+        Droppable.Options.onDrop = function() {
+          this.element.highlight('green');
+        };
+        
+        new Droppable('simple-droppable-1');
+        new Droppable('simple-droppable-2');
+      // ]]>
+      </script>
+    </p>
+    
+    <h2>Overlapping Droppables</h2>
+    <p>
+      Those droppables will react only when overlapped with draggable (50% by default)
+      <div class="test-container">
+        <div class="drag-test" rel="draggable" data-draggable-options="{revert: true}">Drag me</div>
+        <div class="drop-test" id="overlapping-droppable-1">Only X Overlap</div>
+        <div class="drop-test" id="overlapping-droppable-2">Only Y Overlap</div>
+      </div>
+    </p>
+    <p>
+      <div class="test-container">
+        <div class="drop-test" id="overlapping-droppable-3">Both Overlap</div>
+        <div class="drop-test" id="overlapping-droppable-4">Overlap Y 30%</div>
+        <div class="drop-test" id="overlapping-droppable-5">Overlap X 80%</div>
+      </div>
+      
+      <script type="text/javascript">
+      // <![CDATA[
+        new Droppable('overlapping-droppable-1', {overlap: 'x'});
+        new Droppable('overlapping-droppable-2', {overlap: 'y'});
+        new Droppable('overlapping-droppable-3', {overlap: 'both'});
+        new Droppable('overlapping-droppable-4', {overlap: 'vertical',   overlapSize: 0.3});
+        new Droppable('overlapping-droppable-5', {overlap: 'horizontal', overlapSize: 0.8});
       // ]]>
       </script>
     </p>

@@ -8,9 +8,12 @@ var Droppable = new Class(Observer, {
     EVENTS: $w('drop hover leave'),
     
     Options: {
-      accept:     '*',
+      accept:      '*',
       
-      acceptClass: 'droppable-accept',
+      overlap:     null,    // 'x', 'y', 'horizontal', 'vertical', 'both'  makes it respond only if the draggable overlaps the droppable
+      overlapSize: 0.5,     // the overlapping level 0 for nothing 1 for the whole thing
+      
+      allowClass:  'droppable-allow',
       denyClass:   'droppable-deny'
     },
     
@@ -69,14 +72,15 @@ var Droppable = new Class(Observer, {
    * @param Draggable the draggable object
    */
   checkHover: function(event, draggable) {
-    if (this.hoveredBy(event)) {
+    if (this.hoveredBy(event, draggable)) {
       if (!this._hovered) {
         this._hovered = true;
-        this.element.addClass(this.options[this.accepts(draggable) ? 'acceptClass' : 'denyClass']);
+        this.element.addClass(this.options[this.allows(draggable) ? 'allowClass' : 'denyClass']);
+        this.fire('hover', draggable);
       }
     } else if (this._hovered) {
       this._hovered = false;
-      this.reset().fire('leave');
+      this.reset().fire('leave', draggable);
     }
   },
   
@@ -88,7 +92,7 @@ var Droppable = new Class(Observer, {
    */
   checkDrop: function(event, draggable) {
     this.reset();
-    if (this.hoveredBy(event) && this.accepts(draggable)) {
+    if (this.hoveredBy(event, draggable) && this.allows(draggable)) {
       draggable.fire('drop', this);
       this.fire('drop', draggable);
     }
@@ -100,21 +104,74 @@ var Droppable = new Class(Observer, {
    * @return self
    */
   reset: function() {
-    this.element.removeClass(this.options.acceptClass).removeClass(this.options.denyClass);
+    this.element.removeClass(this.options.allowClass).removeClass(this.options.denyClass);
     return this;
   },
   
 // protected
 
   // checks if the element is hovered by the event
-  hoveredBy: function(event) {
-    var dims = this.element.dimensions(), event_x = event.pageX, event_y = event.pageY;
+  hoveredBy: function(event, draggable) {
+    var dims     = this.element.dimensions(),
+        t_top    = dims.top,
+        t_left   = dims.left,
+        t_right  = dims.left + dims.width,
+        t_bottom = dims.top  + dims.height,
+        event_x  = event.pageX,
+        event_y  = event.pageY;
     
-    return event_x > dims.left && event_x < (dims.left + dims.width) && event_y > dims.top && event_y < (dims.top + dims.height);
+    // checking the overlapping
+    if (this.options.overlap) {
+      var drag_dims = draggable.element.dimensions(),
+          level     = this.options.overlapSize,
+          top       = drag_dims.top,
+          left      = drag_dims.left,
+          right     = drag_dims.left + drag_dims.width,
+          bottom    = drag_dims.top  + drag_dims.height;
+      
+      
+      switch (this.options.overlap) {
+        // horizontal overlapping only check
+        case 'x':
+        case 'horizontal':
+          return (
+            (top    > t_top    && top      < t_bottom) ||
+            (bottom > t_top    && bottom   < t_bottom)
+          ) && (
+            (left   > t_left   && left    < (t_right - dims.width * level)) ||
+            (right  < t_right  && right   > (t_left  + dims.width * level))
+          );
+          
+        // vertical overlapping only check
+        case 'y':
+        case 'vertical':
+          return (
+            (left   > t_left   && left   < t_right) ||
+            (right  > t_left   && right  < t_right)
+          ) && (
+            (top    > t_top    && top    < (t_bottom - dims.height * level)) ||
+            (bottom < t_bottom && bottom > (t_top + dims.height * level))
+          );
+          
+        // both overlaps check
+        default:
+          return (
+            (left   > t_left   && left    < (t_right - dims.width * level)) ||
+            (right  < t_right  && right   > (t_left  + dims.width * level))
+          ) && (
+            (top    > t_top    && top    < (t_bottom - dims.height * level)) ||
+            (bottom < t_bottom && bottom > (t_top + dims.height * level))
+          );
+      }
+      
+    } else {
+      // simple check agains the event position
+      return event_x > t_left && event_x < t_right && event_y > t_top && event_y < t_bottom;
+    }
   },
   
   // checks if the object accepts the draggable
-  accepts: function(draggable) {
+  allows: function(draggable) {
     return this.options.accept == '*' ? true : draggable.element.match(this.options.accept);
   }
   
