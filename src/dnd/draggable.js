@@ -32,8 +32,10 @@ var Draggable = new Class(Observer, {
     // scans the document for auto-processed draggables with the rel="draggable" attribute
     rescan: function() {
       $$('*[rel^="'+this.Options.relName+'"]').each(function(element) {
-        var data = element.get('data-'+this.Options.relName+'-options');
-        new Draggable(element, eval("("+data+")") || {});
+        if (!element.draggable) {
+          var data = element.get('data-'+this.Options.relName+'-options');
+          new this(element, eval("("+data+")") || {});
+        }
       }, this);
     }
   },

@@ -15,8 +15,13 @@ var Droppable = new Class(Observer, {
       overlapSize: 0.5,     // the overlapping level 0 for nothing 1 for the whole thing
       
       allowClass:  'droppable-allow',
-      denyClass:   'droppable-deny'
+      denyClass:   'droppable-deny',
+      
+      relName:     'droppable'   // automatically discovered feature key
     },
+    
+    // See the Draggable rescan method, case we're kinda hijacking it in here
+    rescan: eval('('+Draggable.rescan.toString().replace('.draggable', '.droppable')+')'),
     
     /**
      * Checks for hoverting draggable

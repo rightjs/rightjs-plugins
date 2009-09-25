@@ -7,7 +7,7 @@ document.on({
   // parocesses the automatically discovered elements
   ready: function() {
     Draggable.rescan();
-  //  Droppable.rescan();
+    Droppable.rescan();
   },
   
   // watch the draggables moving arond
