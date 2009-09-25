@@ -26,6 +26,9 @@ var Draggable = new Class(Observer, {
       relName:           'draggable'  // the audodiscovery feature key
     },
     
+    // referenece to the currently active draggable
+    current: null,
+    
     // scans the document for auto-processed draggables with the rel="draggable" attribute
     rescan: function() {
       $$('*[rel^="'+this.Options.relName+'"]').each(function(element) {
@@ -143,7 +146,7 @@ var Draggable = new Class(Observer, {
     document.on('mousemove', this._dragProc);
     document.on('mouseup',   this._dragStop);
     
-    this.calcConstraints().fire('start');
+    Draggable.current = this.calcConstraints().fire('start');
   },
   
   // catches the mouse move event
@@ -206,6 +209,10 @@ var Draggable = new Class(Observer, {
     if (this.options.revert) {
       this.revert();
     }
+    
+    // notifying the droppables for the drop
+    Droppable.checkDrop(event, this);
+    Draggable.current = null;
     
     this.fire('stop');
   },
