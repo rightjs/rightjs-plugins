@@ -22,8 +22,16 @@ var Draggable = new Class(Observer, {
                                       
       scroll:            true,        // if it should automatically scroll        
       scrollSensitivity: 32,          // the scrolling area size in pixels
-                                      
+      
       relName:           'draggable'  // the audodiscovery feature key
+    },
+    
+    // scans the document for auto-processed draggables with the rel="draggable" attribute
+    rescan: function() {
+      $$('*[rel^="'+this.Options.relName+'"]').each(function(element) {
+        var data = element.get('data-'+this.Options.relName+'-options');
+        new Draggable(element, eval("("+data+")") || {});
+      }, this);
     }
   },
   
@@ -37,7 +45,7 @@ var Draggable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
-    this.init();
+    this.element.draggable = this.init();
   },
   
   /**
@@ -101,6 +109,8 @@ var Draggable = new Class(Observer, {
     this._dragProc  = this.dragProcess.bind(this);
     
     this.handle.onMousedown(this._dragStart);
+    
+    return this;
   },
   
   // handles the event start

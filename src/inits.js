@@ -57,7 +57,8 @@ var files = {
   
   dnd: [
     'draggable',
-    'droppable'
+    'droppable',
+    'hooker'
   ]
 };
 
