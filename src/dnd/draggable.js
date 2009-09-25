@@ -107,10 +107,8 @@ var Draggable = new Class(Observer, {
 // protected
 
   init: function() {
-    // caching the callbacks so that we could call them later
+    // caching the callback so that we could detach it later
     this._dragStart = this.dragStart.bind(this);
-    this._dragStop  = this.dragStop.bind(this);
-    this._dragProc  = this.dragProcess.bind(this);
     
     this.handle.onMousedown(this._dragStart);
     
@@ -153,9 +151,6 @@ var Draggable = new Class(Observer, {
       width:     this.startDims.width,
       height:    this.startDims.height
     }).addClass(this.options.dragClass).insertTo(document.body);
-    
-    document.on('mousemove', this._dragProc);
-    document.on('mouseup',   this._dragStop);
     
     Draggable.current = this.calcConstraints().fire('start');
   },
@@ -215,7 +210,6 @@ var Draggable = new Class(Observer, {
   // handles the event stop
   dragStop: function(event) {
     this.element.removeClass(this.options.dragClass);
-    document.stopObserving('mouseup', this._dragStop).stopObserving('mousemove', this._dragProc);
     
     if (this.options.revert) {
       this.revert();

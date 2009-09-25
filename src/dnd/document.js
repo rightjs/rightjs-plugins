@@ -12,6 +12,16 @@ document.on({
   
   // watch the draggables moving arond
   mousemove: function(event) {
-    if (Draggable.current) Droppable.checkHover(event, Draggable.current);
+    if (Draggable.current) {
+      Draggable.current.dragProcess(event);
+      Droppable.checkHover(event, Draggable.current);
+    }
+  },
+  
+  // releases the current draggable on mouse up
+  mouseup: function(event) {
+    if (Draggable.current) {
+      Draggable.current.dragStop(event);
+    }
   }
 });
