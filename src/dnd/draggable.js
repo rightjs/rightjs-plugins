@@ -58,6 +58,7 @@ var Draggable = new Class(Observer, {
    */
   destroy: function() {
     this.handle.stopObserving('mousedown', this._dragStart);
+    this.element.draggable = null;
     return this;
   },
   
@@ -86,8 +87,8 @@ var Draggable = new Class(Observer, {
    */
   revert: function() {
     var end_style = {
-      left: this.startPos.x + 'px',
-      top:  this.startPos.y + 'px'
+      top:  this.startDims.top  + 'px',
+      left: this.startDims.left + 'px'
     };
     
     if (this.options.revertDuration && this.element.morph) {
@@ -121,13 +122,21 @@ var Draggable = new Class(Observer, {
     event.stop(); // prevents the text selection
     
     // calculating the positions diff
-    this.startPos   = this.element.position();
+    this.startDims  = this.element.dimensions();
     this.elSizes    = this.element.sizes();
     this.winScrolls = window.scrolls(); // caching the scrolls
     this.winSizes   = window.sizes();
     
-    this.xDiff = event.pageX - this.startPos.x;
-    this.yDiff = event.pageY - this.startPos.y;
+    this.xDiff = event.pageX - this.startDims.left;
+    this.yDiff = event.pageY - this.startDims.top;
+    
+    // preserving the element sizes
+    this.startDims.width  = this.element.getStyle('width');
+    this.startDims.height = this.element.getStyle('height');
+    
+    if (this.startDims.width  == 'auto') this.startDims.width  = this.element.offsetWidth  + 'px';
+    if (this.startDims.height == 'auto') this.startDims.height = this.element.offsetHeight + 'px';
+    
     
     // building a clone element if necessary
     if (this.options.clone || this.options.revert) {
@@ -139,8 +148,10 @@ var Draggable = new Class(Observer, {
     // reinserting the element to the body so it was over all the other elements
     this.element.setStyle({
       position: 'absolute',
-      left:      this.startPos.x + 'px',
-      top:       this.startPos.y + 'px'
+      top:       this.startDims.top    + 'px',
+      left:      this.startDims.left   + 'px',
+      width:     this.startDims.width,
+      height:    this.startDims.height
     }).addClass(this.options.dragClass).insertTo(document.body);
     
     document.on('mousemove', this._dragProc);
@@ -222,6 +233,8 @@ var Draggable = new Class(Observer, {
     if (this.clone) {
       this.clone.insert(
         this.element.setStyle({
+          width:    this.clone.getStyle('width'),
+          height:   this.clone.getStyle('height'),
           position: this.clone.getStyle('position')
         }), 'before'
       ).remove();
