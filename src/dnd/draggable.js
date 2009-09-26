@@ -52,7 +52,7 @@ var Draggable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
-    this.element.draggable = this.init();
+    this.init();
   },
   
   /**
@@ -62,7 +62,6 @@ var Draggable = new Class(Observer, {
    */
   destroy: function() {
     this.handle.stopObserving('mousedown', this._dragStart);
-    this.element.draggable = null;
     return this;
   },
   
