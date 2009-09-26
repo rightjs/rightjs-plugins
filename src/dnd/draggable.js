@@ -23,6 +23,8 @@ var Draggable = new Class(Observer, {
       scroll:            true,        // if it should automatically scroll        
       scrollSensitivity: 32,          // the scrolling area size in pixels
       
+      zIndex:            10000000,    // the element's z-index
+      
       relName:           'draggable'  // the audodiscovery feature key
     },
     
@@ -88,9 +90,10 @@ var Draggable = new Class(Observer, {
    * @return this
    */
   revert: function() {
+    var position  = this.clone.position();
     var end_style = {
-      top:  this.startDims.top  + 'px',
-      left: this.startDims.left + 'px'
+      top:  position.y + 'px',
+      left: position.x + 'px'
     };
     
     if (this.options.revertDuration && this.element.morph) {
@@ -122,21 +125,20 @@ var Draggable = new Class(Observer, {
     event.stop(); // prevents the text selection
     
     // calculating the positions diff
-    this.startDims  = this.element.dimensions();
-    this.elSizes    = this.element.sizes();
-    this.winScrolls = window.scrolls(); // caching the scrolls
-    this.winSizes   = window.sizes();
+    var position  = this.element.position();
     
-    this.xDiff = event.pageX - this.startDims.left;
-    this.yDiff = event.pageY - this.startDims.top;
+    
+    this.xDiff = event.pageX - position.x;
+    this.yDiff = event.pageY - position.y;
     
     // preserving the element sizes
-    this.startDims.width  = this.element.getStyle('width');
-    this.startDims.height = this.element.getStyle('height');
+    var size = {
+      x: this.element.getStyle('width'),
+      y: this.element.getStyle('height')
+    };
     
-    if (this.startDims.width  == 'auto') this.startDims.width  = this.element.offsetWidth  + 'px';
-    if (this.startDims.height == 'auto') this.startDims.height = this.element.offsetHeight + 'px';
-    
+    if (size.x == 'auto') size.x = this.element.offsetWidth  + 'px';
+    if (size.y == 'auto') size.y = this.element.offsetHeight + 'px';
     
     // building a clone element if necessary
     if (this.options.clone || this.options.revert) {
@@ -148,13 +150,19 @@ var Draggable = new Class(Observer, {
     // reinserting the element to the body so it was over all the other elements
     this.element.setStyle({
       position: 'absolute',
-      top:       this.startDims.top    + 'px',
-      left:      this.startDims.left   + 'px',
-      width:     this.startDims.width,
-      height:    this.startDims.height
-    }).addClass(this.options.dragClass).insertTo(document.body);
+      zIndex:   Draggable.Options.zIndex++,
+      top:      position.y + 'px',
+      left:     position.x + 'px',
+      width:    size.x,
+      height:   size.y
+    }).addClass(this.options.dragClass);
     
-    Draggable.current = this.calcConstraints().fire('start');
+    
+    // caching the window scrolls
+    this.winScrolls = window.scrolls();
+    this.winSizes   = window.sizes();
+    
+    Draggable.current = this.calcConstraints().fire('start', this, event);
   },
   
   // catches the mouse move event
@@ -206,22 +214,23 @@ var Draggable = new Class(Observer, {
     
     this.element.setStyle(position);
     
-    this.fire('drag');
+    this.fire('drag', this, event);
   },
   
   // handles the event stop
   dragStop: function(event) {
     this.element.removeClass(this.options.dragClass);
     
+    // notifying the droppables for the drop
+    Droppable.checkDrop(event, this);
+    
     if (this.options.revert) {
       this.revert();
     }
     
-    // notifying the droppables for the drop
-    Droppable.checkDrop(event, this);
     Draggable.current = null;
     
-    this.fire('stop');
+    this.fire('stop', this, event);
   },
   
   // swaps the clone element to the actual element back
@@ -231,7 +240,8 @@ var Draggable = new Class(Observer, {
         this.element.setStyle({
           width:    this.clone.getStyle('width'),
           height:   this.clone.getStyle('height'),
-          position: this.clone.getStyle('position')
+          position: this.clone.getStyle('position'),
+          zIndex:   this.clone.getStyle('zIndex')
         }), 'before'
       ).remove();
     }

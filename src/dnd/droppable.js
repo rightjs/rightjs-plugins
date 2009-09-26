@@ -82,11 +82,11 @@ var Droppable = new Class(Observer, {
       if (!this._hovered) {
         this._hovered = true;
         this.element.addClass(this.options[this.allows(draggable) ? 'allowClass' : 'denyClass']);
-        this.fire('hover', draggable);
+        this.fire('hover', draggable, this, event);
       }
     } else if (this._hovered) {
       this._hovered = false;
-      this.reset().fire('leave', draggable);
+      this.reset().fire('leave', draggable, this, event);
     }
   },
   
@@ -99,8 +99,8 @@ var Droppable = new Class(Observer, {
   checkDrop: function(event, draggable) {
     this.reset();
     if (this.hoveredBy(event, draggable) && this.allows(draggable)) {
-      draggable.fire('drop', this);
-      this.fire('drop', draggable);
+      draggable.fire('drop', this, draggable, event);
+      this.fire('drop', draggable, this, event);
     }
   },
   
