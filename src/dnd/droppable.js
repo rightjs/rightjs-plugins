@@ -21,7 +21,7 @@ var Droppable = new Class(Observer, {
     },
     
     // See the Draggable rescan method, case we're kinda hijacking it in here
-    rescan: eval('('+Draggable.rescan.toString().replace('.draggable', '.droppable')+')'),
+    rescan: eval('({f:'+Draggable.rescan.toString().replace(/\._draggable/g, '._droppable')+'})').f,
     
     /**
      * Checks for hoverting draggable
