@@ -33,10 +33,11 @@ var Draggable = new Class(Observer, {
     
     // scans the document for auto-processed draggables with the rel="draggable" attribute
     rescan: function() {
-      $$('*[rel^="'+this.Options.relName+'"]').each(function(element) {
+      var key = this.Options.relName;
+      $$('*[rel^="'+key+'"]').each(function(element) {
         if (!element._draggable) {
-          var data = element.get('data-'+this.Options.relName+'-options');
-          element._draggable = new this(element, eval('('+data+')') || {});
+          var data = element.get('data-'+key+'-options');
+          new this(element, eval('('+data+')') || {});
         }
       }, this);
     }
@@ -52,7 +53,7 @@ var Draggable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
-    this.init();
+    this.element._draggable = this.init();
   },
   
   /**
@@ -62,6 +63,8 @@ var Draggable = new Class(Observer, {
    */
   destroy: function() {
     this.handle.stopObserving('mousedown', this._dragStart);
+    delete(this.element._draggable);
+    
     return this;
   },
   

@@ -58,7 +58,7 @@ var Droppable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
-    Droppable.active.push(this);
+    Droppable.active.push(this.element._droppable = this);
   },
   
   /**
@@ -68,6 +68,7 @@ var Droppable = new Class(Observer, {
    */
   destroy: function() {
     Droppable.active = Droppable.active.without(this);
+    delete(this.element._droppable);
     return this;
   },
   
