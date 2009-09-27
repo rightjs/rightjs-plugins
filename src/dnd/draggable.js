@@ -24,6 +24,7 @@ var Draggable = new Class(Observer, {
       scrollSensitivity: 32,          // the scrolling area size in pixels
       
       zIndex:            10000000,    // the element's z-index
+      moveOut:           false,       // marker if the draggable should be moved out of it's context (for overflown elements)
       
       relName:           'draggable'  // the audodiscovery feature key
     },
@@ -158,6 +159,8 @@ var Draggable = new Class(Observer, {
       width:    size.x,
       height:   size.y
     }).addClass(this.options.dragClass);
+    
+    if (this.options.moveOut) this.element.insertTo(document.body);
     
     
     // caching the window scrolls
