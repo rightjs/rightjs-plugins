@@ -60,6 +60,12 @@ var files = {
     'droppable',
     'document',
     'element'
+  ],
+  
+  rails: [
+    'rr',
+    'document',
+    'aliases'
   ]
 };
 

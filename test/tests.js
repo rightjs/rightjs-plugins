@@ -16,7 +16,9 @@ var tests = {
   
   JsonTest:          'json/json',
   
-  BehaviorTest:      'behavior/behavior'
+  BehaviorTest:      'behavior/behavior',
+  
+  RailsTest:         'rails/rails'
 };
 
 var test_names = [];
