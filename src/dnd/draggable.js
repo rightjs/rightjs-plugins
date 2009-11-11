@@ -5,7 +5,7 @@
  */
 var Draggable = new Class(Observer, {
   extend: {
-    EVENTS: $w('start drag stop drop'),
+    EVENTS: $w('before start drag stop drop'),
     
     Options: {
       handle:            null,        // a handle element that will start the drag
@@ -95,8 +95,8 @@ var Draggable = new Class(Observer, {
   revert: function() {
     var position  = this.clone.position();
     var end_style = {
-      top:  position.y + 'px',
-      left: position.x + 'px'
+      top:  (position.y + this.ryDiff) + 'px',
+      left: (position.x + this.rxDiff) + 'px'
     };
     
     if (this.options.revertDuration && this.element.morph) {
@@ -125,14 +125,22 @@ var Draggable = new Class(Observer, {
   
   // handles the event start
   dragStart: function(event) {
-    event.stop(); // prevents the text selection
+    this.fire('before', this, event.stop());
     
     // calculating the positions diff
-    var position  = this.element.position();
-    
+    var position = position = this.element.position();
     
     this.xDiff = event.pageX - position.x;
     this.yDiff = event.pageY - position.y;
+    
+    // grabbing the relative position diffs
+    var relative_position = {
+      y: this.element.getStyle('top').toFloat(),
+      x: this.element.getStyle('left').toFloat()
+    };
+    
+    this.rxDiff = isNaN(relative_position.x) ? 0 : (relative_position.x - position.x);
+    this.ryDiff = isNaN(relative_position.y) ? 0 : (relative_position.y - position.y);
     
     // preserving the element sizes
     var size = {
@@ -154,8 +162,8 @@ var Draggable = new Class(Observer, {
     this.element.setStyle({
       position: 'absolute',
       zIndex:   Draggable.Options.zIndex++,
-      top:      position.y + 'px',
-      left:     position.x + 'px',
+      top:      (position.y + this.ryDiff) + 'px',
+      left:     (position.x + this.rxDiff) + 'px',
       width:    size.x,
       height:   size.y
     }).addClass(this.options.dragClass);
@@ -172,7 +180,7 @@ var Draggable = new Class(Observer, {
   
   // catches the mouse move event
   dragProcess: function(event) {
-    var page_x = event.pageX, page_y = event.pageY, x = page_x - this.xDiff, y = page_y - this.yDiff, position = {};
+    var page_x = event.pageX, page_y = event.pageY, x = page_x - this.xDiff, y = page_y - this.yDiff;
     
     // checking the range
     if (this.ranged) {
@@ -214,10 +222,8 @@ var Draggable = new Class(Observer, {
     if (this.snapY) y = y - y % this.snapY;
     
     // checking the constraints
-    if (!this.axisY) position.left = x + 'px';
-    if (!this.axisX) position.top  = y + 'px';
-    
-    this.element.setStyle(position);
+    if (!this.axisY) this.element.style.left = (x + this.rxDiff) + 'px';
+    if (!this.axisX) this.element.style.top  = (y + this.ryDiff) + 'px';
     
     this.fire('drag', this, event);
   },

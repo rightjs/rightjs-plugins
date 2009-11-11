@@ -203,6 +203,18 @@
       </script>
     </p>
     
+    <h2>Relatively Positioned Draggable</h2>
+    <p>
+      <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid #CCC; position: relative" id="ranging-field-3">
+        <div class="drag-test" id="relative-draggable-1" style="left:0; top:0">Move me around</div>
+      </div>
+      <script type="text/javascript">
+      // <![CDATA[
+        new Draggable('relative-draggable-1', {range: 'ranging-field-3'});
+      // ]]>
+      </script>
+    </p>
+    
     <h2>Auto-Discovered Draggables</h2>
     <p>
       <div class="test-container">
