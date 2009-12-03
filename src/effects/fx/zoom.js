@@ -38,8 +38,8 @@ Fx.Zoom = new Class(Fx.Move, {
         $E('div', {style: "visibility:hidden;float:left;height:0;width:0"}).insertTo(document.body)
       ).setStyle(size).sizes();
       
-      if ('height' in size) size = sizes.y / this.element.sizes().y;
-      else                  size = sizes.x / this.element.sizes().x;
+      if (size.height) size = sizes.y / this.element.sizes().y;
+      else             size = sizes.x / this.element.sizes().x;
     } else if (isString(size)) {
       size  = size.endsWith('%') ? size.toFloat() / 100 : size.toFloat();
     }
@@ -49,17 +49,20 @@ Fx.Zoom = new Class(Fx.Move, {
   
   // getting the basic end style
   _getBasicStyle: function(proportion) {
-    var style = this._getStyle(this.element, this.PROPERTIES);
-    
-    this._cleanStyle(style);
+    var style = this._cloneStyle(this.element), re = /([\d\.]+)/g;
+    style.width  = style.width  || (this.element.offsetWidth  + 'px');
+    style.height = style.height || (this.element.offsetHeight + 'px');
     
     for (var key in style) {
-      if (style[key][0] > 0) {
-        style[key] = (proportion * style[key][0]) + style[key][1];
+      if (this.PROPERTIES.include(key) && re.test(style[key])) {
+        style[key] = style[key].replace(re, function(m) {
+          return ''+ (m.toFloat() * proportion);
+        });
       } else {
         delete(style[key]);
       }
     }
+    
     // preventing the border disappearance
     if (style.borderWidth && style.borderWidth.toFloat() < 1) {
       style.borderWidth = '1px';
