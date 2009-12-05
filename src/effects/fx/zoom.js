@@ -49,12 +49,12 @@ Fx.Zoom = new Class(Fx.Move, {
   
   // getting the basic end style
   _getBasicStyle: function(proportion) {
-    var style = this._cloneStyle(this.element), re = /([\d\.]+)/g;
+    var style = this._cloneStyle(this.element, this.PROPERTIES), re = /([\d\.]+)/g;
     style.width  = style.width  || (this.element.offsetWidth  + 'px');
     style.height = style.height || (this.element.offsetHeight + 'px');
     
     for (var key in style) {
-      if (this.PROPERTIES.include(key) && re.test(style[key])) {
+      if (re.test(style[key])) {
         style[key] = style[key].replace(re, function(m) {
           return ''+ (m.toFloat() * proportion);
         });

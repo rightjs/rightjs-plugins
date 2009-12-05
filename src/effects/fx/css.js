@@ -4,6 +4,7 @@
  * Copyright (C) Nikolay V. Nemshilov aka St.
  */
 Fx.CSS = new Class(Fx.Morph, {
+  STYLES: $w('width height lineHeight opacity border padding margin color fontSize background top left right bottom'),
   
 // protected
   
@@ -18,7 +19,18 @@ Fx.CSS = new Class(Fx.Morph, {
     return this.$super({});
   },
   
+  // hacking the old method to make it apply the classes
   _endStyle: eval("({f:"+Fx.Morph.prototype._endStyle.toString().replace(/(\.setStyle\(\w+\))/,
     '$1.addClass(this.addClass).removeClass(this.removeClass)'
-  )+"})").f
+  )+"})").f,
+  
+  // replacing the old method to make it return our own list of properties
+  _styleKeys: function() {
+    var hash = {};
+    this.STYLES.each(function(name) {
+      hash[name] = 1;
+    });
+    
+    return this.$super(hash);
+  }
 });
