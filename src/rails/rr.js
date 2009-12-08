@@ -99,12 +99,12 @@ var RR = {
   remove: function(id) {
     var element = $(id);
     if (element) {
+      var remove_element = element.remove.bind(element).chain(Lightbox.rescan);
+      
       if (this.Options.removeFx) {
-        element.hide(this.Options.removeFx, {
-          onFinish: element.remove.bind(element)
-        });
+        element.hide(this.Options.removeFx, {onFinish: remove_element});
       } else {
-        element.remove();
+        remove_element;
       }
     }
   },
