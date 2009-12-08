@@ -54,6 +54,7 @@ Fx.Zoom = new Class(Fx.Move, {
     style.height = style.height || (this.element.offsetHeight + 'px');
     
     for (var key in style) {
+      if (key == 'width' || key == 'height') style[key] = style[key] || this.element[offset+key.capitalize()];
       if (re.test(style[key])) {
         style[key] = style[key].replace(re, function(m) {
           return ''+ (m.toFloat() * proportion);
