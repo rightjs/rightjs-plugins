@@ -191,6 +191,31 @@ var BehaviorTest = TestCase.create({
     this.assertNull('something non existing'.stopBehave());
     
     this.assert(this.el.observes('click', f));
+  },
+  
+  testEventsDelegation: function() {
+    var e1 = $E('div', {'class': 'boo'});
+    var e2 = $E('div', {'class': 'foo'});
+    
+    var result = {};
+    
+    var delegation = Behavior.delegate({
+      '.boo': function() { result[1] = 'boo'; },
+      '.foo': function() { result[2] = 'foo'; }
+    });
+    
+    e1.onClick(delegation);
+    e2.onClick(delegation);
+    
+    e1.click();
+    this.assertEqual('boo', result[1]);
+    this.assertSame(undefined, result[2]);
+    
+    delete(result[1]);
+    
+    e2.click();
+    this.assertEqual('foo', result[2]);
+    this.assertSame(undefined, result[1]);
   }
   
 });
