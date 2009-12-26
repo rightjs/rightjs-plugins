@@ -19,19 +19,12 @@ Event.Mouse = new Class(Event.Base, {
 
       isRightClick : function() {
         return this.which == 3;
+      },
+
+      over: function(element) {
+        var dims = $(element).dimensions(), x = this.pageX, y = this.pageY;
+        return !(x < dims.left || x > (dims.left + dims.width) || y < dims.top || y > (dims.top + dims.height));
       }
-    },
-    
-    /**
-     * proceses the event extending as if it's a mouse event
-     *
-     * @param Event new event
-     * @return Event extended event
-     */
-    ext: function(event) {
-      $ext(event, this.Methods, true);
-            
-      return event;
     }
   },
   
@@ -72,7 +65,4 @@ Event.Mouse = new Class(Event.Base, {
   }
 });
 
-try {
-  // boosting up the native events by preextending the prototype if available
-  $ext(Event.parent.prototype, Event.Mouse.Methods, true);
-} catch(e) {};
+Event.addMethods(Event.Mouse.Methods);

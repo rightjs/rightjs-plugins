@@ -6,47 +6,6 @@
 var EventTest = TestCase.create({
   name: 'EventTest',
   
-  testDefaultExtending: function() {
-    var mock_event = {mock: 'event'};
-    
-    // should not apply the keyboard or mouse extensions by default
-    this.assertNotCalled([
-      [Event.Keyboard, 'ext'],
-      [Event.Mouse, 'ext']
-    ], function() {
-      Event.ext({mock: 'event'});
-    });
-  },
-  
-  testMouseEventsExtending: function() {
-    var mock_event = { mock: 'event', type: 'click' };
-    
-    this.assertCalled(
-      Event.Mouse, 'ext', function() {
-      this.assertSame(mock_event, Event.ext(mock_event));
-    }, this);
-    
-    // should not call the mouse extentions on the keyboard events
-    this.assertNotCalled(Event.Keyboard, 'ext', function() {
-      Event.ext({ mock: 'event', type: 'click' });
-    });
-  },
-  
-  testKeyboardEventsExtending: function() {
-    var mock_event = { mock: 'event', keyCode: Event.KEYS.ENTER };
-    
-    this.assertCalled([
-      [Event.Keyboard, 'ext']
-    ], function() {
-      this.assertSame(mock_event, Event.ext(mock_event));
-    }, this);
-    
-    // should not call the mouse extentions on the keyboard events
-    this.assertNotCalled(Event.Mouse, 'ext', function() {
-      Event.ext({ mock: 'event', keyCode: Event.KEYS.ENTER });
-    });
-  },
-  
   testMouseEventInstance: function() {
     for (var i=0; i < Event.Mouse.NAMES.length; i++) {
       var event_name = Event.Mouse.NAMES[i];

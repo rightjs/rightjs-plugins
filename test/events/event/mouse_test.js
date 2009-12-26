@@ -15,12 +15,9 @@ var EventMouseTest = TestCase.create({
   },
   
   testExt: function() {
-    var mock_event = {mock: 'event'};
-    
-    this.assertSame(mock_event, Event.Mouse.ext(mock_event));
-    
-    this.assertNotNull(mock_event.isLeftClick);
-    this.assertNotNull(mock_event.isRightClick);
+    this.assertNotNull(Event.Methods.isLeftClick);
+    this.assertNotNull(Event.Methods.isRightClick);
+    this.assertNotNull(Event.Methods.over);
   },
   
   testLeftClick: function() {
@@ -39,5 +36,40 @@ var EventMouseTest = TestCase.create({
 //    this.assertEqual(3, ev.which);
 //    this.assert(ev.isRightClick());
 //    this.assertFalse(ev.isLeftClick());
+  },
+  
+  testOver: function() {
+    var event = {
+      pageX: 10,
+      pageY: 10,
+      over:  Event.Methods.over
+    };
+    
+    this.assert(event.over({
+      dimensions: function() {
+        return {
+          left: 0,
+          top: 0,
+          width: 20,
+          height: 20
+        };
+      }
+    }));
+    
+    this.assertFalse(event.over({
+      dimensions: function() {
+        return {
+          left: 20
+        }
+      }
+    }));
+    
+    this.assertFalse(event.over({
+      dimensions: function() {
+        return {
+          top: 20
+        }
+      }
+    }));
   }
 });

@@ -3,30 +3,7 @@
  *
  * Copyright (C) 2008-2009 Nikolay V. Nemshilov aka St. <nemshilov#gma-il>
  */
-Event.extend((function() {
-  var old_ext = Event.ext;
-
-return {
-  /**
-   * extends a native object with additional functionality
-   *
-   * @param Event event
-   * @return Event same event but extended
-   */
-  ext: function(event) {
-    if (!event.stop) {
-      old_ext.call(Event, event);
-      
-      if (Event.Mouse.NAMES.includes(event.type)) {
-        Event.Mouse.ext(event);
-      } else if (defined(event.keyCode)){
-        Event.Keyboard.ext(event);
-      }
-    }
-    
-    return event;
-  },
-  
+Event.extend({
   // keyboard key codes
   KEYS: {
     BACKSPACE:  8,
@@ -57,7 +34,7 @@ return {
     RIGHT:  2
   }
   
-}})());
+});
 
 Event.include({
   /**
@@ -84,4 +61,5 @@ Event.include({
     
     return Event.ext(event);
   }
+  
 });

@@ -18,19 +18,7 @@ Event.Keyboard = new Class(Event.Base, {
      * isEnter()
      * etc
      */
-    Methods: {}, // generated at the end of the file
-    
-    /**
-     * processes the event extending as a keyboard event
-     *
-     * @param Event before extending
-     * @return Event after extending
-     */
-    ext: function(event) {
-      $ext(event, this.Methods, true);
-      
-      return event;
-    }
+    Methods: {} // generated at the end of the file
   },
   
   // default keyboard related events options
@@ -100,8 +88,6 @@ Event.Keyboard = new Class(Event.Base, {
       };
     })(key, Event.KEYS[key]);
   };
-  try {
-    // boosting up the native events by preextending the prototype if available
-    $ext(Event.parent.prototype, Event.Keyboard.Methods, true);
-  } catch(e) {};
+  
+  Event.addMethods(Event.Keyboard.Methods);
 })();

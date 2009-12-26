@@ -11,12 +11,8 @@ var EventKeyboardTest = TestCase.create({
   },
   
   testExt: function() {
-    var mock_event = { mock: 'event' };
-    
-    this.assertSame(mock_event, Event.Keyboard.ext(mock_event));
-    
     for (var key in Event.KEYS) {
-      this.assertTypeOf('function', mock_event[this.methodName(key)]);
+      this.assertTypeOf('function', Event.Methods[this.methodName(key)], "Testing method: "+this.methodName(key));
     }
   },
   
