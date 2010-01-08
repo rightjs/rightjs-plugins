@@ -1,7 +1,7 @@
 /**
  * Hooks up all the scripts
  *
- * Copyright (C) 2008-2009 Nikolay V. Nemshilov aka St. <nemshilov#gma-il>
+ * Copyright (C) 2008-2010 Nikolay V. Nemshilov aka St. <nemshilov#gma-il>
  */
 
 function include_js(name) {
@@ -38,12 +38,6 @@ var files = {
   ],
   
   json: [
-    'string',
-    'date',
-    'number',
-    'boolean',
-    'array',
-    'hash',
     'json',
     'cookie',
     'xhr'
