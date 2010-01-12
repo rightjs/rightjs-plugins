@@ -3,13 +3,13 @@
  *
  * @copyright 2009 Nikolay V. Nemshilov aka St.
  */
-Element.addMethods({
+Element.include({
   fire: function() {
     var args = $A(arguments), event = new Event(args.shift(), Object.merge(args.shift(), {element: this}));
     
     if (event instanceof Event.Custom) {
       (this.$listeners || []).each(function(i) {
-        if (i.e == event.eventName) {
+        if (i.e == event.type) {
           i.f.apply(this, [event].concat(i.a).concat(args));
         }
       }, this);

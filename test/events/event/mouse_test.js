@@ -22,7 +22,7 @@ var EventMouseTest = TestCase.create({
   
   testLeftClick: function() {
     var ev = null;
-    this.el.onClick(function(e) { ev = e }).click();
+    this.el.onClick(function(e) { ev = e; }).fire('click');
     
     this.assertEqual(1, ev.which);
     this.assert(ev.isLeftClick());

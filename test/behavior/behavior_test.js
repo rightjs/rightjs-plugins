@@ -207,13 +207,13 @@ var BehaviorTest = TestCase.create({
     e1.onClick(delegation);
     e2.onClick(delegation);
     
-    e1.click();
+    e1.fire('click');
     this.assertEqual('boo', result[1]);
     this.assertSame(undefined, result[2]);
     
     delete(result[1]);
     
-    e2.click();
+    e2.fire('click');
     this.assertEqual('foo', result[2]);
     this.assertSame(undefined, result[1]);
   }

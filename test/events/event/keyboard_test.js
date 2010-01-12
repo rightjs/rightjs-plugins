@@ -22,7 +22,7 @@ var EventKeyboardTest = TestCase.create({
     var ev = null;
     var el = $E('div').insertTo(document.body).onKeypress(function(e) { ev = e; })
     for (var key in Event.KEYS) {
-      el.keypress({keyCode: Event.KEYS[key]});
+      el.fire('keypress', {keyCode: Event.KEYS[key]});
       
       this.assertEqual(Event.KEYS[key], ev.keyCode);
       
