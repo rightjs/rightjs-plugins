@@ -51,7 +51,7 @@ var JSON = (function(native_JSON) {
               zerofy(value.getUTCHours())      + ':' +
               zerofy(value.getUTCMinutes())    + ':' +
               zerofy(value.getUTCSeconds())    + '.' +
-              zerofy(value..getMilliseconds()) + 'Z' ;
+              zerofy(value.getMilliseconds()) + 'Z' ;
           
           else {
             var result = [];
