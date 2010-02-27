@@ -45,13 +45,13 @@ var JSON = (function(native_JSON) {
             return '['+value.map(JSON.stringify).join(',')+']';
             
           else if (value instanceof Date)
-            return value.getUTCFullYear()      + '-' +
-              zerofy(value.getUTCMonth() + 1)  + '-' +
-              zerofy(value.getUTCDate())       + 'T' +
-              zerofy(value.getUTCHours())      + ':' +
-              zerofy(value.getUTCMinutes())    + ':' +
-              zerofy(value.getUTCSeconds())    + '.' +
-              zerofy(value..getMilliseconds()) + 'Z' ;
+            return value.getUTCFullYear()     + '-' +
+              zerofy(value.getUTCMonth() + 1) + '-' +
+              zerofy(value.getUTCDate())      + 'T' +
+              zerofy(value.getUTCHours())     + ':' +
+              zerofy(value.getUTCMinutes())   + ':' +
+              zerofy(value.getUTCSeconds())   + '.' +
+              zerofy(value.getMilliseconds()) + 'Z' ;
           
           else {
             var result = [];
