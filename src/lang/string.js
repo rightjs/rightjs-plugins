@@ -28,3 +28,12 @@ if (String.prototype.trim.toString().include('return')) {
   };
 }
 
+$ext(String.prototype, {
+  truncate: function(length, after) {
+    var str = this, after = defined(after) ? after : '...';
+    if (str.length > length) {
+      return str.substr(0, length - after.length) + after;
+    }
+    return str;
+  }
+});
