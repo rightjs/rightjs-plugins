@@ -7,8 +7,8 @@ var StringTest = TestCase.create({
   },
   
   testTruncate: function() {
-    this.assertEqual('fo...', 'foobar'.truncate(5)),
-    this.assertEqual('foo..', 'foobar'.truncate(5, '..')),
-    this.assertEqual('fooba', 'foobar'.truncate(5, '')),
+    this.assertEqual('fo...', 'foobar'.truncate(5));
+    this.assertEqual('foo..', 'foobar'.truncate(5, '..'));
+    this.assertEqual('fooba', 'foobar'.truncate(5, ''));
   }
 })

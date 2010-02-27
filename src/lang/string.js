@@ -5,7 +5,7 @@
  *   The faster trim method is based on the work of Yesudeep Mangalapilly 
  *   http://yesudeep.wordpress.com/2009/07/31/even-faster-string-prototype-trim-implementation-in-javascript/
  *   
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 
 if (String.prototype.trim.toString().include('return')) {
@@ -30,10 +30,9 @@ if (String.prototype.trim.toString().include('return')) {
 
 $ext(String.prototype, {
   truncate: function(length, after) {
-    var str = this, after = defined(after) ? after : '...';
-    if (str.length > length) {
-      return str.substr(0, length - after.length) + after;
-    }
-    return str;
+    var after = defined(after) ? after : '...';
+    
+    return this.length <= length ? this :
+      this.substr(0, length - after.length) + after;
   }
 });
