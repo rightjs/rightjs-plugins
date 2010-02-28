@@ -253,7 +253,7 @@ var Draggable = new Class(Observer, {
           width:    this.clone.getStyle('width'),
           height:   this.clone.getStyle('height'),
           position: this.clone.getStyle('position'),
-          zIndex:   this.clone.getStyle('zIndex')
+          zIndex:   this.clone.getStyle('zIndex') || ''
         }), 'before'
       ).remove();
     }
