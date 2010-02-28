@@ -1,9 +1,9 @@
 /**
  * Element shortcuts for the additional effects
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
-Element.addMethods({
+Element.include({
   /**
    * The move visual effect shortcut
    *

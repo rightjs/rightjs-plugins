@@ -1,9 +1,9 @@
 /**
  * The Element unit wrapups for automaticall behaves processing on the page updates
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
-Element.addMethods((function(old_methods) {
+Element.include((function(old_methods) {
   var old_insert = old_methods.insert;
   var old_update = old_methods.update;
   

@@ -1,7 +1,7 @@
 /**
  * Underscored aliases for Ruby On Rails
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 
 // the language and window level aliases
@@ -9,7 +9,7 @@
   for (var key in object) {
     try { // some keys are not accessable
       
-      if (/[A-Z]/.test(key) && typeof(object[key]) == 'function') {
+      if (/[A-Z]/.test(key) && typeof(object[key]) === 'function') {
         var u_key = key.underscored();
         if (object[u_key] === null || object[u_key] === undefined) {
           object[u_key] = object[key];
@@ -25,12 +25,12 @@
   var aliases = {}, methods = object.Methods;
     
   for (var key in methods) {
-    if (/[A-Z]/.test(key) && typeof(methods[key]) == 'function') {
+    if (/[A-Z]/.test(key) && typeof(methods[key]) === 'function') {
       aliases[key.underscored()] = methods[key];
     }
   }
   
-  object.addMethods(aliases);
+  object.include(aliases);
 });
 
 

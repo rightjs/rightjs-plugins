@@ -1,9 +1,9 @@
 /**
  * Element level hooks for drag'n'drops
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
-Element.addMethods({
+Element.include({
   
   makeDraggable: function(options) {
     new Draggable(this, options);

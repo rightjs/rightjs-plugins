@@ -5,7 +5,7 @@
  *       unextended mouse event.
  *       Use the Event general constructor, if you need a usual extened event.
  *
- * Copyright (C) 2008-2009 Nikolay V. Nemshilov aka St. <nemshilov#gma-ilc-om>
+ * Copyright (C) 2008-2010 Nikolay V. Nemshilov
  */
 Event.Mouse = new Class(Event.Base, {
   
@@ -65,4 +65,4 @@ Event.Mouse = new Class(Event.Base, {
   }
 });
 
-Event.addMethods(Event.Mouse.Methods);
+Event.include(Event.Mouse.Methods);
