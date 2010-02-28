@@ -1,7 +1,7 @@
 /**
  * Handles the to-class and from-class visual effects
  *
- * Copyright (C) Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Fx.CSS = new Class(Fx.Morph, {
   STYLES: $w('width height lineHeight opacity border padding margin color fontSize background top left right bottom'),

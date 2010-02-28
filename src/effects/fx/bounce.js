@@ -1,7 +1,7 @@
 /**
  * Bounce visual effect, slightly moves an element forward and back
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009 Nikolay V. Nemshilov
  */
 Fx.Bounce = new Class(Fx, {
   extend: {

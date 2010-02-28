@@ -5,7 +5,7 @@
  *   Based on the original JSON escaping implementation
  *     http://www.json.org/json2.js
  *
- * @copyright (C) 2009-2010 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 var JSON = (function(native_JSON) {
   // see the original JSON decoder implementation for descriptions http://www.json.org/json2.js

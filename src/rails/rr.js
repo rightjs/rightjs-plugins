@@ -1,9 +1,8 @@
 /**
  * RR is the common ajax operations wrapper for ruby on rails
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009 Nikolay V. Nemshilov
  */
-;
 var RR = {
   /**
    * Basic options

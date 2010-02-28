@@ -15,20 +15,22 @@ if (String.prototype.trim.toString().include('return')) {
        String.WSPS[key.toInt(16)] = 1;
   });
   
-  String.prototype.trim = function() {
-    var str = this, len = this.length, i = 0;
-    if (len) {
-      while (String.WSPS[str.charCodeAt(--len)]);
-      if (++len) {
-        while(String.WSPS[str.charCodeAt(i)]) i++;
+  String.include({
+    trim: function() {
+      var str = this, len = this.length, i = 0;
+      if (len) {
+        while (String.WSPS[str.charCodeAt(--len)]);
+        if (++len) {
+          while(String.WSPS[str.charCodeAt(i)]) i++;
+        }
+        str = str.substring(i, len);
       }
-      str = str.substring(i, len);
+      return str;
     }
-    return str;
-  };
+  });
 }
 
-$ext(String.prototype, {
+String.include({
   truncate: function(length, after) {
     var after = defined(after) ? after : '...';
     

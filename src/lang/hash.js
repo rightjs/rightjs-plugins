@@ -1,7 +1,7 @@
 /**
  * presents the Hash unit
  *
- * Copyright (C) 2008-2009 Nikolay V. Nemshilov aka St. <nemshilov#gma-il>
+ * Copyright (C) 2008-2009 Nikolay V. Nemshilov
  */
 var Hash = new Class({
   /**

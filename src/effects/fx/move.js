@@ -1,7 +1,7 @@
 /**
  * The basic move visual effect
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Fx.Move = new Class(Fx.Morph, {
   extend: {

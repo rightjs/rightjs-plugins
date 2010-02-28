@@ -3,7 +3,7 @@
  * were automatically exported/imported into JSON strings
  * and it allowed transparent objects and arrays saving
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009 Nikolay V. Nemshilov
  */
 if (window['Cookie']) {
   (function(Cookie_prototype) {

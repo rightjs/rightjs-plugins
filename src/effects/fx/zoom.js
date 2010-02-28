@@ -1,7 +1,7 @@
 /**
  * Zoom visual effect, graduately zoom and element in or out
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * @copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 Fx.Zoom = new Class(Fx.Move, {
   PROPERTIES: $w('width height lineHeight paddingTop paddingRight paddingBottom paddingLeft fontSize borderWidth'),

@@ -6,7 +6,7 @@
  * on the page, and will watch any updates on the page
  * and refresh the behaves automatically
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov aka St.
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 var Behavior = new Class({
   extend: {
