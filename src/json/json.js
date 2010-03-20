@@ -65,7 +65,7 @@ var JSON = (function(native_JSON) {
   };
   
   // parses a json string
-  var parse = native_JSON ? native_JSON : function(string) {
+  var parse = native_JSON ? native_JSON.parse : function(string) {
     if (isString(string) && string) {
       // getting back the UTF-8 symbols
       string = string.replace(cx, function (a) {
@@ -82,7 +82,6 @@ var JSON = (function(native_JSON) {
     
     throw "JSON parse error: "+string;
   };
-  
   
 return {
   

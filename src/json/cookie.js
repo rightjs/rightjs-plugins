@@ -3,7 +3,7 @@
  * were automatically exported/imported into JSON strings
  * and it allowed transparent objects and arrays saving
  *
- * @copyright (C) 2009 Nikolay V. Nemshilov
+ * @copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 if (window['Cookie']) {
   (function(Cookie_prototype) {
@@ -12,11 +12,11 @@ if (window['Cookie']) {
         
     $ext(Cookie_prototype, {
       set: function(value) {
-        return old_set.call(this, JSON.encode(value));
+        return old_set.call(this, JSON.stringify(value));
       },
       
       get: function() {
-        return JSON.decode(old_get.call(this));
+        return JSON.parse(old_get.call(this));
       }
     });
   })(Cookie.prototype);
