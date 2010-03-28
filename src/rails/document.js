@@ -1,4 +1,10 @@
 // the document onload hook
-document.onReady(function() {
-  RR.hide_flash().rescan();
+document.on({
+  ready: function() {
+    RR.hide_flash();
+  },
+  
+  click: function(event) {
+    RR.process_click(event);
+  }
 });

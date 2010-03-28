@@ -1,7 +1,7 @@
 /**
  * RR is the common ajax operations wrapper for ruby on rails
  *
- * Copyright (C) 2009 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
 var RR = {
   /**
@@ -20,6 +20,9 @@ var RR = {
     highlightUpdates: true,
     
     removeFx:         'fade',
+    
+    linkToAjaxEdit:   '.ajax_edit',
+    linkToAjaxDelete: '.ajax_delete',
     
     rescanWithScopes: true       // if it should rescan only updated elements
   },
@@ -154,29 +157,23 @@ var RR = {
   },
   
   /**
-   * Hijacks the action links and makes them remote
+   * watches link clicks and processes the ajax edit/delete operations
    *
-   * @return RR self
+   * @param Event event
    */
-  hijack_links: function() {
-    this._links = this._links || [];
+  process_click: function(event) {
+    var target = event.target, link = [target].concat(target.parents()).first('match', 'a');
     
-    $$('a.edit, a.destroy').each(function(link) {
-      var uid = $uid(link);
-      if (!this._links[uid]) {
-        this._links[uid] = true;
+    if (link) {
+      if (link.match(this.Options.linkToAjaxEdit)) {
+        event.stop();
+        Xhr.load(link.href + '.' + this.Options.format);
         
-        if (link.hasClass('destroy')) {
-          link.onclick = eval('({f:'+ link.onclick.toString().replace('.submit', '.send')+'})').f;
-        } else if (link.hasClass('edit')) {
-          link.onclick = function(event) { event.stop();
-            Xhr.load(link.href + '.' + this.Options.format);
-          }.bind(this);
-        }
+      } else if (link.match(this.Options.linkToAjaxDelete) && link.has('onclick')) {
+        event.stop();
+        eval('({f:'+ link.onclick.toString().replace('.submit', '.send')+'})').f.call(link);
       }
-    }, this);
-    
-    return this;
+    }
   },
   
   /**
@@ -185,10 +182,7 @@ var RR = {
    * @return RR this
    */
   rescan: function(scope) {
-    this.hijack_links();
-    
-    $w('Lightbox Calendar Autocompleter Draggable Droppable Sortable Tabs Slider Rater Selectable'
-    ).each(function(name) {
+    $w('Draggable Droppable Tabs Slider Selectable').each(function(name) {
       if (self[name]) self[name].rescan(this.Options.rescanWithScopes ? scope : null);
     }, this);
     

@@ -58,6 +58,7 @@ var files = {
   
   rails: [
     'rr',
+    'ujs',
     'document',
     'aliases'
   ]
