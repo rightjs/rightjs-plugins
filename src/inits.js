@@ -8,8 +8,8 @@ function include_js(name) {
   document.writeln('<scr'+'ipt src="'+ RIGHTJS_GOODS_ROOT + name +'.js"></scr'+'ipt>');
 }
 
-include_js('lib/right');
-include_js('lib/testcase');
+include_js('util/right');
+include_js('util/testcase');
 
 var files = {
   effects: [
@@ -19,14 +19,6 @@ var files = {
     'fx/run',
     'fx/puff',
     'fx/css',
-    'element'
-  ],
-  
-  events: [
-    'event',
-    'event/base',
-    'event/mouse',
-    'event/keyboard',
     'element'
   ],
   
@@ -41,12 +33,6 @@ var files = {
     'json',
     'cookie',
     'xhr'
-  ],
-  
-  behavior: [
-    'behavior',
-    'element',
-    'string'
   ],
   
   dnd: [

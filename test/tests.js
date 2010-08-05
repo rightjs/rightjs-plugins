@@ -1,23 +1,11 @@
 /**
  * Hooks up all the tests
  *
- * Copyright (C) 2008-2009 Nikolay V. Nemshilov aka St. <nemshilov#gma-il>
+ * Copyright (C) 2008-2010 Nikolay Nemshilov
  */
 var tests = {
-  
-  EventTest:         'events/event',
-  EventBaseTest:     'events/event/base',
-  EventMouseTest:    'events/event/mouse',
-  EventKeyboardTest: 'events/event/keyboard',
-  
-  
   StringTest:        'lang/string',
-  
-  
   JsonTest:          'json/json',
-  
-  BehaviorTest:      'behavior/behavior',
-  
   RailsTest:         'rails/rails'
 };
 
