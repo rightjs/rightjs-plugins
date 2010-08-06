@@ -35,7 +35,7 @@ var JsonTest = TestCase.create({
     date.setMonth(8);
     date.setYear(2008);
     
-    this.assertEqual('"2008-09-08T04:08:08.888Z"', JSON.stringify(date))
+    this.assertEqual('"2008-09-08T04:08:08.888Z"', JSON.stringify(date));
   },
   
   testNumberToJSON: function() {
@@ -51,7 +51,7 @@ var JsonTest = TestCase.create({
   
   testArrayToJSON: function() {
     this.assertEqual('[1,2,3]', JSON.stringify([1,2,3]));
-    this.assertEqual('["a","b","c"]', JSON.stringify($w('a b c')));
+    this.assertEqual('["a","b","c"]', JSON.stringify(RightJS.$w('a b c')));
     
     this.assertEqual('["a",["b",["c"]]]', JSON.stringify(['a',['b',['c']]]));
   },
@@ -76,5 +76,15 @@ var JsonTest = TestCase.create({
     this.assertThrows(function() {
       JSON.decode('{123');
     })
+  },
+  
+  testCookieExtension: function() {
+    if (RightJS.Cookie.enabled()) {
+      RightJS.Cookie.set('__test1', {boo:'hoo'});
+      RightJS.Cookie.set('__test2', [1,2,3,4,5]);
+
+      this.assertEqual({boo:'hoo'}, RightJS.Cookie.get('__test1'));
+      this.assertEqual([1,2,3,4,5], RightJS.Cookie.get('__test2'));
+    }
   }
 });

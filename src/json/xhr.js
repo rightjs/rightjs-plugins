@@ -8,7 +8,7 @@ if (RightJS.Xhr) {
     try {
       return JSON.decode(this.text);
     } catch(e) {
-      if (this.secureJSON) throw e;
+      if (this.secureJSON) { throw e; }
       return null;
     }
   };
