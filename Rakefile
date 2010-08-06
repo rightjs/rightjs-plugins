@@ -4,60 +4,83 @@
 
 require 'rake'
 require 'fileutils'
-require File.dirname(__FILE__)+'/lib/frontcompiler/init.rb'
+require 'util/build/rutil'
 
 BUILD_DIR    = 'build'
 BUILD_PREFIX = 'right'
 
-task :default => :build
-
-desc "Builds all the modules"
-task :build do
-  
-  # parsing the modules
-  modules = {}
-  File.open("src/inits.js").read.match(/var\s+files\s+=\s+\{(.*?)\}/m
-    ).to_a[1].scan(/([a-z]+):\s+\[(.*?)\]/m).each do |match|
-      modules[match[0]] = []
-      match[1].scan(/('|")(.*?)\1/).collect do |f|
-        modules[match[0]] << f[1]
-      end
-  end
-  
-  # reading the source code
-  sources = {}
-  
-  modules.each do |name, files|
-    sources[name] = ""
-    files.each do |file|
-      sources[name] << "\n" + File.open("src/#{name}/#{file}.js").read
-    end
-  end
-  
-  # building the sources
-  FileUtils.rm_rf BUILD_DIR
-  FileUtils.mkdir BUILD_DIR
-  
-  @builder = FrontCompiler.new
-  
-  sources.each do |name, source|
-    puts " * Building the #{name} module"
-    
-    header   = File.open("src/#{name}/header.js").read
-    minified = @builder.compact_js(source)
-    
-    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}-src.js", "w").write(header + source)
-    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}-min.js", "w").write(header + minified)
-    File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-#{name}.js", "w").write(header + minified.create_self_build)
-  end
-  
-  puts " * Building the whole thing"
-  
-  source = File.open("src/header.js").read + sources.collect{|k, v| v}.join("\n")
-  minified = @builder.compact_js(source)
-  
-  File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-goods-src.js", "w").write(source)
-  File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-goods-min.js", "w").write(minified)
-  File.open("#{BUILD_DIR}/#{BUILD_PREFIX}-goods.js", "w").write(minified.create_self_build)
-  
+$plugins = FileList['dist/*'].collect do |dirname|
+  dirname.gsub('dist/', '')
 end
+
+options = ((ENV['OPTIONS'] || '').split('=').last || '').strip.split(/\s*,\s*/)
+
+unless options.empty?
+  $plugins.reject! do |name|
+    !options.include?(name)
+  end
+end
+
+$rutils = {};
+
+######################################################################
+#  Cleaning up the build directory
+######################################################################
+desc "Cleans up the build directory"
+task :clean do
+  puts ' * Nuking the build dir'
+  FileUtils.rm_rf BUILD_DIR
+  Dir.mkdir BUILD_DIR
+end
+
+######################################################################
+#  Packs the plugins into source files
+######################################################################
+desc "Packs the plugins into source files"
+task :pack do
+  Rake::Task['clean'].invoke
+  
+  puts " * Packing the source code files"
+  $plugins.each do |plugin|
+    puts "   - #{plugin}"
+    
+    files = File.read("src/#{plugin}/__init__.js").scan(/('|")([\w\d]+)\1/).collect do |match|
+      "src/#{plugin}/#{match[1]}.js"
+    end
+    
+    rutil = RUtil.new("dist/#{plugin}/header.js", "dist/#{plugin}/layout.js")
+    rutil.pack(files)
+    rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{plugin}.js")
+    
+    $rutils[plugin] = rutil
+  end
+end
+
+######################################################################
+#  Checks the source-code with jslint
+######################################################################
+desc "Checks the source-code with jslint"
+task :check do
+  Rake::Task['pack'].invoke
+  puts " * Running the jslint check"
+  
+  $rutils.each do |plugin, rutil|
+    puts "   - #{plugin}"
+    rutil.check "dist/#{plugin}/lint.js"
+  end
+end
+
+######################################################################
+#  Builds the plugins into minified files
+######################################################################
+desc "Builds the plugins into minified files"
+task :build do
+  Rake::Task['pack'].invoke
+  puts " * Minifying the source code"
+  
+  $rutils.each do |plugin, rutil|
+    puts "   - #{plugin}"
+    rutil.compile ENV['REMOTE']
+  end
+end
+

@@ -20,7 +20,16 @@ just say
 
     rake build
 
-And that will do the trick
+And that will do the trick. If you don't have `Java` on your computer, you
+can build the scripts using the Google API like that
+
+    rake build REMOTE=true
+
+You also can build only some of the plugins
+
+    rake build OPTIONS=json,rails
+
+Enjoy!
 
 
 # License
