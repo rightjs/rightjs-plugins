@@ -8,8 +8,8 @@ function include_js(name) {
   document.writeln('<scr'+'ipt src="'+ RIGHTJS_GOODS_ROOT + name +'.js"></scr'+'ipt>');
 }
 
-include_js('util/right');
-include_js('util/testcase');
+include_js('util/lib/right');
+include_js('util/util/testcase');
 
 var files = {
   effects: [
@@ -27,12 +27,6 @@ var files = {
     'num_range',
     'string',
     'shortcuts'
-  ],
-  
-  json: [
-    'json',
-    'cookie',
-    'xhr'
   ],
   
   dnd: [
@@ -55,4 +49,3 @@ for (var pack in files) {
     include_js('src/'+pack+'/'+files[pack][i]);
   };  
 };
-

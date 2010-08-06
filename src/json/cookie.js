@@ -5,7 +5,8 @@
  *
  * @copyright (C) 2009-2010 Nikolay V. Nemshilov
  */
-if (window['Cookie']) {
+
+if (RightJS.Cookie) {
   (function(Cookie_prototype) {
     var old_set = Cookie_prototype.set,
         old_get = Cookie_prototype.get;
@@ -19,5 +20,5 @@ if (window['Cookie']) {
         return JSON.parse(old_get.call(this));
       }
     });
-  })(Cookie.prototype);
+  })(RightJS.Cookie.prototype);
 }
