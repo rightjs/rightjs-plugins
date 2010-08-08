@@ -80,7 +80,7 @@ task :build do
   
   $rutils.each do |plugin, rutil|
     puts "   - #{plugin}"
-    rutil.compile ENV['REMOTE']
+    rutil.compile
   end
 end
 
