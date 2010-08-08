@@ -12,16 +12,6 @@ include_js('util/lib/right');
 include_js('util/util/testcase');
 
 var files = {
-  effects: [
-    'fx/move',
-    'fx/zoom',
-    'fx/bounce',
-    'fx/run',
-    'fx/puff',
-    'fx/css',
-    'element'
-  ],
-  
   lang: [
     'hash',
     'num_range',

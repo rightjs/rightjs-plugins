@@ -1,23 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml11.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <title>RightJS Goods - Additional Visual Effects - Test</title>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>RightJS Plugins - Additional FX Test</title>
     
+    <script type="text/javascript" src="../util/test/tools.js"></script>
     <script type="text/javascript">
-    // <!--
-      var RIGHTJS_GOODS_ROOT = '../';
-      document.writeln('<scr'+'ipt src="../src/inits.js"></scr'+'ipt>');
-    // -->
+    // <![CDATA[
+      initialize_test_page();
+      
+      load_modules('effects');
+    // ]]>
     </script>
     
     <style type="text/css">
-      html, body {
-        font-size: 10pt;
-        font-family: Verdana;
-        padding: .4em 4em;
-      }
       div.fx-test {
         font-size: 20px;
         width: 200px;
@@ -40,17 +35,13 @@
     </style>
   </head>
   <body>
-    <h1>RightJS Goods Additional Visual Effects Tests</h1>
-    
-    <p>Some additional tests</p>
-    
     <h2>Fx.Move</h2>
     <p>
       <div class="fx-test" id="move-test">I move</div>
-      <a href="#" onclick="$('move-test').move({x: 400}, {position: 'relative'}); return false;">right</a> |
-      <a href="#" onclick="$('move-test').move({x:-400}, {position: 'relative'}); return false;">left</a> |
-      <a href="#" onclick="$('move-test').move({y:-400}, {position: 'relative'}); return false;">top</a> |
-      <a href="#" onclick="$('move-test').move({y: 400}, {position: 'relative'}); return false;">bottom</a>
+      <a href="#" onclick="RightJS.$('move-test').move({x: 400}, {position: 'relative'}); return false;">right</a> |
+      <a href="#" onclick="RightJS.$('move-test').move({x:-400}, {position: 'relative'}); return false;">left</a>  |
+      <a href="#" onclick="RightJS.$('move-test').move({y:-400}, {position: 'relative'}); return false;">top</a>   |
+      <a href="#" onclick="RightJS.$('move-test').move({y: 400}, {position: 'relative'}); return false;">bottom</a>
     </p>
     
     <h2>Fx.Run</h2>
@@ -58,21 +49,21 @@
       <div class="test-holder">
         <div class="fx-test" id="run-test">I run</div>
       </div>
-      <a href="#" onclick="try{ $('run-test').run(); } catch(e){ alert(e);} return false;">run left</a> |
-      <a href="#" onclick="$('run-test').run('toggle', {direction: 'top'}); return false;">run top</a>
+      <a href="#" onclick="try{ RightJS.$('run-test').run(); } catch(e){ alert(e);} return false;">run left</a> |
+      <a href="#" onclick="RightJS.$('run-test').run('toggle', {direction: 'top'}); return false;">run top</a>
     </p>
     
     <h2>Fx.Zoom</h2>
     <p>
       <div class="fx-test" id="zoom-test">I zoom</div>
-      <a href="#" onclick="$('zoom-test').zoom(1.5, {from: 'left-top'}); return false;">x1.5 zoom</a> |
-      <a href="#" onclick="$('zoom-test').zoom(2/3, {from: 'left-top'}); return false;">x0.6 minify</a>
+      <a href="#" onclick="RightJS.$('zoom-test').zoom(1.5, {from: 'left-top'}); return false;">x1.5 zoom</a> |
+      <a href="#" onclick="RightJS.$('zoom-test').zoom(2/3, {from: 'left-top'}); return false;">x0.6 minify</a>
     </p>
     
     <h2>Fx.Bounce</h2>
     <p>
       <div class="fx-test" id="bounce-test">I bounce</div>
-      <a href="#" onclick="$('bounce-test').bounce(); return false;">make it bounce</a>
+      <a href="#" onclick="RightJS.$('bounce-test').bounce(); return false;">make it bounce</a>
     </p>
     
     <h2>Fx.Puff</h2>
@@ -80,20 +71,16 @@
       <div class="test-holder">
         <div class="fx-test" id="puff-test">I puff</div>
       </div>
-      <a href="#" onclick="try{$('puff-test').puff();}catch(e) { alert(e)} return false;">puff it</a>
+      <a href="#" onclick="try{RightJS.$('puff-test').puff();}catch(e) { alert(e)} return false;">puff it</a>
     </p>
     
     <h2>Fx.Class</h2>
     <p>
       <div class="fx-test" id="class-test">I morph to classes</div>
-      <a href="#" onclick="try{$('class-test').morphToClass('green')} catch(e) { alert(e)} return false;">add 'green'</a>          |
-      <a href="#" onclick="try{$('class-test').morphToClass('blue')} catch(e) { alert(e)} return false;">add 'blue'</a>
+      <a href="#" onclick="RightJS.$('class-test').morphToClass('green'); return false;">add 'green'</a> |
+      <a href="#" onclick="try{RightJS.$('class-test').morphToClass('blue')} catch(e) { alert(e)} return false;">add 'blue'</a>
     </p>
     
-    
-    <p>&nbsp;</p>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-    </p>
+    <p class="white-space"></p>
   </body>
 </html>

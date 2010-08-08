@@ -20,11 +20,11 @@ Fx.Move = new Class(Fx.Morph, {
     var position = this.element.getStyle('position'), end_style = {};
     
     if (position != 'absolute' || position != 'relative') {
-      this.element.style.position = position = position == 'fixed' ? 'absolute' : 'relative';
+      this.element._.style.position = position = position == 'fixed' ? 'absolute' : 'relative';
     }
     
-    if (end_position.top)  end_position.y = end_position.top.toInt();
-    if (end_position.left) end_position.x = end_position.left.toInt();
+    if (end_position.top)  { end_position.y = end_position.top.toInt();  }
+    if (end_position.left) { end_position.x = end_position.left.toInt(); }
     
     // adjusting the end position
     var cur_position = this.element.position();
@@ -34,15 +34,15 @@ Fx.Move = new Class(Fx.Morph, {
     
     if (this.options.position == 'relative') {
       if (position == 'absolute') {
-        if (defined(end_position.x)) end_position.x += cur_position.x;
-        if (defined(end_position.y)) end_position.y += cur_position.x;
+        if (defined(end_position.x)) { end_position.x += cur_position.x; }
+        if (defined(end_position.y)) { end_position.y += cur_position.x; }
       } else {
-        if (defined(end_position.x)) end_position.x += rel_left;
-        if (defined(end_position.y)) end_position.y += rel_top;
+        if (defined(end_position.x)) { end_position.x += rel_left; }
+        if (defined(end_position.y)) { end_position.y += rel_top;  }
       }
     } else if (position == 'relative') {
-      if (defined(end_position.x)) end_position.x += rel_left - cur_position.x;
-      if (defined(end_position.y)) end_position.y += rel_top  - cur_position.y;
+      if (defined(end_position.x)) { end_position.x += rel_left - cur_position.x; }
+      if (defined(end_position.y)) { end_position.y += rel_top  - cur_position.y; }
     }
     
     // need this to bypass the other styles from the subclasses

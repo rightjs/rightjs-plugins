@@ -44,7 +44,7 @@ task :pack do
   $plugins.each do |plugin|
     puts "   - #{plugin}"
     
-    files = File.read("src/#{plugin}/__init__.js").scan(/('|")([\w\d]+)\1/).collect do |match|
+    files = File.read("src/#{plugin}/__init__.js").scan(/('|")([\w\d\_\-\/]+)\1/).collect do |match|
       "src/#{plugin}/#{match[1]}.js"
     end
     

@@ -1,14 +1,14 @@
 /**
  * Element shortcuts for the additional effects
  *
- * @copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * @copyright (C) 2009-2010 Nikolay Nemshilov
  */
-Element.include({
+RightJS.Element.include({
   /**
    * The move visual effect shortcut
    *
-   * @param Object end position x/y or top/left
-   * @param Object fx options
+   * @param position Object end position x/y or top/left
+   * @param options Object fx options
    * @return Element self
    */
   move: function(position, options) {
@@ -62,13 +62,13 @@ Element.include({
   /**
    * The Fx.Class effect shortcut
    *
-   * @param String css-class name to add
-   * @param String css-class name to remove
+   * @param add String css-class name to add
+   * @param remove String css-class name to remove
    * @param Object fx options
    */
   morphToClass: function() {
     var args = $A(arguments);
-    if (args[0] === null) args[0] = '';
+    if (args[0] === null) { args[0] = ''; }
     
     return this.fx('CSS', args);
   }

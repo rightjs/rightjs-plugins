@@ -10,8 +10,8 @@ Fx.Run = new Class(Fx.Move, {
     })
   },
   
-  prepare: function(how) {
-    var how = how || 'toggle', position = {}, dimensions = this.element.dimensions(), threshold = 80;
+  prepare: function(in_how) {
+    var how = in_how || 'toggle', position = {}, dimensions = this.element.dimensions(), threshold = 80;
     
     if (how == 'out' || (how == 'toggle' && this.element.visible())) {
       if (this.options.direction == 'left') {
@@ -21,7 +21,7 @@ Fx.Run = new Class(Fx.Move, {
       }
       this.onFinish(function() {
         this.element.hide().setStyle(this.getEndPosition({x: dimensions.left, y: dimensions.top}));
-      })
+      });
     } else {
       dimensions = this.element.setStyle('visibility: hidden').show().dimensions();
       var pre_position = {};

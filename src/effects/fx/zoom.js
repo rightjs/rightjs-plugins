@@ -38,10 +38,10 @@ Fx.Zoom = new Class(Fx.Move, {
         $E('div', {style: "visibility:hidden;float:left;height:0;width:0"}).insertTo(document.body)
       ).setStyle(size).sizes();
       
-      if (size.height) size = sizes.y / this.element.sizes().y;
-      else             size = sizes.x / this.element.sizes().x;
+      if (size.height) { size = sizes.y / this.element.sizes().y; }
+      else             { size = sizes.x / this.element.sizes().x; }
     } else if (isString(size)) {
-      size  = size.endsWith('%') ? size.toFloat() / 100 : size.toFloat();
+      size  = R(size).endsWith('%') ? R(size).toFloat() / 100 : R(size).toFloat();
     }
     
     return size;
@@ -51,20 +51,24 @@ Fx.Zoom = new Class(Fx.Move, {
   _getBasicStyle: function(proportion) {
     var style = this._cloneStyle(this.element, this.PROPERTIES), re = /([\d\.]+)/g;
     
+    function adjust_value(m) {
+      return ''+ (R(m).toFloat() * proportion);
+    }
+    
     for (var key in style) {
-      if (key === 'width' || key === 'height') style[key] = style[key] || (this.element['offset'+key.capitalize()]+'px');
+      if (key === 'width' || key === 'height') {
+        style[key] = style[key] || (this.element['offset'+R(key).capitalize()]+'px');
+      }
       
       if (style[key].match(re)) {
-        style[key] = style[key].replace(re, function(m) {
-          return ''+ (m.toFloat() * proportion);
-        });
+        style[key] = style[key].replace(re, adjust_value);
       } else {
         delete(style[key]);
       }
     }
     
     // preventing the border disappearance
-    if (style.borderWidth && style.borderWidth.toFloat() < 1) {
+    if (style.borderWidth && R(style.borderWidth).toFloat() < 1) {
       style.borderWidth = '1px';
     }
     

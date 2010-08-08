@@ -12,11 +12,11 @@ Fx.Puff = new Class(Fx.Zoom, {
   
 // protected
 
-  prepare: function(how) {
-    var how = how || 'toggle', opacity = 0, size = this.options.size;
+  prepare: function(in_how) {
+    var how = in_how || 'toggle', opacity = 0, size = this.options.size, initial_style;
     
     if (how == 'out' || (how == 'toggle' && this.element.visible())) {
-      var initial_style = this.getEndPosition(this._getZoomedStyle(1));
+      initial_style = this.getEndPosition(this._getZoomedStyle(1));
       this.onFinish(function() {
         initial_style.opacity = 1;
         this.element.hide().setStyle(initial_style);
@@ -26,7 +26,7 @@ Fx.Puff = new Class(Fx.Zoom, {
       this.element.setStyle('visibility: visible').show();
       
       var width = this.element.offsetWidth;
-      var initial_style = this.getEndPosition(this._getZoomedStyle(1));
+      initial_style = this.getEndPosition(this._getZoomedStyle(1));
       
       this.onFinish(function() {
         this.element.setStyle(initial_style);
