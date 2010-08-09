@@ -1,7 +1,7 @@
 /**
  * RR is the common ajax operations wrapper for ruby on rails
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 var RR = {
   /**
@@ -75,9 +75,9 @@ var RR = {
   /**
    * Inserts the content into the given element
    *
-   * @param String destination id
-   * @param String content
-   * @param String position
+   * @param destination String destination id
+   * @param content String content
+   * @param position String position
    * @return RR this
    */
   insert: function(where, what, in_position) {
@@ -107,8 +107,8 @@ var RR = {
   /**
    * Replaces the given element with a new content
    *
-   * @param String destination id
-   * @param String content
+   * @param destination String destination id
+   * @param content String content
    * @return RR this
    */
   replace: function(id, source) {
@@ -123,15 +123,8 @@ var RR = {
    * @return RR this
    */
   remove: function(id) {
-    var element = $(id);
-    if (element) {
-      var remove_element = element.remove.bind(element);
-      
-      if (this.Options.removeFx) {
-        element.hide(this.Options.removeFx, {onFinish: remove_element});
-      } else {
-        remove_element();
-      }
+    if ($(id)) {
+      $(id).remove(this.Options.removeFx, {onFinish: remove_element});
     }
   },
   
@@ -144,7 +137,7 @@ var RR = {
   remotize_form: function(id) {
     var form = $(id);
     if (form) {
-      form.remotize().enable().action += '.'+this.Options.format;
+      form.remotize().enable()._.action += '.'+this.Options.format;
     }
     return this;
   },
@@ -152,8 +145,8 @@ var RR = {
   /**
    * Replaces the form with new content and makes it remote
    *
-   * @param String form id
-   * @param String content
+   * @param form id String form id
+   * @param content String content
    * @return RR this
    */
   replace_form: function(id, source) {
@@ -169,8 +162,8 @@ var RR = {
   /**
    * Inserts the form source into the given element
    *
-   * @param String target id
-   * @param String form source
+   * @param target id String target id
+   * @param source String form source
    * @return RR this
    */
   show_form_for: function(id, source) {
@@ -207,7 +200,9 @@ var RR = {
    */
   rescan: function(scope) {
     $w('Draggable Droppable Tabs Slider Selectable').each(function(name) {
-      if (name in self) self[name].rescan(this.Options.rescanWithScopes ? scope : null);
+      if (name in window) {
+        window[name].rescan(this.Options.rescanWithScopes ? scope : null);
+      }
     }, this);
     
     

@@ -7,9 +7,10 @@ var RailsTest = TestCase.create({
   name: 'RailsTest',
   
   assertAliases: function(object, names) {
-    if (isArray(names)) {
-      names.each(function(name) {
-        this.assert(object[name.underscored()] === object[name], "checking alias for '"+name+"' -> '"+name.underscored()+"'");
+    if (RightJS.isString(names)) {
+      RightJS.$w(names).each(function(name) {
+        this.assert(object[RightJS(name).underscored()] === object[name],
+          "checking alias for '"+name+"' -> '"+RightJS(name).underscored()+"'");
       }, this);
     } else {
       for (new_name in names) {
@@ -20,39 +21,39 @@ var RailsTest = TestCase.create({
   },
   
   testStringAliases: function() {
-    this.assertAliases(String.prototype, $w('startsWith endsWith indexOf lastIndexOf evalScripts'));
+    this.assertAliases(RightJS.String.prototype, 'startsWith endsWith indexOf lastIndexOf evalScripts');
   },
   
   testArrayAliases: function() {
-    this.assertAliases(Array.prototype, $w('sortBy indexOf lastIndexOf'));
+    this.assertAliases(RightJS.Array.prototype, 'sortBy indexOf lastIndexOf');
   },
   
   testGlobalAliases: function() {
-    this.assertAliases(window, $w('isArray isHash isFunction'));
+    this.assertAliases(window, 'isArray isHash isFunction');
   },
   
   testOptionsAliases: function() {
-    this.assertAliases(Options, $w('setOptions'));
+    this.assertAliases(RightJS.Options, 'setOptions');
   },
   
   testObserverAliases: function() {
-    this.assertAliases(Observer.prototype, $w('stopObserving'));
+    this.assertAliases(RightJS.Observer.prototype, 'stopObserving');
   },
   
   testElementAliases: function() {
-    this.assertAliases(Element.Methods, $w('addClass hasClass setClass removeClass'));
+    this.assertAliases(RightJS.Element.prototype, 'addClass hasClass setClass removeClass');
   },
   
   testFormAliases: function() {
-    this.assertAliases(Form.Methods, $w('onSubmit'));
+    this.assertAliases(RightJS.Form.prototype, 'onSubmit');
   },
   
   testFormElementAliases: function() {
-    this.assertAliases(Form.Element.Methods, $w('onChange'));
+    this.assertAliases(RightJS.Input.prototype, 'onChange');
   },
   
   testRubyAliases: function() {
-    this.assertAliases(String.prototype, {
+    this.assertAliases(RightJS.String.prototype, {
       to_f:     'toFloat',
       to_i:     'toInt',
       gsub:     'replace',
@@ -63,7 +64,7 @@ var RailsTest = TestCase.create({
       strip:    'trim'
     });
     
-    this.assertAliases(Array.prototype, {
+    this.assertAliases(RightJS.Array.prototype, {
       collect:  'map',
       detect:   'filter',
       index:    'indexOf',

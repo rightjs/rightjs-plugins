@@ -1,7 +1,7 @@
 /**
  * Rails 3 UJS support module
  *
- * Copyright (C) 2010 Nikolay V. Nemshilov
+ * Copyright (C) 2010 Nikolay Nemshilov
  */
 (function() {
   // tries to cancel the event via confirmation
@@ -16,10 +16,10 @@
   // adds XHR events to the element
   var add_xhr_events = function(element, options) {
     return Object.merge({
-      onCreate:   function() { element.fire('ajax:loading',  this) },
-      onComplete: function() { element.fire('ajax:complete', this) },
-      onSuccess:  function() { element.fire('ajax:success',  this) },
-      onFailure:  function() { element.fire('ajax:failure',  this) }
+      onCreate:   function() { element.fire('ajax:loading',  this); },
+      onComplete: function() { element.fire('ajax:complete', this); },
+      onSuccess:  function() { element.fire('ajax:success',  this); },
+      onFailure:  function() { element.fire('ajax:failure',  this); }
     }, options);
   };
   
@@ -27,22 +27,24 @@
   var try_link_submit = function(event, link) {
     var method = link.get('data-method'), remote = link.get('data-remote');
     
-    if (user_cancels(event, link)) return;
-    if (method || remote) event.stop();
+    if (user_cancels(event, link)) { return; }
+    if (method || remote) { event.stop(); }
     
-    if (remote)
+    if (remote) {
       Xhr.load(link.href, add_xhr_events(link, {
         method:     method || 'get',
         spinner:    link.get('data-spinner')
       }));
       
-    else if (method) {
+    } else if (method) {
       var param = $$('meta[name=csrf-param]')[0],
           token = $$('meta[name=csrf-token]')[0],
           form  = $E('form', {action: link.href, method: 'post'});
       
-      if (param && token)
+      if (param && token) {
         form.insert('<input type="hidden" name="'+param.get('content')+'" value="'+token.get('content')+'" />');
+      }
+      
       form.insert('<input type="hidden" name="_method" value="'+method+'"/>')
         .insertTo(document.body).submit();
     }
@@ -57,15 +59,16 @@
   };
 
   // global events listeners
-  document.on({
+  $(document).on({
     click: function (event) {
       var target = event.target, form = target.form,
         link = [target].concat(target.parents()).first('match', 'a');
       
-      if (form && ['submit', 'image'].include(target.type))
+      if (form && ['submit', 'image'].include(target.type)) {
         try_form_submit(event, target);
-      else if (link)
+      } else if (link) {
         try_link_submit(event, link);
+      }
     },
 
     keydown: function(event) {

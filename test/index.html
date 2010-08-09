@@ -7,10 +7,11 @@
     // <![CDATA[
       initialize_test_page();
       
-      load_modules('json');
+      load_modules('json', 'rails');
       
       run_tests({
-        JsonTest: 'json/json'
+        JsonTest:  'json/json',
+        RailsTest: 'rails/rails'
       });
     // ]]>
     </script>

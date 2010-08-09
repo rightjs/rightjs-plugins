@@ -1,5 +1,9 @@
-// the document onload hook
-document.on({
+/**
+ * the document onload hooks
+ *
+ * Copyright (C) 2010 Nikolay Nemshilov
+ */
+$(document).on({
   ready: function() {
     RR.hide_flash();
   },
