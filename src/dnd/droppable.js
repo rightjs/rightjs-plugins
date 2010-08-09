@@ -1,7 +1,7 @@
 /**
  * Droppable unit
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 var Droppable = new Class(Observer, {
   extend: {
@@ -21,7 +21,7 @@ var Droppable = new Class(Observer, {
     },
     
     // See the Draggable rescan method, case we're kinda hijacking it in here
-    rescan: eval('({f:'+Draggable.rescan.toString().replace(/\._draggable/g, '._droppable')+'})').f,
+    rescan: eval('['+Draggable.rescan.toString().replace(/\.draggable/g, '.droppable')+']')[0],
     
     /**
      * Checks for hoverting draggable
@@ -30,8 +30,9 @@ var Droppable = new Class(Observer, {
      * @param Draggable draggable
      */
     checkHover: function(event, draggable) {
-      for (var i=0, length = this.active.length; i < length; i++)
+      for (var i=0, length = this.active.length; i < length; i++) {
         this.active[i].checkHover(event, draggable);
+      }
     },
     
     /**
@@ -41,8 +42,9 @@ var Droppable = new Class(Observer, {
      * @param Draggable draggable
      */
     checkDrop: function(event, draggable) {
-      for (var i=0, length = this.active.length; i < length; i++)
+      for (var i=0, length = this.active.length; i < length; i++) {
         this.active[i].checkDrop(event, draggable);
+      }
     },
     
     active: []
@@ -68,7 +70,7 @@ var Droppable = new Class(Observer, {
    */
   destroy: function() {
     Droppable.active = Droppable.active.without(this);
-    delete(this.element._droppable);
+    delete(this.element.droppable);
     return this;
   },
   
@@ -180,7 +182,7 @@ var Droppable = new Class(Observer, {
   // checks if the object accepts the draggable
   allows: function(draggable) {
     if (this.options.containment && !this._scanned) {
-      this.options.containment.walk($);
+      this.options.containment = R(this.options.containment).map($);
       this._scanned = true;
     }
     

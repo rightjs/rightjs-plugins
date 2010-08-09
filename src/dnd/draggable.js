@@ -1,7 +1,7 @@
 /**
  * Draggable unit
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 var Draggable = new Class(Observer, {
   extend: {
@@ -36,8 +36,8 @@ var Draggable = new Class(Observer, {
     rescan: function(scope) {
       var key = this.Options.relName;
       
-      ($(scope)||document).select('*[rel^="'+key+'"]').each(function(element) {
-        if (!element._draggable) {
+      ($(scope)||$(document)).select('*[rel^="'+key+'"]').each(function(element) {
+        if (!element.draggable) {
           var data = element.get('data-'+key+'-options');
           new this(element, eval('('+data+')') || {});
         }
@@ -55,7 +55,7 @@ var Draggable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
     
-    this.element._draggable = this.init();
+    this.element.draggable = this.init();
   },
   
   /**
@@ -65,7 +65,7 @@ var Draggable = new Class(Observer, {
    */
   destroy: function() {
     this.handle.stopObserving('mousedown', this._dragStart);
-    delete(this.element._draggable);
+    delete(this.element.draggable);
     
     return this;
   },
@@ -103,7 +103,7 @@ var Draggable = new Class(Observer, {
     if (this.options.revertDuration && this.element.morph) {
       this.element.morph(end_style, {
         duration: this.options.revertDuration,
-        onFinish: this.swapBack.bind(this)
+        onFinish: R(this.swapBack).bind(this)
       });
     } else {
       this.element.setStyle(end_style);
@@ -117,7 +117,7 @@ var Draggable = new Class(Observer, {
 
   init: function() {
     // caching the callback so that we could detach it later
-    this._dragStart = this.dragStart.bind(this);
+    this._dragStart = R(this.dragStart).bind(this);
     
     this.handle.onMousedown(this._dragStart);
     
@@ -129,15 +129,15 @@ var Draggable = new Class(Observer, {
     this.fire('before', this, event.stop());
     
     // calculating the positions diff
-    var position = position = this.element.position();
+    var position = this.element.position();
     
     this.xDiff = event.pageX - position.x;
     this.yDiff = event.pageY - position.y;
     
     // grabbing the relative position diffs
     var relative_position = {
-      y: this.element.getStyle('top').toFloat(),
-      x: this.element.getStyle('left').toFloat()
+      y: R(this.element.getStyle('top')).toFloat(),
+      x: R(this.element.getStyle('left')).toFloat()
     };
     
     this.rxDiff = isNaN(relative_position.x) ? 0 : (relative_position.x - position.x);
@@ -149,12 +149,12 @@ var Draggable = new Class(Observer, {
       y: this.element.getStyle('height')
     };
     
-    if (size.x == 'auto') size.x = this.element.offsetWidth  + 'px';
-    if (size.y == 'auto') size.y = this.element.offsetHeight + 'px';
+    if (size.x == 'auto') { size.x = this.element._.offsetWidth  + 'px'; }
+    if (size.y == 'auto') { size.y = this.element._.offsetHeight + 'px'; }
     
     // building a clone element if necessary
     if (this.options.clone || this.options.revert) {
-      this.clone = $(this.element.cloneNode(true)).setStyle({
+      this.clone = new Element(this.element._.cloneNode(true)).setStyle({
         visibility: this.options.clone ? 'visible' : 'hidden'
       }).insertTo(this.element, 'before');
     }
@@ -169,14 +169,18 @@ var Draggable = new Class(Observer, {
       height:   size.y
     }).addClass(this.options.dragClass);
     
-    if (this.options.moveOut) this.element.insertTo(document.body);
+    if (this.options.moveOut) {
+      this.element.insertTo(document.body);
+    }
     
     
     // caching the window scrolls
-    this.winScrolls = window.scrolls();
-    this.winSizes   = window.sizes();
+    this.winScrolls = $(window).scrolls();
+    this.winSizes   = $(window).sizes();
     
     Draggable.current = this.calcConstraints().fire('start', this, event);
+    
+    this.style = this.element._.style;
   },
   
   // catches the mouse move event
@@ -185,10 +189,10 @@ var Draggable = new Class(Observer, {
     
     // checking the range
     if (this.ranged) {
-      if (this.minX > x) x = this.minX;
-      if (this.maxX < x) x = this.maxX;
-      if (this.minY > y) y = this.minY;
-      if (this.maxY < y) y = this.maxY;
+      if (this.minX > x) { x = this.minX; }
+      if (this.maxX < x) { x = this.maxX; }
+      if (this.minY > y) { y = this.minY; }
+      if (this.maxY < y) { y = this.maxY; }
     }
     
     // checking the scrolls
@@ -208,23 +212,23 @@ var Draggable = new Class(Observer, {
         scrolls.x = page_x - this.winSizes.x + sensitivity;
       }
       
-      if (scrolls.y < 0) scrolls.y = 0;
-      if (scrolls.x < 0) scrolls.x = 0;
+      if (scrolls.y < 0) { scrolls.y = 0; }
+      if (scrolls.x < 0) { scrolls.x = 0; }
       
       if (scrolls.y < this.winScrolls.y || scrolls.y > this.winScrolls.y ||
         scrolls.x < this.winScrolls.x || scrolls.x > this.winScrolls.x) {
         
-          window.scrollTo(this.winScrolls = scrolls);
+          $(window).scrollTo(this.winScrolls = scrolls);
       }
     }
     
     // checking the snaps
-    if (this.snapX) x = x - x % this.snapX;
-    if (this.snapY) y = y - y % this.snapY;
+    if (this.snapX) { x = x - x % this.snapX; }
+    if (this.snapY) { y = y - y % this.snapY; }
     
     // checking the constraints
-    if (!this.axisY) this.element.style.left = (x + this.rxDiff) + 'px';
-    if (!this.axisX) this.element.style.top  = (y + this.ryDiff) + 'px';
+    if (!this.axisY) { this.style.left = (x + this.rxDiff) + 'px'; }
+    if (!this.axisX) { this.style.top  = (y + this.ryDiff) + 'px'; }
     
     this.fire('drag', this, event);
   },
@@ -248,22 +252,22 @@ var Draggable = new Class(Observer, {
   // swaps the clone element to the actual element back
   swapBack: function() {
     if (this.clone) {
-      this.clone.insert(
+      this.clone.replace(
         this.element.setStyle({
           width:    this.clone.getStyle('width'),
           height:   this.clone.getStyle('height'),
           position: this.clone.getStyle('position'),
           zIndex:   this.clone.getStyle('zIndex') || ''
-        }), 'before'
-      ).remove();
+        })
+      );
     }
   },
   
   // calculates the constraints
   calcConstraints: function() {
     var axis = this.options.axis;
-    this.axisX = ['x', 'horizontal'].include(axis);
-    this.axisY = ['y', 'vertical'].include(axis);
+    this.axisX = R(['x', 'horizontal']).include(axis);
+    this.axisY = R(['y', 'vertical']).include(axis);
     
     this.ranged = false;
     var range = this.options.range;
@@ -272,7 +276,7 @@ var Draggable = new Class(Observer, {
       
       // if the range is defined by another element
       var element = $(range);
-      if (isElement(element)) {
+      if (element instanceof Element) {
         var dims = element.dimensions();
         
         range = {

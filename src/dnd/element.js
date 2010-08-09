@@ -1,7 +1,7 @@
 /**
  * Element level hooks for drag'n'drops
  *
- * Copyright (C) 2009-2010 Nikolay V. Nemshilov
+ * Copyright (C) 2009-2010 Nikolay Nemshilov
  */
 Element.include({
   
@@ -11,7 +11,10 @@ Element.include({
   },
   
   undoDraggable: function() {
-    if (this._draggable) this._draggable.destroy();
+    if ('draggable' in this) {
+      this.draggable.destroy();
+    }
+    
     return this;
   },
   
@@ -21,7 +24,11 @@ Element.include({
   },
   
   undoDroppable: function() {
-    if (this._droppable) this._droppable.destroy();
+    if ('droppable' in this) {
+      this.droppable.destroy();
+    }
+    
     return this;
   }
+  
 });
