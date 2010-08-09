@@ -44,12 +44,21 @@ task :pack do
   $plugins.each do |plugin|
     puts "   - #{plugin}"
     
-    files = File.read("src/#{plugin}/__init__.js").scan(/('|")([\w\d\_\-\/]+)\1/).collect do |match|
+    # parsing the init script of the list of files
+    init = File.read("src/#{plugin}/__init__.js")
+    files = init.scan(/('|")([\w\d\_\-\/]+)\1/).collect do |match|
       "src/#{plugin}/#{match[1]}.js"
     end
     
     rutil = RUtil.new("dist/#{plugin}/header.js", "dist/#{plugin}/layout.js")
-    rutil.pack(files)
+    rutil.pack(files) do |source|
+      # inserting the initialization script
+      id = source.index('*/')
+      
+      source[0,id+2] +
+        "\n\n#{init.gsub(/include_module_files\([^\)]+\)(;*)/m, '')}" +
+      source[id+2, source.size]
+    end
     rutil.write("#{BUILD_DIR}/#{BUILD_PREFIX}-#{plugin}.js")
     
     $rutils[plugin] = rutil
