@@ -86,7 +86,7 @@ var RR = {
     
     // trying to find the new block
     switch (position) {
-      case 'bottom':  new_element = container.subNodes().last(); break;
+      case 'bottom':  new_element = container.children().last(); break;
       case 'top':     new_element = container.first(); break;
       case 'before':  new_element = container.prev();  break;
       case 'after':   new_element = container.next();  break;

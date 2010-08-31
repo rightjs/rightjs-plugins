@@ -36,10 +36,10 @@ Fx.Zoom = new Class(Fx.Move, {
     if (isHash(size)) {
       var sizes = $E('div').insertTo(
         $E('div', {style: "visibility:hidden;float:left;height:0;width:0"}).insertTo(document.body)
-      ).setStyle(size).sizes();
+      ).setStyle(size).size();
       
-      if (size.height) { size = sizes.y / this.element.sizes().y; }
-      else             { size = sizes.x / this.element.sizes().x; }
+      if (size.height) { size = sizes.y / this.element.size().y; }
+      else             { size = sizes.x / this.element.size().x; }
     } else if (isString(size)) {
       size  = R(size).endsWith('%') ? R(size).toFloat() / 100 : R(size).toFloat();
     }
@@ -78,7 +78,7 @@ Fx.Zoom = new Class(Fx.Move, {
   // getting the position adjustments
   _getEndPosition: function(proportion) {
     var position = {};
-    var sizes    = this.element.sizes();
+    var sizes    = this.element.size();
     var x_diff   = sizes.x * (proportion - 1);
     var y_diff   = sizes.y * (proportion - 1);
     

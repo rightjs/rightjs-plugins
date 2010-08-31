@@ -23,7 +23,7 @@ Fx.Css = Fx.CSS = new Class(Fx.Morph, {
   _endStyle: function(style, keys) {
     var element = this.element, dummy  = $(element._.cloneNode(true))
         .setStyle('position:absolute;z-index:-1;visibility:hidden')
-        .setWidth(element.sizes().x)
+        .setWidth(element.size().x)
         .addClass(this.addClass).removeClass(this.removeClass);
         
     if (element._.parentNode) { element.insert(dummy, 'before'); }

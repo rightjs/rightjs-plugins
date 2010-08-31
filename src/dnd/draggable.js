@@ -176,7 +176,7 @@ var Draggable = new Class(Observer, {
     
     // caching the window scrolls
     this.winScrolls = $(window).scrolls();
-    this.winSizes   = $(window).sizes();
+    this.winSizes   = $(window).size();
     
     Draggable.current = this.calcConstraints().fire('start', this, event);
     
@@ -286,7 +286,7 @@ var Draggable = new Class(Observer, {
       }
 
       if (isHash(range)) {
-        var size = this.element.sizes();
+        var size = this.element.size();
         
         if (range.x) {
           this.minX = range.x[0];
