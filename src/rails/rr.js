@@ -124,7 +124,7 @@ var RR = {
    */
   remove: function(id) {
     if ($(id)) {
-      $(id).remove(this.Options.removeFx, {onFinish: remove_element});
+      $(id).remove(this.Options.removeFx);
     }
   },
   
@@ -179,17 +179,14 @@ var RR = {
    * @param Event event
    */
   process_click: function(event) {
-    var target = event.target, link = [target].concat(target.parents()).first('match', 'a');
+    var link;
     
-    if (link) {
-      if (link.match(this.Options.linkToAjaxEdit)) {
-        event.stop();
-        Xhr.load(link.href + '.' + this.Options.format);
-        
-      } else if (link.match(this.Options.linkToAjaxDelete) && link.has('onclick')) {
-        event.stop();
-        eval('({f:'+ link.onclick.toString().replace('.submit', '.send')+'})').f.call(link);
-      }
+    if ((link = event.find('a'+ this.Options.linkToAjaxEdit))) {
+      event.stop();
+      Xhr.load(link.get('href') + '.' + this.Options.format);
+    } else if ((link = event.find('a'+ this.Options.linkToAjaxDelete)) && link.has('onclick')) {
+      event.stop();
+      eval('({f:'+ link.onclick.toString().replace('.submit', '.send')+'})').f.call(link);
     }
   },
   
