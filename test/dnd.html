@@ -207,9 +207,9 @@
     <h2>Auto-Discovered Draggables</h2>
     <p>
       <div class="test-container">
-        <div class="drag-test" rel="draggable" data-draggable-options="{revert: true}">I move around</div>
-        <div class="drag-test" rel="draggable" data-draggable-options="{revert: true, axis: 'x'}">I move only X</div>
-        <div class="drag-test" rel="draggable" data-draggable-options="{revert: true, axis: 'y'}">I move only Y</div>
+        <div class="drag-test" rel="draggable" data-draggable="{revert: true}">I move around</div>
+        <div class="drag-test" rel="draggable" data-draggable="{revert: true, axis: 'x'}">I move only X</div>
+        <div class="drag-test" rel="draggable" data-draggable="{revert: true, axis: 'y'}">I move only Y</div>
       </div>
     </p>
     
@@ -218,7 +218,7 @@
     <h2>Simple Droppable</h2>
     <p>
       <div class="test-container">
-        <div class="drag-test" rel="draggable" data-draggable-options="{revert: true}">Drag me</div>
+        <div class="drag-test" rel="draggable" data-draggable="{revert: true}">Drag me</div>
         <div class="drop-test" id="simple-droppable-1">Drop here</div>
         <div class="drop-test" id="simple-droppable-2">or here</div>
       </div>
@@ -240,7 +240,7 @@
     <p>
       Those droppables will react only when overlapped with draggable (50% by default)
       <div class="test-container">
-        <div class="drag-test" rel="draggable" data-draggable-options="{revert: true}">Drag me</div>
+        <div class="drag-test" rel="draggable" data-draggable="{revert: true}">Drag me</div>
         <div class="drop-test" id="overlapping-droppable-1">X Only Overlap</div>
         <div class="drop-test" id="overlapping-droppable-2">Y Only Overlap</div>
       </div>
@@ -267,14 +267,14 @@
     <p>
       Selective by a css-rule
       <div class="test-container">
-        <div class="drag-test red" rel="draggable" data-draggable-options="{revert: true}">Drag me</div>
+        <div class="drag-test red" rel="draggable" data-draggable="{revert: true}">Drag me</div>
         <div class="drop-test" id="selective-droppable-1">Reds Only</div>
         <div class="drop-test" id="selective-droppable-2">Blues Only</div>
       </div>
     </p>
     <p>
       <div class="test-container">
-        <div class="drag-test blue" rel="draggable" data-draggable-options="{revert: true}">Drag me</div>
+        <div class="drag-test blue" rel="draggable" data-draggable="{revert: true}">Drag me</div>
         <div class="drop-test" id="selective-droppable-3">Reds Only</div>
         <div class="drop-test" id="selective-droppable-4">Blues Only</div>
       </div>
@@ -292,14 +292,14 @@
     <p>
       Selective by an elements list
       <div class="test-container">
-        <div class="drag-test" id="the-first-draggable" rel="draggable" data-draggable-options="{revert: true}">First</div>
+        <div class="drag-test" id="the-first-draggable" rel="draggable" data-draggable="{revert: true}">First</div>
         <div class="drop-test" id="selective-droppable-5">First Only</div>
         <div class="drop-test" id="selective-droppable-6">Second Only</div>
       </div>
     </p>
     <p>
       <div class="test-container">
-        <div class="drag-test" id="the-second-draggable" rel="draggable" data-draggable-options="{revert: true}">Second</div>
+        <div class="drag-test" id="the-second-draggable" rel="draggable" data-draggable="{revert: true}">Second</div>
         <div class="drop-test" id="selective-droppable-7">First Only</div>
         <div class="drop-test" id="selective-droppable-8">Second Only</div>
       </div>
@@ -317,9 +317,9 @@
     <h2>Automatically Discovered Droppables</h2>
     <p>
       <div class="test-container">
-        <div class="drag-test" rel="draggable" data-draggable-options="{revert: true}">First</div>
+        <div class="drag-test" rel="draggable" data-draggable="{revert: true}">First</div>
         <div class="drop-test" rel="droppable">Drop it here</div>
-        <div class="drop-test" rel="droppable" data-droppable-options="{accept: 'span'}">not here</div>
+        <div class="drop-test" rel="droppable" data-droppable="{accept: 'span'}">not here</div>
       </div>
     </p>
     
