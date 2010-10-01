@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS - jQuerysh Test</title>
+
+    <script type="text/javascript" src="../util/test/tools.js"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_test_page();
+
+      load_modules('sizzle');
+    // ]]>
+    </script>
+    <script type="text/javascript">
+      RightJS.$(document).onReady(function() {
+        var log = RightJS.$E('ul').insertTo(document.body);
+
+        function test(rule, size) {
+          var select1 = RightJS.$$(rule);
+          var select2 = RightJS.$(document.body).find(rule);
+          var result  = select1.length == size && select2.length == size;
+
+          for (var i=0; i < select1.length; i++) {
+            result &= select1[i] instanceof RightJS.Element;
+          }
+
+          for (var i=0; i < select2.length; i++) {
+            result &= select2[i] instanceof RightJS.Element;
+          }
+
+          log.insert("<li>" +
+            "Testing $$('"+ rule + "'): " + (result ?
+              '<u style="color:green">Passed</u>' : '<u style="color:red">Failed</u>'
+            ) + "</li>"
+          );
+        };
+
+        test("ul.test li", 3);
+        test("ul.test > li", 3);
+        test("ul.test li:odd", 1);
+        test("ul.test li:even", 2);
+        test("ul.test li:not(li.one)", 2);
+        test("ul.test li:first", 1);
+        test("ul.test li:last", 1);
+      });
+    </script>
+  </head>
+
+  <body>
+    <ul class="test" style="display: none">
+      <li class="one">One</li>
+      <li class="two">Two</li>
+      <li class="three">Three</li>
+    </ul>
+  </body>
+</html>
