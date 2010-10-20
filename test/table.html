@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS - Table Test</title>
+
+    <script type="text/javascript" src="../util/test/tools.js"></script>
+    <script type="text/javascript">
+    // <![CDATA[
+      initialize_test_page();
+
+      load_modules('table');
+    // ]]>
+    </script>
+    <style type="text/css">
+      table {
+        border-collapse: collapse;
+      }
+      table th, table td {
+        border: 1px solid #CCC;
+        padding: .1em .5em;
+      }
+      table th {
+        background: #DDD;
+        text-align: left;
+      }
+      table th.sortable {
+        cursor: pointer;
+      }
+
+      table th span.sort-marker {
+        margin-left: .5em;
+      }
+
+      table tfoot td {
+        background: #EEE;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Simple Table Sort</h2>
+    <p>
+      <table>
+        <tr>
+          <th class="sortable numeric">Num.</th>
+          <th class="sortable">Name</th>
+          <th class="sortable numeric">Price</th>
+          <th class="sortable">Link</th>
+          <th colspan="2"><!-- action links --></th>
+        </tr>
+
+        <tr>
+          <td>1</th>
+          <td>Banana</td>
+          <td>1.11</td>
+          <td><a href="">/banana</a></td>
+          <td><a href="">Show</a></td>
+          <td><a href="">Delete</a></td>
+        </tr>
+        <tr>
+          <td>2</th>
+          <td>Apple</td>
+          <td>1.01</td>
+          <td><a href="">/apple</a></td>
+          <td><a href="">Show</a></td>
+          <td><a href="">Delete</a></td>
+        </tr>
+        <tr>
+          <td>3</th>
+          <td>Orange</td>
+          <td>1.1</td>
+          <td><a href="">/orange</a></td>
+          <td><a href="">Show</a></td>
+          <td><a href="">Delete</a></td>
+        </tr>
+        <tr>
+          <td>4</th>
+          <td>Apricot</td>
+          <td>2.00</td>
+          <td><a href="">/apricot</a></td>
+          <td><a href="">Show</a></td>
+          <td><a href="">Delete</a></td>
+        </tr>
+      </table>
+    </p>
+
+    <h2>Table With Footer And Dashed Numbers</h2>
+    <p>
+      <table>
+        <thead>
+          <tr>
+            <th class="sortable numeric">Num.</th>
+            <th class="sortable">Name</th>
+            <th class="sortable numeric">Price</th>
+            <th class="sortable">Link</th>
+            <th colspan="2"><!-- action links --></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>1</th>
+            <td>Banana</td>
+            <td>1-11</td>
+            <td><a href="">/banana</a></td>
+            <td><a href="">Show</a></td>
+            <td><a href="">Delete</a></td>
+          </tr>
+          <tr>
+            <td>2</th>
+            <td>Apple</td>
+            <td>1-01</td>
+            <td><a href="">/apple</a></td>
+            <td><a href="">Show</a></td>
+            <td><a href="">Delete</a></td>
+          </tr>
+          <tr>
+            <td>3</th>
+            <td>Orange</td>
+            <td>1-10</td>
+            <td><a href="">/orange</a></td>
+            <td><a href="">Show</a></td>
+            <td><a href="">Delete</a></td>
+          </tr>
+          <tr>
+            <td>4</th>
+            <td>Apricot</td>
+            <td>2-00</td>
+            <td><a href="">/apricot</a></td>
+            <td><a href="">Show</a></td>
+            <td><a href="">Delete</a></td>
+          </tr>
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>4-22</td>
+            <td>-</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </p>
+
+    <h2>Empty Table</h2>
+    <p>
+      <table>
+        <tr>
+          <th class="sortable numeric">Num.</th>
+          <th class="sortable">Name</th>
+          <th class="sortable numeric">Price</th>
+          <th class="sortable">Link</th>
+          <th colspan="2"><!-- action links --></th>
+        </tr>
+      </table>
+    </p>
+
+    <h2>Programmatically Generated</h2>
+    <p id="table-container"></p>
+    <script type="text/javascript">
+      new Table()
+        .html(
+          '<tr>'+
+          '  <th class="sortable numeric">Num.</th>'+
+          '  <th class="sortable">Name</th>'+
+          '  <th class="sortable numeric">Price</th>'+
+          '  <th class="sortable">Link</th>'+
+          '  <th colspan="2"><!-- action links --></th>'+
+          '</tr>'+
+          '<tr>'+
+          '  <td>1</th>'+
+          '  <td>Banana</td>'+
+          '  <td>1.11</td>'+
+          '  <td><a href="">/banana</a></td>'+
+          '  <td><a href="">Show</a></td>'+
+          '  <td><a href="">Delete</a></td>'+
+          '</tr>'+
+          '<tr>'+
+          '  <td>2</th>'+
+          '  <td>Apple</td>'+
+          '  <td>1.01</td>'+
+          '  <td><a href="">/apple</a></td>'+
+          '  <td><a href="">Show</a></td>'+
+          '  <td><a href="">Delete</a></td>'+
+          '</tr>'+
+          '<tr>'+
+          '  <td>3</th>'+
+          '  <td>Orange</td>'+
+          '  <td>1.1</td>'+
+          '  <td><a href="">/orange</a></td>'+
+          '  <td><a href="">Show</a></td>'+
+          '  <td><a href="">Delete</a></td>'+
+          '</tr>'+
+          '<tr>'+
+          '  <td>4</th>'+
+          '  <td>Apricot</td>'+
+          '  <td>2.00</td>'+
+          '  <td><a href="">/apricot</a></td>'+
+          '  <td><a href="">Show</a></td>'+
+          '  <td><a href="">Delete</a></td>'+
+          '</tr>'
+        )
+        .insertTo('table-container')
+        .sort(1, 'desc');
+    </script>
+
+  </body>
+</html>
