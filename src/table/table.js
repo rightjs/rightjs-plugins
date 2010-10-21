@@ -43,11 +43,11 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
    * @return Table this
    */
   sort: function(index, direction, algorithm) {
-    var th = index instanceof Element ? index : this.header().last().children()[index];
+    var th = index instanceof Element ? index : this.header().last().children('th')[index];
     if (!th) { return this; } // in case something goes wrong
 
     // reading data from the TH cell
-    index     = th.parent().children().indexOf(index);
+    index     = th.parent().children('th').indexOf(th);
     direction = direction || (this.marker && this.marker.parent() === th ? this.marker.asc ? 'desc' : 'asc' : null);
     algorithm = algorithm || (th.hasClass('numeric') ? 'numeric' : null);
 
@@ -57,7 +57,7 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
 
     // collecting the list of sortable rows
     var rows  = this.rows().map(function(row) {
-      var cell = row.children()[index], text = cell ? cell.text() : '';
+      var cell = row.children('td')[index], text = cell ? cell.text() : '';
 
       if (algorithm === 'numeric') {
         text = R(text).toFloat();
@@ -69,7 +69,7 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
     // creating an anchor where to insert the rows
     var anchor = rows[0] ?
       $E('tr').insertTo(rows[0].row, 'before') :
-      $E('tr').insertTo(this.first('tbody'));
+      $E('tr').insertTo(this.first('tbody') || this);
 
     // finding the exact sorting algorithm
     if (typeof(algorithm) !== 'function') {
@@ -104,7 +104,9 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
    * @return Array table data rows
    */
   rows: function() {
-    return this.find('tbody > tr').reject('first', 'th');
+    return this.find('tr').reject(function(row) {
+      return row.first('th') || row.parent('tfoot');
+    });
   },
 
   /**
