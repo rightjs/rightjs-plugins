@@ -94,6 +94,10 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
       this.options[direction === 'asc' ? 'ascMarker' : 'descMarker']
     ).insertTo(th, 'bottom');
     this.marker.asc = direction === 'asc';
+    this.find('th').each(function(th) {
+      th.removeClass('active');
+    });
+    this.marker.parent().toggleClass('active');
 
     return this;
   },

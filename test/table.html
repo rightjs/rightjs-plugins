@@ -14,21 +14,34 @@
     <style type="text/css">
       table {
         border-collapse: collapse;
+        width: 100%;
+        height: 100%;
       }
       table th, table td {
-        border: 1px solid #CCC;
-        padding: .1em .5em;
+        border: 1px solid #BBB;
+        padding: .2em .5em;
       }
       table th {
-        background: #DDD;
+        background-color: #ccc;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ccc));
+        background-image: -moz-linear-gradient(center top, #eee 0%, #ccc 100%);
+        color: #555;
         text-align: left;
+        text-shadow: white 0px 1px 0px;
       }
       table th.sortable {
         cursor: pointer;
       }
+      
+      table th.active {
+        background: #fff;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+        background-image: -moz-linear-gradient(center top, #fff 0%, #ddd 100%);
+      }
 
       table th span.sort-marker {
-        margin-left: .5em;
+        margin-left: -2.5em;
+        float:right;
       }
 
       table tfoot td {
