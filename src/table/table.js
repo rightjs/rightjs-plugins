@@ -10,7 +10,8 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
       ascMarker:  '&#x25BC;',  // asc marker content
       descMarker: '&#x25B2;',  // desc marker content
       algorithm:  'text',      // default sorting algorithm 'text' or 'numeric'
-      order:      'asc'        // default order
+      order:      'asc',        // default order
+      sortedClass: 'sorted'
     }
   },
 
@@ -54,7 +55,8 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
     // handling the fallback from the options
     direction = direction || this.options.order;
     algorithm = algorithm || this.options.algorithm;
-
+    sortedClass =  this.options.sortedClass;
+    
     // collecting the list of sortable rows
     var rows  = this.rows().map(function(row) {
       var cell = row.children('td')[index], text = cell ? cell.text() : '';
@@ -95,9 +97,9 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
     ).insertTo(th, 'bottom');
     this.marker.asc = direction === 'asc';
     this.find('th').each(function(th) {
-      th.removeClass('active');
+      th.removeClass(sortedClass);
     });
-    this.marker.parent().toggleClass('active');
+    this.marker.parent().toggleClass(sortedClass);
 
     return this;
   },
