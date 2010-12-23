@@ -14,21 +14,30 @@
     <style type="text/css">
       table {
         border-collapse: collapse;
+        width: 100%;
+        height: 100%;
       }
       table th, table td {
-        border: 1px solid #CCC;
-        padding: .1em .5em;
+        border: 1px solid #BBB;
+        padding: .2em .5em;
       }
       table th {
-        background: #DDD;
+        background-color: #ddd;
+        color: #444;
         text-align: left;
+        text-shadow: white 0px 1px 0px;
       }
       table th.sortable {
         cursor: pointer;
       }
+      
+      table th.sorted {
+        background: #eee;
+      }
 
       table th span.sort-marker {
-        margin-left: .5em;
+        margin-left: -2.5em;
+        float:right;
       }
 
       table tfoot td {
