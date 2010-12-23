@@ -14,8 +14,6 @@
     <style type="text/css">
       table {
         border-collapse: collapse;
-        width: 100%;
-        height: 100%;
       }
       table th, table td {
         border: 1px solid #BBB;
@@ -26,18 +24,19 @@
         color: #444;
         text-align: left;
         text-shadow: white 0px 1px 0px;
+        padding-right: 2em;
       }
       table th.sortable {
         cursor: pointer;
       }
-      
+
       table th.sorted {
         background: #eee;
       }
 
       table th span.sort-marker {
-        margin-left: -2.5em;
-        float:right;
+        position: absolute;
+        margin-left: .5em;
       }
 
       table tfoot td {
@@ -217,5 +216,6 @@
         .sort(1, 'asc');
     </script>
 
+    <p class="white-space"></p>
   </body>
 </html>
