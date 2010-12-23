@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS - Keys Plugin Test</title>
+    <script type="text/javascript" src="../util/test/tools.js"></script>
+    <script type="text/javascript">
+      initialize_test_page();
+      load_modules('keys');
+    </script>
+    <script type="text/javascript">
+      RightJS.Object.keys(RightJS.Event.Keys)
+      .merge('zxcvbnmasdfghjklqwertyuiop1234567890'.split(''))
+      .each(function(key) {
+        RightJS(' ctrl alt shift shift+ctrl shift-meta ctrl+alt'.split(' ')).each(function(mod) {
+          var name = (mod ? mod + ' '+ key : key).toLowerCase();
+          RightJS.$(document).on(name, function(event) {
+            console.log(name);
+            return false;
+          });
+        });
+      });
+    </script>
+  </head>
+</html>
