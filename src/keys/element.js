@@ -14,7 +14,7 @@ RightJS.Window.prototype.on   = function() {
     var key = name.split(/[\+\-\_ ]+/);
     key = (key[key.length - 1] || '').toUpperCase();
 
-    if (key in RightJS.Event.Keys || /^[A-Z0-9]/.test(key)) {
+    if (key in RightJS.Event.Keys || /^[A-Z0-9]$/.test(key)) {
       var meta   = /(^|\+|\-| )(alt|meta)(\+|\-| )/i.test(name),
           ctrl   = /(^|\+|\-| )(ctl|ctrl)(\+|\-| )/i.test(name),
           shift  = /(^|\+|\-| )(shift)(\+|\-| )/i.test(name),

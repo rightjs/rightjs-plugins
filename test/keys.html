@@ -14,7 +14,7 @@
         RightJS(' ctrl alt shift shift+ctrl shift-meta ctrl+alt'.split(' ')).each(function(mod) {
           var name = (mod ? mod + ' '+ key : key).toLowerCase();
           RightJS.$(document).on(name, function(event) {
-            console.log(name);
+            window.console ? console.log(name) : alert(name);
             return false;
           });
         });
