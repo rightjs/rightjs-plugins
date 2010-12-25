@@ -9,14 +9,14 @@
 if (RightJS.Cookie) {
   var old_set = RightJS.Cookie.prototype.set,
       old_get = RightJS.Cookie.prototype.get;
-  
+
   RightJS.Cookie.include({
     set: function(value) {
       return old_set.call(this, JSON.stringify(value));
     },
-    
+
     get: function() {
-      return JSON.parse(old_get.call(this));
+      return JSON.parse(old_get.call(this) || 'null');
     }
   });
 }

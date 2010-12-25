@@ -5,14 +5,14 @@
  */
 var JsonTest = TestCase.create({
   name: "JsonTest",
-  
+
   testNullToJSON: function() {
     this.assertEqual('null', JSON.stringify(null));
   },
-  
+
   testStringToJSON: function() {
     this.assertEqual('"boo"',  JSON.stringify("boo"));
-    
+
     this.assertEqual('"\\\\b"',  JSON.stringify("\\b"));
     this.assertEqual('"\\\\t"',  JSON.stringify("\\t"));
     this.assertEqual('"\\\\n"',  JSON.stringify('\\n'));
@@ -20,7 +20,7 @@ var JsonTest = TestCase.create({
     this.assertEqual('"\\\\f"',  JSON.stringify('\\f'));
     this.assertEqual('"\\\\"', JSON.stringify('\\'));
     this.assertEqual('"\\""',  JSON.stringify('"'));
-    
+
     this.assertEqual('"\\\\ufff0"', JSON.stringify("\\ufff0"));
     this.assertEqual('"\\\\uffff"', JSON.stringify("\\uffff"));
   },
@@ -34,57 +34,63 @@ var JsonTest = TestCase.create({
     date.setDate(8);
     date.setMonth(8);
     date.setYear(2008);
-    
+
     this.assertEqual('"2008-09-08T04:08:08.888Z"', JSON.stringify(date));
   },
-  
+
   testNumberToJSON: function() {
     this.assertEqual('8', JSON.stringify(8));
     this.assertEqual('8.8', JSON.stringify(8.8));
     this.assertEqual('-8.8', JSON.stringify(-8.8));
   },
-  
+
   testBooleanToJSON: function() {
     this.assertEqual('true',  JSON.stringify(true));
     this.assertEqual('false', JSON.stringify(false));
   },
-  
+
   testArrayToJSON: function() {
     this.assertEqual('[1,2,3]', JSON.stringify([1,2,3]));
     this.assertEqual('["a","b","c"]', JSON.stringify(RightJS.$w('a b c')));
-    
+
     this.assertEqual('["a",["b",["c"]]]', JSON.stringify(['a',['b',['c']]]));
   },
-  
+
   testObjectToJson: function() {
     this.assertEqual('{"a":"a1","b":"b1"}', JSON.encode({a:'a1',b:'b1'}));
-    
+
     this.assertEqual(
       '{"a":[1,{"b":1}],"b":1,"c":false,"d":null,"e":{"f":"g"}}',
       JSON.encode({a:[1,{b:1}],b:1,c:false,d:null,e:{f:'g'}})
     );
   },
-  
+
   testJsonParse: function() {
     this.assertEqual(
       {a:[1,{b:1}],b:1,c:false,d:null,e:{f:'g'}},
       JSON.decode('{"a":[1,{"b":1}],"b":1,"c":false,"d":null,"e":{"f":"g"}}')
     );
   },
-  
+
   testJsonParseError: function() {
     this.assertThrows(function() {
       JSON.decode('{123');
     })
   },
-  
+
   testCookieExtension: function() {
-    if (RightJS.Cookie.enabled()) {
+    if (RightJS.Cookie && RightJS.Cookie.enabled()) {
       RightJS.Cookie.set('__test1', {boo:'hoo'});
       RightJS.Cookie.set('__test2', [1,2,3,4,5]);
 
       this.assertEqual({boo:'hoo'}, RightJS.Cookie.get('__test1'));
       this.assertEqual([1,2,3,4,5], RightJS.Cookie.get('__test2'));
+    }
+  },
+
+  testCookieWithNoValue: function() {
+    if (RightJS.Cookie && RightJS.Cookie.enabled()) {
+      this.assertNull(RightJS.Cookie.get('nonexistingname'));
     }
   }
 });
