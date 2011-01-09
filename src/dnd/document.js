@@ -1,7 +1,7 @@
 /**
  * The document events hooker
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
 $(document).on({
   // parocesses the automatically discovered elements
@@ -9,7 +9,7 @@ $(document).on({
     Draggable.rescan();
     Droppable.rescan();
   },
-  
+
   // watch the draggables moving arond
   mousemove: function(event) {
     if (Draggable.current !== null) {
@@ -17,7 +17,7 @@ $(document).on({
       Droppable.checkHover(event, Draggable.current);
     }
   },
-  
+
   // releases the current draggable on mouse up
   mouseup: function(event) {
     if (Draggable.current !== null) {

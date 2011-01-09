@@ -1,7 +1,7 @@
 /**
  * Element shortcuts for the additional effects
  *
- * @copyright (C) 2009-2010 Nikolay Nemshilov
+ * @copyright (C) 2009-2011 Nikolay Nemshilov
  */
 RightJS.Element.include({
   /**
@@ -12,9 +12,9 @@ RightJS.Element.include({
    * @return Element self
    */
   move: function(position, options) {
-    return this.fx('move', [position, options || {}]); // <- don't replace with arguments
+    return call_fx(this, 'move', [position, options || {}]); // <- don't replace with arguments
   },
-  
+
   /**
    * The bounce effect shortcut
    *
@@ -23,9 +23,9 @@ RightJS.Element.include({
    * @return Element self
    */
   bounce: function() {
-    return this.fx('bounce', arguments);
+    return call_fx(this, 'bounce', arguments);
   },
-  
+
   /**
    * The zoom effect shortcut
    *
@@ -34,9 +34,9 @@ RightJS.Element.include({
    * @return Element self
    */
   zoom: function(size, options) {
-    return this.fx('zoom', [size, options || {}]);
+    return call_fx(this, 'zoom', [size, options || {}]);
   },
-  
+
   /**
    * Initiates the Fx.Run effect
    *
@@ -45,9 +45,9 @@ RightJS.Element.include({
    * @return Element self
    */
   run: function() {
-    return this.fx('run', arguments);
+    return call_fx(this, 'run', arguments);
   },
-  
+
   /**
    * The puff effect shortcut
    *
@@ -56,9 +56,9 @@ RightJS.Element.include({
    * @return Element self
    */
   puff: function() {
-    return this.fx('puff', arguments);
+    return call_fx(this, 'puff', arguments);
   },
-  
+
   /**
    * The Fx.Class effect shortcut
    *
@@ -69,7 +69,25 @@ RightJS.Element.include({
   morphToClass: function() {
     var args = $A(arguments);
     if (args[0] === null) { args[0] = ''; }
-    
-    return this.fx('CSS', args);
+
+    return call_fx(this, 'CSS', args);
   }
 });
+
+/**
+ * Runs Fx on the element
+ *
+ * @param Element element reference
+ * @param String fx name
+ * @param Array effect arguments
+ * @return the element back
+ */
+function call_fx(element, name, params) {
+  var args    = $A(params).compact(),
+      options = isHash(args.last()) ? args.pop() : {},
+      fx      = new Fx[name.capitalize()](element, options);
+
+  fx.start.apply(fx, args);
+
+  return element;
+}

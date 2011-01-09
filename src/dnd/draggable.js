@@ -1,7 +1,7 @@
 /**
  * Draggable unit
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
 var Draggable = new Class(Observer, {
   extend: {
@@ -36,7 +36,7 @@ var Draggable = new Class(Observer, {
     rescan: function(scope) {
       var key = this.Options.relName;
 
-      ($(scope)||$(document)).select('*[rel^="'+key+'"]').each(function(element) {
+      ($(scope)||$(document)).find('*[rel^="'+key+'"]').each(function(element) {
         if (!element.draggable) {
           var data = element.get('data-'+key);
           new this(element, eval('('+data+')') || {});
