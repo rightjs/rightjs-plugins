@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2010 Nikolay Nemshilov
  */
- 
+
 var R        = RightJS,
     $        = RightJS.$,
     $w       = RightJS.$w,
@@ -15,13 +15,12 @@ var R        = RightJS,
     defined  = RightJS.defined,
     isHash   = RightJS.isHash,
     isString = RightJS.isString;
-     
+
 include_module_files(
   'fx/move',
   'fx/zoom',
   'fx/bounce',
   'fx/run',
   'fx/puff',
-  'fx/css',
   'element'
 );
