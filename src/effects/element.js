@@ -60,17 +60,14 @@ RightJS.Element.include({
   },
 
   /**
-   * The Fx.Class effect shortcut
+   * The Fx.Glow effect shortcut
    *
-   * @param add String css-class name to add
-   * @param remove String css-class name to remove
+   * @param String optinal glow color
    * @param Object fx options
+   * @return Element self
    */
-  morphToClass: function() {
-    var args = $A(arguments);
-    if (args[0] === null) { args[0] = ''; }
-
-    return call_fx(this, 'CSS', args);
+  glow: function() {
+    return call_fx(this, 'glow', arguments);
   }
 });
 

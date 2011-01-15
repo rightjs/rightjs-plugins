@@ -22,5 +22,6 @@ include_module_files(
   'fx/bounce',
   'fx/run',
   'fx/puff',
+  'fx/glow',
   'element'
 );
