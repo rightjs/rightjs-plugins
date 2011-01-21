@@ -8,8 +8,17 @@
       load_modules('keys');
     </script>
     <script type="text/javascript">
+      // checking that the original method works okay
+      $(document).onReady(function() {
+        console.log('onReady is awright');
+      });
+
+      RightJS.$(document.documentElement).onClick(function() {
+        console.log('onClick is awright');
+      });
+
       RightJS.Object.keys(RightJS.Event.Keys)
-      .merge('zxcvbnmasdfghjklqwertyuiop1234567890'.split(''))
+      .merge('zxcvbnmasdfghjklqewtyuiop1234567890'.split(''))
       .each(function(key) {
         RightJS(' ctrl alt shift shift+ctrl shift-meta ctrl+alt'.split(' ')).each(function(mod) {
           var name = (mod ? mod + ' '+ key : key).toLowerCase();
@@ -19,6 +28,7 @@
           });
         });
       });
+
     </script>
   </head>
 </html>
