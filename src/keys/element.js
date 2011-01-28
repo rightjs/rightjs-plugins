@@ -12,7 +12,8 @@
       key = (key[key.length - 1] || '').toUpperCase();
 
       if (key in RightJS.Event.Keys || /^[A-Z0-9]$/.test(key)) {
-        var meta   = /(^|\+|\-| )(alt|meta)(\+|\-| )/i.test(name),
+        var meta   = /(^|\+|\-| )(meta)(\+|\-| )/i.test(name),
+            alt    = /(^|\+|\-| )(alt)(\+|\-| )/i.test(name),
             ctrl   = /(^|\+|\-| )(ctl|ctrl)(\+|\-| )/i.test(name),
             shift  = /(^|\+|\-| )(shift)(\+|\-| )/i.test(name),
             code   = RightJS.Event.Keys[key] || key.charCodeAt(0),
@@ -28,6 +29,7 @@
           var raw = event._;
           if (
             (raw.keyCode === code) &&
+            (!alt   || raw.altKey) &&
             (!meta  || raw.metaKey) &&
             (!ctrl  || raw.ctrlKey) &&
             (!shift || raw.shiftKey)
