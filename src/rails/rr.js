@@ -12,24 +12,24 @@ var RR = {
    */
   Options: {
     format:           'js',      // the working format for remote requests over the application
-    
+
     flashId:          'flashes', // the flashes element id
     flashHideFx:      'slide',   // use null if you don't want any fx in here
     flashHideDelay:   3200,      // use -1 to disable the flash element hidding
-    
+
     highlightUpdates: true,
-    
+
     removeFx:         'fade',    // blocks removing fx
     insertFx:         'fade',    // blocks insertion fx
-    
+
     insertPosition:   'bottom',  // default insert position
-    
+
     linkToAjaxEdit:   '.ajax_edit',
     linkToAjaxDelete: '.ajax_delete',
-    
+
     rescanWithScopes: true       // if it should rescan only updated elements
   },
-  
+
   /**
    * Updates the flashes block with the source
    *
@@ -43,7 +43,7 @@ var RR = {
     }
     return this;
   },
-  
+
   /**
    * Initializes the delayed flashes hide call
    *
@@ -58,10 +58,10 @@ var RR = {
     }
     return this;
   },
-  
+
   /**
    * Highlights the element according to the options
-   * 
+   *
    * @param String element id
    * @return RR this
    */
@@ -71,7 +71,7 @@ var RR = {
     }
     return this;
   },
-  
+
   /**
    * Inserts the content into the given element
    *
@@ -83,7 +83,7 @@ var RR = {
   insert: function(where, what, in_position) {
     var position  = in_position || this.Options.insertPosition, new_element,
         container = $(where).insert(what, position);
-    
+
     // trying to find the new block
     switch (position) {
       case 'bottom':  new_element = container.children().last(); break;
@@ -91,7 +91,7 @@ var RR = {
       case 'before':  new_element = container.prev();  break;
       case 'after':   new_element = container.next();  break;
     }
-    
+
     // necely displaying the new block
     if (new_element && this.Options.insertFx) {
       new_element.hide().show(this.Options.insertFx, {
@@ -100,10 +100,10 @@ var RR = {
     } else {
       this.highlight(new_element);
     }
-    
+
     return this.rescan(where);
   },
-  
+
   /**
    * Replaces the given element with a new content
    *
@@ -115,7 +115,7 @@ var RR = {
     $(id).replace(source);
     return this.highlight(id).rescan(id);
   },
-  
+
   /**
    * removes the element by id
    *
@@ -127,7 +127,7 @@ var RR = {
       $(id).remove(this.Options.removeFx);
     }
   },
-  
+
   /**
    * Makes a remote form out of the form
    *
@@ -141,7 +141,7 @@ var RR = {
     }
     return this;
   },
-  
+
   /**
    * Replaces the form with new content and makes it remote
    *
@@ -155,10 +155,10 @@ var RR = {
       form.replace(source);
       this.remotize_form(id);
     }
-    
+
     return this.rescan(id);
   },
-  
+
   /**
    * Inserts the form source into the given element
    *
@@ -169,10 +169,10 @@ var RR = {
   show_form_for: function(id, source) {
     $(id).select('form').each('remove'); // removing old forms
     $(id).insert(source);
-    
+
     return this.remotize_form($(id).first('form')).rescan(id);
   },
-  
+
   /**
    * watches link clicks and processes the ajax edit/delete operations
    *
@@ -180,16 +180,16 @@ var RR = {
    */
   process_click: function(event) {
     var link;
-    
+
     if ((link = event.find('a'+ this.Options.linkToAjaxEdit))) {
       event.stop();
       Xhr.load(link.get('href') + '.' + this.Options.format);
     } else if ((link = event.find('a'+ this.Options.linkToAjaxDelete)) && link.has('onclick')) {
       event.stop();
-      eval('({f:'+ link.onclick.toString().replace('.submit', '.send')+'})').f.call(link);
+      new Function('return '+ link.onclick.toString().replace('.submit', '.send'))().call(link);
     }
   },
-  
+
   /**
    * Scans for updated elements
    *
@@ -201,8 +201,8 @@ var RR = {
         window[name].rescan(this.Options.rescanWithScopes ? scope : null);
       }
     }, this);
-    
-    
+
+
     return this;
   }
 };

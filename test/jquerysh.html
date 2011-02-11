@@ -2,39 +2,32 @@
 <html>
   <head>
     <title>RightJS - jQuerysh Test</title>
-    
-    <script type="text/javascript" src="../util/test/tools.js"></script>
-    <script type="text/javascript">
-    // <![CDATA[
-      initialize_test_page();
-      
-      load_modules('jquerysh');
-    // ]]>
-    </script>
+
+    <script type="text/javascript" src="../util/tools.js?jquerysh"></script>
     <script type="text/javascript">
     // <![CDATA[
       $(function() {
-        RightJS.$E('div', {html: 
+        RightJS.$E('div', {html:
           '<div id="boo" class="boo"></div>' +
           '<div id="hoo" class="hoo"></div>'
         }).insertTo(document.body);
-        
+
         var boo = RightJS.$('boo');
         var hoo = RightJS.$('hoo');
         var doc = RightJS.$(document);
         var win = RightJS.$(window);
-        
+
         var result = $E('ul').insertTo(document.body);
-        
+
         result.insert("<li>Checking $('#boo') search: "+ ($('#boo') === boo) + "</li>");
         result.insert("<li>Checking $('#hoo') search: "+ ($('#hoo') === hoo) + "</li>");
-        
+
         var search = $('.boo, .hoo'), check = true;
         check &= search instanceof Array;
         check &= search[0] === boo;
         check &= search[1] === hoo;
         result.insert("<li>Checking $('.boo, .hoo') search: "+ (!!check) + "</li>");
-        
+
         result.insert("<li>Checking $(document) access: "+ ($(document) === doc) + "</li>");
         result.insert("<li>Checking $(window) access: "+ ($(window) === win) + "</li>");
       });

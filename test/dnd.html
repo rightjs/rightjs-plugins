@@ -2,21 +2,14 @@
 <html>
   <head>
     <title>RightJS - Drag'n'Drops Test</title>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <script type="text/javascript" src="../util/test/tools.js"></script>
-    <script type="text/javascript">
-    // <![CDATA[
-      initialize_test_page();
-      
-      load_modules('dnd');
-    // ]]>
-    </script>
-    
+
+    <script type="text/javascript" src="../util/tools.js?dnd"></script>
+
     <style type="text/css">
       div.test-container {
         height: 6em;
       }
-      
+
       div.drag-test, div.drop-test {
         border: 1px solid brown;
         color: brown;
@@ -28,22 +21,23 @@
         float: left;
         margin-right: 1em;
         cursor: move;
+        border-radius: .25em;
         -moz-border-radius: .25em;
         -webkit-border-radius: .25em;
       }
-      
+
       div.drop-test {
         cursor: default;
         background: #FF8;
       }
-      
+
       div.red {
         background: #F88;
       }
       div.blue {
         background: #88F;
       }
-      
+
       div.droppable-allow {
         background: #8F8 !important;
         font-weight: bold;
@@ -54,8 +48,6 @@
         color: #444;
         border-color: #444;
       }
-      
-      
     </style>
   </head>
   <body>
@@ -74,7 +66,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Revertable Draggables</h2>
     <p>
       <div class="test-container">
@@ -90,7 +82,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Cloned Draggables</h2>
     <p>
       <div class="test-container">
@@ -106,7 +98,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Snapping Draggables</h2>
     <p>
       <div class="test-container">
@@ -122,7 +114,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Axis Draggables</h2>
     <p>
       <div class="test-container">
@@ -138,7 +130,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Ranged Draggables</h2>
     <p>
       Ranged by simple positions
@@ -152,21 +144,21 @@
         var el1 = RightJS.$('ranged-draggable-1');
         var el2 = RightJS.$('ranged-draggable-2');
         var el3 = RightJS.$('ranged-draggable-3');
-        
+
         var dims1 = el1.dimensions();
         var dims2 = el2.dimensions();
         var dims3 = el3.dimensions();
-        
+
         new Draggable(el1, {revert: true, range: {
           x: [dims1.left - 100, dims1.left + dims1.width  + 100],
           y: [dims1.top  - 100, dims1.top  + dims1.height + 100]
         }});
-        
+
         new Draggable(el2, {revert: true, range: {
           x: [dims2.left - 200, dims2.left + dims2.width  + 200],
           y: [dims2.top  - 200, dims2.top  + dims2.height + 200]
         }});
-        
+
         new Draggable(el3, {revert: true, range: {
           x: [dims3.left - 200, dims3.left + dims3.width  + 200],
           y: [dims3.top  - 100, dims3.top  + dims3.height + 100]
@@ -179,11 +171,11 @@
       <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid #CCC" id="ranging-field-1">
         <div class="drag-test" id="ranged-draggable-4">I move only here</div>
       </div>
-      
+
       <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid #CCC; margin-top: 1em" id="ranging-field-2">
         <div class="drag-test" id="ranged-draggable-5">Seems like me too</div>
       </div>
-      
+
       <script type="text/javascript">
       // <![CDATA[
         new Draggable('ranged-draggable-4', {range: RightJS.$('ranging-field-1')});
@@ -191,7 +183,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Relatively Positioned Draggable</h2>
     <p>
       <div style="background:#EEE; width: 32em; height: 20em; border: 1px solid #CCC; position: relative" id="ranging-field-3">
@@ -203,7 +195,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Auto-Discovered Draggables</h2>
     <p>
       <div class="test-container">
@@ -212,9 +204,9 @@
         <div class="drag-test" rel="draggable" data-draggable="{revert: true, axis: 'y'}">I move only Y</div>
       </div>
     </p>
-    
+
     <p>&nbsp;</p>
-    
+
     <h2>Simple Droppable</h2>
     <p>
       <div class="test-container">
@@ -224,18 +216,18 @@
       </div>
       <script type="text/javascript">
       // <![CDATA[
-      
+
         // all the droppables are getting hightlighted green on drop
         Droppable.Options.onDrop = function() {
           this.element.highlight('green');
         };
-        
+
         new Droppable('simple-droppable-1');
         new Droppable('simple-droppable-2');
       // ]]>
       </script>
     </p>
-    
+
     <h2>Overlapping Droppables</h2>
     <p>
       Those droppables will react only when overlapped with draggable (50% by default)
@@ -251,7 +243,7 @@
         <div class="drop-test" id="overlapping-droppable-4">Overlap Y 30%</div>
         <div class="drop-test" id="overlapping-droppable-5">Overlap X 70%</div>
       </div>
-      
+
       <script type="text/javascript">
       // <![CDATA[
         new Droppable('overlapping-droppable-1', {overlap: 'x'});
@@ -262,7 +254,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Selective Droppables</h2>
     <p>
       Selective by a css-rule
@@ -278,7 +270,7 @@
         <div class="drop-test" id="selective-droppable-3">Reds Only</div>
         <div class="drop-test" id="selective-droppable-4">Blues Only</div>
       </div>
-      
+
       <script type="text/javascript">
       // <![CDATA[
         new Droppable('selective-droppable-1', {accept: '.red'});
@@ -288,7 +280,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <p>
       Selective by an elements list
       <div class="test-container">
@@ -303,7 +295,7 @@
         <div class="drop-test" id="selective-droppable-7">First Only</div>
         <div class="drop-test" id="selective-droppable-8">Second Only</div>
       </div>
-      
+
       <script type="text/javascript">
       // <![CDATA[
         new Droppable('selective-droppable-5', {containment: [RightJS.$('the-first-draggable')]});
@@ -313,7 +305,7 @@
       // ]]>
       </script>
     </p>
-    
+
     <h2>Automatically Discovered Droppables</h2>
     <p>
       <div class="test-container">
@@ -322,7 +314,7 @@
         <div class="drop-test" rel="droppable" data-droppable="{accept: 'span'}">not here</div>
       </div>
     </p>
-    
+
     <p class="white-space"></p>
   </body>
 </html>

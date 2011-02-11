@@ -1,41 +1,44 @@
-# RightJS Plugins
+# Welcome!
 
-This repository contains the [RightJS](http://rightjs.org) common use plugins
-source codes, you can find all the documentation, builds and so one at the
-official site over here:
+This repository contains [RightJS](http://rightjs.org) common use plugins,
+you can find all the documentation, builds and so on at the official site
+over here:
 
 [RightJS Plugins](http://rightjs.org/plugins)
 
 
-# Build
+## Builds
 
-To build the modules manually you'll need to to hook up the `rightjs-util`
-submodule
+In order to build any of the plugins on your own you'll need
+[NodeJS](http://nodejs.org) and if you also have [npm](http://npmjs.org)
+you might want to install the [nake](https://github.com/MadRabbit/Nake)
+tools
 
-    git submodule init
-    git submodule update
+    npm install nake
 
-After that you'll need `Ruby` and `Java` on your computer, and after that
-just say 
+After that either run `nake`
 
-    rake build
+    nake build
 
-And that will do the trick. If you don't have `Java` on your computer, you
-can build the scripts using the Google API like that
+or, if you don't have [npm](http://npmjs.org), just run the `Nakefile`
+directly with [NodeJS](http://nodejs.org)
 
-    rake build REMOTE=true
+    node Nakefile build
 
-You also can build only some of the plugins
-
-    rake build OPTIONS=json,rails
-
-Enjoy!
+Try, `-l` or `--list` key to see which other tasks are available
 
 
-# License
 
-All the source code in this repository is released under the terms of the MIT
-license.
+## Options
+
+And you also can build/pack/check only some of the plugins
+
+    nake build OPTIONS=dnd,keys
 
 
-Copyright (C) 2009-2010 Nikolay Nemshilov
+
+## License
+
+The code released under terms of the MIT License
+
+Copyright (C) 2009-2011 Nikolay Nemshilov

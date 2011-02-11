@@ -1,10 +1,8 @@
 /**
  * Additional FX module JSLint check
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-load('util/test/rightly_check.js');
-
-rightly_check('build/right-effects-src.js', [
+var okays =  [
   "Expected a 'break' statement before 'case'."
-]);
+];

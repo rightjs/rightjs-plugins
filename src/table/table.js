@@ -1,11 +1,13 @@
 /**
  * Tables specific dom-wrapper
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
 var Table = Element.Wrappers.TABLE = new Class(Element, {
 
   extend: {
+    version: '2.2.0',
+
     Options: {
       ascMarker:  '&#x25BC;',  // asc marker content
       descMarker: '&#x25B2;',  // desc marker content
@@ -31,7 +33,7 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
     this.$super(element, options);
 
     this.options = Object.merge(
-      Table.Options, eval('('+ this.get('data-table') + ')')
+      Table.Options, new Function('return '+ this.get('data-table'))
     );
   },
 
@@ -56,7 +58,7 @@ var Table = Element.Wrappers.TABLE = new Class(Element, {
     direction = direction || this.options.order;
     algorithm = algorithm || this.options.algorithm;
     sortedClass =  this.options.sortedClass;
-    
+
     // collecting the list of sortable rows
     var rows  = this.rows().map(function(row) {
       var cell = row.children('td')[index], text = cell ? cell.text() : '';

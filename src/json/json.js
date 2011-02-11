@@ -15,8 +15,8 @@ JSON = window.JSON || {},
 cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
 specials = {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'},
 quotables = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
-  
-    
+
+
 // quotes the string
 function quote(string) {
   return string.replace(quotables, function(chr) {
@@ -86,7 +86,7 @@ if (!('parse' in JSON)) {
       if (/^[\],:{}\s]*$/.test(string.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@')
         .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
         .replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-          return eval('('+string+')');
+          return new Function('return '+string)();
         }
     }
 

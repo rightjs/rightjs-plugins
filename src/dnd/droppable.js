@@ -6,23 +6,23 @@
 var Droppable = new Class(Observer, {
   extend: {
     EVENTS: $w('drop hover leave'),
-    
+
     Options: {
       accept:      '*',
       containment: null,    // the list of elements (or ids) that should to be accepted
-      
+
       overlap:     null,    // 'x', 'y', 'horizontal', 'vertical', 'both'  makes it respond only if the draggable overlaps the droppable
       overlapSize: 0.5,     // the overlapping level 0 for nothing 1 for the whole thing
-      
+
       allowClass:  'droppable-allow',
       denyClass:   'droppable-deny',
-      
+
       relName:     'droppable'   // automatically discovered feature key
     },
-    
+
     // See the Draggable rescan method, case we're kinda hijacking it in here
-    rescan: eval('['+Draggable.rescan.toString().replace(/\.draggable/g, '.droppable')+']')[0],
-    
+    rescan: Draggable.rescan,
+
     /**
      * Checks for hoverting draggable
      *
@@ -34,10 +34,10 @@ var Droppable = new Class(Observer, {
         this.active[i].checkHover(event, draggable);
       }
     },
-    
+
     /**
      * Checks for a drop
-     * 
+     *
      * @param Event mouse event
      * @param Draggable draggable
      */
@@ -46,10 +46,10 @@ var Droppable = new Class(Observer, {
         this.active[i].checkDrop(event, draggable);
       }
     },
-    
+
     active: []
   },
-  
+
   /**
    * Basic cosntructor
    *
@@ -59,10 +59,10 @@ var Droppable = new Class(Observer, {
   initialize: function(element, options) {
     this.element = $(element);
     this.$super(options);
-    
+
     Droppable.active.push(this.element._droppable = this);
   },
-  
+
   /**
    * Detaches the attached events
    *
@@ -73,7 +73,7 @@ var Droppable = new Class(Observer, {
     delete(this.element.droppable);
     return this;
   },
-  
+
   /**
    * checks the event for hovering
    *
@@ -92,7 +92,7 @@ var Droppable = new Class(Observer, {
       this.reset().fire('leave', draggable, this, event);
     }
   },
-  
+
   /**
    * Checks if it should process the drop from draggable
    *
@@ -106,7 +106,7 @@ var Droppable = new Class(Observer, {
       this.fire('drop', draggable, this, event);
     }
   },
-  
+
   /**
    * resets the element state
    *
@@ -116,7 +116,7 @@ var Droppable = new Class(Observer, {
     this.element.removeClass(this.options.allowClass).removeClass(this.options.denyClass);
     return this;
   },
-  
+
 // protected
 
   // checks if the element is hovered by the event
@@ -128,7 +128,7 @@ var Droppable = new Class(Observer, {
         t_bottom = dims.top  + dims.height,
         event_x  = event.pageX,
         event_y  = event.pageY;
-    
+
     // checking the overlapping
     if (this.options.overlap) {
       var drag_dims = draggable.element.dimensions(),
@@ -137,8 +137,8 @@ var Droppable = new Class(Observer, {
           left      = drag_dims.left,
           right     = drag_dims.left + drag_dims.width,
           bottom    = drag_dims.top  + drag_dims.height;
-      
-      
+
+
       switch (this.options.overlap) {
         // horizontal overlapping only check
         case 'x':
@@ -150,7 +150,7 @@ var Droppable = new Class(Observer, {
             (left   > t_left   && left    < (t_right - dims.width * level)) ||
             (right  < t_right  && right   > (t_left  + dims.width * level))
           );
-          
+
         // vertical overlapping only check
         case 'y':
         case 'vertical':
@@ -161,7 +161,7 @@ var Droppable = new Class(Observer, {
             (top    > t_top    && top    < (t_bottom - dims.height * level)) ||
             (bottom < t_bottom && bottom > (t_top + dims.height * level))
           );
-          
+
         // both overlaps check
         default:
           return (
@@ -172,24 +172,24 @@ var Droppable = new Class(Observer, {
             (bottom < t_bottom && bottom > (t_top + dims.height * level))
           );
       }
-      
+
     } else {
       // simple check agains the event position
       return event_x > t_left && event_x < t_right && event_y > t_top && event_y < t_bottom;
     }
   },
-  
+
   // checks if the object accepts the draggable
   allows: function(draggable) {
     if (this.options.containment && !this._scanned) {
       this.options.containment = R(this.options.containment).map($);
       this._scanned = true;
     }
-    
+
     // checking the invitations list
     var welcomed = this.options.containment ? this.options.containment.includes(draggable.element) : true;
-    
+
     return welcomed && (this.options.accept == '*' ? true : draggable.element.match(this.options.accept));
   }
-  
+
 });

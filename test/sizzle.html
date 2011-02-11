@@ -3,14 +3,7 @@
   <head>
     <title>RightJS - jQuerysh Test</title>
 
-    <script type="text/javascript" src="../util/test/tools.js"></script>
-    <script type="text/javascript">
-    // <![CDATA[
-      initialize_test_page();
-
-      load_modules('sizzle');
-    // ]]>
-    </script>
+    <script type="text/javascript" src="../util/tools.js?sizzle"></script>
     <script type="text/javascript">
       RightJS.$(document).onReady(function() {
         var log = RightJS.$E('ul').insertTo(document.body);

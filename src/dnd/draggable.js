@@ -5,6 +5,8 @@
  */
 var Draggable = new Class(Observer, {
   extend: {
+    version: '2.2.0',
+
     EVENTS: $w('before start drag stop drop'),
 
     Options: {
@@ -34,12 +36,11 @@ var Draggable = new Class(Observer, {
 
     // scans the document for auto-processed draggables with the rel="draggable" attribute
     rescan: function(scope) {
-      var key = this.Options.relName;
+      var key = this.Options.relName, ref = this === Draggable ? 'draggable' : 'droppable';
 
       ($(scope)||$(document)).find('*[rel^="'+key+'"]').each(function(element) {
-        if (!element.draggable) {
-          var data = element.get('data-'+key);
-          new this(element, eval('('+data+')') || {});
+        if (!element[ref]) {
+          new this(element, new Function('return '+element.get('data-'+key))() || {});
         }
       }, this);
     }
