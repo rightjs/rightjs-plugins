@@ -31,6 +31,15 @@
 
         result.insert("<li>Checking $(document) access: "+ ($(document) === doc) + "</li>");
         result.insert("<li>Checking $(window) access: "+ ($(window) === win) + "</li>");
+
+        var doo = $('<div class="doo"><b>boo</b></div>');
+
+        check = true;
+        check &= doo instanceof RightJS.Element;
+        check &= doo && doo.getClass() === 'doo';
+        check &= doo && doo.html() === '<b>boo</b>';
+
+        result.insert("<li>Checking $('&lt;div...>&lt;/div>'): "+ (!!check) + "</li>");
       });
     // ]]>
     </script>

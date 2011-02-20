@@ -7,8 +7,13 @@ window.$ = function(something) {
   switch(typeof something) {
     case 'string':
         var hash = something[0], id = something.substr(1);
-        something = (hash === '#' && (/^[\w\-]+$/).test(id)) ?
-          RightJS.$(id) : RightJS.$$(something);
+        if (hash === '#' && (/^[\w\-]+$/).test(id)) {
+          something = RightJS.$(id);
+        } else if (hash === '<') {
+          something = RightJS.$E('div', {html: something}).first();
+        } else {
+          something = RightJS.$$(something);
+        }
       break;
 
     case 'function':
