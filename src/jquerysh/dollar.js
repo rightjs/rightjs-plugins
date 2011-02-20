@@ -3,19 +3,19 @@
  *
  * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-window.$ = function(something) {
+var $ = function(something) {
   switch(typeof something) {
     case 'string':
         var hash = something[0], id = something.substr(1);
 
         if (hash === '#' && (/^[\w\-]+$/).test(id)) {
-          return RightJS.$(id);
+          return rjs_$(id);
         } else if (hash === '<') {
-          return RightJS.$E('div', {html: something}).first();
+          return $E('div', {html: something}).first();
         } else {
           var rule = RightJS(something);
 
-          return RightJS.$ext(RightJS.$$(something), {
+          return $ext($$(something), {
             live: function(event, callback) {
               rule.on(event, callback);
               return this;
@@ -28,9 +28,9 @@ window.$ = function(something) {
         }
 
     case 'function':
-      return RightJS.$(document).onReady(something);
+      return rjs_$(document).onReady(something);
 
     default:
-      return RightJS.$(something);
+      return rjs_$(something);
   }
 };

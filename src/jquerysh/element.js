@@ -89,4 +89,5 @@ RightJS.Element.include({
   slideOut: function() {
     return this.slide('out');
   }
+
 });

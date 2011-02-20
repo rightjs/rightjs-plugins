@@ -1,3 +1,5 @@
-(function(RightJS, window) {
+(function(RightJS) {
 %{source_code}
-})(RightJS, window);
+
+window.$ = window.jQuery = $;
+})(RightJS);
