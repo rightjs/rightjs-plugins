@@ -8,6 +8,7 @@ var rjs_$   = RightJS.$,
     $E      = RightJS.$E,
     $A      = RightJS.$A,
     $ext    = RightJS.$ext,
+    Xhr     = RightJS.Xhr,
     Browser = RightJS.Browser,
     Object  = RightJS.Object;
 
@@ -16,5 +17,6 @@ include_module_files(
   'jquerysh',
   'dollar',
   'jquery',
-  'element'
+  'element',
+  'ajax'
 );
