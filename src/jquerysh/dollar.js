@@ -7,23 +7,30 @@ window.$ = function(something) {
   switch(typeof something) {
     case 'string':
         var hash = something[0], id = something.substr(1);
+
         if (hash === '#' && (/^[\w\-]+$/).test(id)) {
-          something = RightJS.$(id);
+          return RightJS.$(id);
         } else if (hash === '<') {
-          something = RightJS.$E('div', {html: something}).first();
+          return RightJS.$E('div', {html: something}).first();
         } else {
-          something = RightJS.$$(something);
+          var rule = RightJS(something);
+
+          return RightJS.$ext(RightJS.$$(something), {
+            live: function(event, callback) {
+              rule.on(event, callback);
+              return this;
+            },
+            die: function(event, callback) {
+              rule.stopObserving(event, callback);
+              return this;
+            }
+          });
         }
-      break;
 
     case 'function':
-      RightJS.$(document).onReady(something);
-      break;
+      return RightJS.$(document).onReady(something);
 
     default:
-      something = RightJS.$(something);
-      break;
+      return RightJS.$(something);
   }
-
-  return something;
 };

@@ -40,6 +40,10 @@
         check &= doo && doo.html() === '<b>boo</b>';
 
         result.insert("<li>Checking $('&lt;div...>&lt;/div>'): "+ (!!check) + "</li>");
+
+        $('li').live('click', function() {
+          alert('UJS works!');
+        });
       });
     // ]]>
     </script>

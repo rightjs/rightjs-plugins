@@ -6,5 +6,6 @@
 
 include_module_files(
   'jquerysh',
-  'dollar'
+  'dollar',
+  'element'
 );
