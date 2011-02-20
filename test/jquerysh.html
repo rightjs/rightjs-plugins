@@ -17,15 +17,16 @@
         var doc = RightJS.$(document);
         var win = RightJS.$(window);
 
-        var result = $E('ul').insertTo(document.body);
+        var result = RightJS.$E('ul').insertTo(document.body);
 
         result.insert("<li>Checking $('#boo') search: "+ ($('#boo') === boo) + "</li>");
         result.insert("<li>Checking $('#hoo') search: "+ ($('#hoo') === hoo) + "</li>");
 
         var search = $('.boo, .hoo'), check = true;
-        check &= search instanceof Array;
+        check &= search instanceof RightJS.Array;
         check &= search[0] === boo;
         check &= search[1] === hoo;
+
         result.insert("<li>Checking $('.boo, .hoo') search: "+ (!!check) + "</li>");
 
         result.insert("<li>Checking $(document) access: "+ ($(document) === doc) + "</li>");

@@ -1,24 +1,8 @@
 /**
- * jQuery-like '$' function behavior
+ * The plugin's definition
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2011 Nikolay Nemshilov
  */
-$ = function(something) {
-  switch(typeof something) {
-    case 'string':
-        var hash = something[0], id = something.substr(1);
-        something = (hash === '#' && (/^[\w\-]+$/).test(id)) ?
-          RightJS.$(id) : RightJS.$$(something);
-      break;
-      
-    case 'function':
-      RightJS.$(document).onReady(something);
-      break;
-    
-    default:
-      something = RightJS.$(something);
-      break;
-  }
-  
-  return something;
+RightJS.jQuerysh = {
+  version: '2.2.0'
 };
