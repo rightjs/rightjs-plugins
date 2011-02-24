@@ -12,7 +12,7 @@ var R      = RightJS,
     Object = RightJS.Object;
 
 RightJS.Rails = {
-  version: '2.2.0'
+  version: '2.2.1'
 };
 
 include_module_files(

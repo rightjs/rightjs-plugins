@@ -167,7 +167,7 @@ var RR = {
    * @return RR this
    */
   show_form_for: function(id, source) {
-    $(id).select('form').each('remove'); // removing old forms
+    $(id).find('form').each('remove'); // removing old forms
     $(id).insert(source);
 
     return this.remotize_form($(id).first('form')).rescan(id);
