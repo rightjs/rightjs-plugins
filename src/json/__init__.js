@@ -1,6 +1,13 @@
 /**
  * Initialization script
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-include_module_files('json', 'cookie', 'xhr');
+RightJS.JSON = window.JSON || {};
+
+RightJS.JSON.version = '2.2.1';
+
+include_module_files(
+  'json',
+  'cookie'
+);
