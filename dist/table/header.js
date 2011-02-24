@@ -1,5 +1,6 @@
 /**
- * Tables specific dom-wrapper v%{version}
+ * Tables Specific Wrappers v%{version}
+ * http://rightjs.org/plugins/table
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */

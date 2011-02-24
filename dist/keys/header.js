@@ -1,6 +1,6 @@
 /**
- * Pretty keyboard events handler for RightJS
+ * Pretty Keyboard Events v%{version}
  * http://rightjs.org/plugins/keys
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */

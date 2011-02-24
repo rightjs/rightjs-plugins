@@ -1,5 +1,6 @@
 /**
- * Sizzle engine support for RightJS
+ * Sizzle Engine Support v%{version}
+ * http://rightjs.org/plugins/sizzle
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */

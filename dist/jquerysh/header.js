@@ -1,6 +1,6 @@
 /**
- * jQuery-like '$' function behavior for RightJS
+ * jQuery-like interfaces v%{version}
  * http://rightjs.org/plugins/jquerysh
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */

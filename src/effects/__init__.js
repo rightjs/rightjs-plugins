@@ -16,6 +16,10 @@ var R        = RightJS,
     isHash   = RightJS.isHash,
     isString = RightJS.isString;
 
+RightJS.Effects = {
+  version: '2.2.0'
+};
+
 include_module_files(
   'fx/move',
   'fx/zoom',

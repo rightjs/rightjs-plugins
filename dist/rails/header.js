@@ -1,6 +1,6 @@
 /**
- * The Ruby On Rails plugin for RightJS
- * http://github.com/MadRabbit/right-rails
+ * RubyOnRails Support Module v%{version}
+ * http://rightjs.org/plugins/rails
  *
  * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
