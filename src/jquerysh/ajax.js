@@ -52,7 +52,11 @@ $ext($, {
       xhr_options.headers = options.headers;
     }
     if (options.jsonp) {
-      xhr_options.jsonp   = options.jsnop;
+      xhr_options.jsonp = options.jsonp;
+    }
+    if (options.url.indexOf('callback=?') > 0) {
+      xhr_options.jsonp = true;
+      options.url = options.url.replace(/(\?|\&)callback=\?/, '');
     }
 
     return new Xhr(options.url, xhr_options).send(options.data);
