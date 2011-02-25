@@ -1,12 +1,11 @@
 /**
  * Casting plugin initialization script
  *
- * Copyright (C) 2010 Nikolay Nemshilov
+ * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-var $ext     = RightJS.$ext,
-    Wrapper  = RightJS.Wrapper,
-    Element  = RightJS.Element,
-    Wrappers = Element.Wrappers;
 
+RightJS.Casting = {
+  version: '2.2.0'
+};
 
 include_module_files('casting');
