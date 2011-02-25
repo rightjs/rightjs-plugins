@@ -5,7 +5,7 @@
  */
 var Draggable = new Class(Observer, {
   extend: {
-    version: '2.2.0',
+    version: '2.2.1',
 
     EVENTS: $w('before start drag stop drop'),
 
@@ -56,7 +56,10 @@ var Draggable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
 
-    this.element.draggable = this.init();
+    this._dragStart = R(this.dragStart).bind(this);
+    this.handle.onMousedown(this._dragStart);
+
+    this.element.draggable = this;
   },
 
   /**
@@ -116,17 +119,10 @@ var Draggable = new Class(Observer, {
 
 // protected
 
-  init: function() {
-    // caching the callback so that we could detach it later
-    this._dragStart = R(this.dragStart).bind(this);
-
-    this.handle.onMousedown(this._dragStart);
-
-    return this;
-  },
-
   // handles the event start
   dragStart: function(event) {
+    if (this._drag) { return false; } else { this._drag = true; }
+
     this.fire('before', this, event.stop());
 
     // calculating the positions diff
@@ -173,7 +169,6 @@ var Draggable = new Class(Observer, {
     if (this.options.moveOut) {
       this.element.insertTo(document.body);
     }
-
 
     // caching the window scrolls
     this.winScrolls = $(window).scrolls();
@@ -243,6 +238,8 @@ var Draggable = new Class(Observer, {
 
     if (this.options.revert) {
       this.revert();
+    } else {
+      this._drag = false;
     }
 
     Draggable.current = null;
@@ -262,6 +259,7 @@ var Draggable = new Class(Observer, {
         })
       );
     }
+    this._drag = false;
   },
 
   // calculates the constraints
