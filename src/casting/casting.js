@@ -16,57 +16,50 @@
  */
 
 var id_matchers    = null,
-    css_matchers   = null,
     class_matchers = null,
-    current_doc    = RightJS.$(document),
     Wrappers       = RightJS.Element.Wrappers;
 
 RightJS.$ext(Wrappers, {
 
   /**
-   * Register a new wrapper
+   * Register a new wrapper for given css-rule
    *
    * @param String css-rule
-   * @param Function dom-wrapper
+   * @param RightJS.Element subclass
    * @return Element.Wrappers object
    */
-  add: function(css_rule, klass) {
+  set: function(css_rule, klass) {
     var match = css_rule.match(/^[a-z]+$/i);
 
     if (match) { // Tag-name
       Wrappers[css_rule.toUpperCase()] = klass;
-    } else if ((match = css_rule(/^([a-z])?\#[a-z0-9_\-]+$/))) {
+    } else if ((match = css_rule.match(/^([a-z]*)\#[a-z0-9_\-]+$/i))) {
       if (id_matchers === null) { id_matchers = {}; }
       id_matchers[css_rule] = klass;
-    } else if ((match = css_rule(/^([a-z])?\.[a-z0-9_\-]+$/))) {
+    } else if ((match = css_rule.match(/^([a-z]*)\.[a-z0-9_\-]+$/i))) {
       if (class_matchers === null) { class_matchers = {}; }
       class_matchers[css_rule] = klass;
-    } else {
-      if (css_matchers === null) { css_matchers = {}; }
-      css_matchers[css_rule] = klass;
     }
 
-    return Wrappers;
+    return klass;
   },
 
   /**
-   * Removes the dom-wrapper
+   * Returns a registered wrapper by a css-rule
    *
-   * @param String css-rule
-   * @return Element.Wrappers object
+   * @param String css_rule
+   * @return RightJS.Element or null
    */
-  remove: function(css_rule) {
+  get: function(css_rule) {
     if (css_rule.toUpperCase() in Wrappers) {
-      delete(Wrappers[css_rule.toUpperCase()]);
-    } else if (id_matchers !== null && (css_rule in id_matchers)) {
-      delete(id_matchers[css_rule]);
-    } else if (class_matchers !== null && (css_rule in class_matchers)) {
-      delete(class_matchers[css_rule]);
-    } else if (css_matchers !== null && (css_rule in css_matchers)) {
-      delete(css_matchers[css_rule]);
+      return Wrappers[css_rule.toUpperCase()];
+    } else if (id_matchers !== null && css_rule in id_matchers) {
+      return id_matchers[css_rule];
+    } else if (class_matchers !== null && css_rule in class_matchers) {
+      return class_matchers[css_rule];
+    } else {
+      return null;
     }
-
-    return Wrappers;
   },
 
   /**
@@ -76,10 +69,25 @@ RightJS.$ext(Wrappers, {
    * @return Boolean check result
    */
   has: function(css_rule) {
-    return (css_rule.toUpperCase() in Wrappers) ||
-      (id_matchers !== null && (css_rule in id_matchers)) ||
-      (css_matchers !== null && (css_rule in css_matchers)) ||
-      (class_matchers !== null && (css_rule in class_matchers));
+    return Wrappers.get(css_rule) !== null;
+  },
+
+  /**
+   * Removes the dom-wrapper
+   *
+   * @param String css-rule or RightJS.Element class
+   * @return Element.Wrappers object
+   */
+  remove: function(css_rule) {
+    RightJS([Wrappers, id_matchers || {}, class_matchers || {}]).each(function(object) {
+      for (var key in object) {
+        if (css_rule === key.toLowerCase() || object[key] === css_rule) {
+          delete(object[key]);
+        }
+      }
+    });
+
+    return Wrappers;
   }
 });
 
@@ -92,47 +100,40 @@ RightJS.$ext(Wrappers, {
  * @return Function wrapper class or undefined
  */
 RightJS.Wrapper.Cast = function(element) {
-  if (css_matchers !== null) {
-    for (var css_rule in css_matchers) {
-      if (current_doc.find(css_rule, true).indexOf(element) !== -1) {
-        return css_matchers[css_rule];
-      }
+  var key, tag = element.tagName;
+
+  if (id_matchers !== null && element.id) {
+    key = tag.toLowerCase() + '#'+ element.id;
+    if (key in id_matchers) {
+      return id_matchers[key];
+    }
+
+    key = '#'+ element.id;
+    if (key in id_matchers) {
+      return id_matchers[key];
     }
   }
 
-  var key, tag;
-
   if (class_matchers !== null && element.className) {
-    var classes = element.className.split(/\s+/), i=0;
-
-    tag = element.tagName.toLowerCase();
+    var classes = element.className.split(/\s+/), i=0,
+        l_tag = tag.toLowerCase();
 
     for (; i < classes.length; i++) {
+      key = l_tag + "." + classes[i];
+      if (key in class_matchers) {
+        return class_matchers[key];
+      }
+
       key = "." + classes[i];
       if (key in class_matchers) {
         return class_matchers[key];
       }
-
-      key = tag + key;
-      if (key in class_matchers) {
-        return class_matchers[key];
-      }
     }
   }
 
-  if (id_matchers !== null && element.id) {
-    key = '#'+ element.id;
-    tag = element.tagName.toLowerCase();
-
-    if (key in id_matchers) {
-      return id_matchers[key];
-    }
-
-    key = tag + key;
-    if (key in id_matchers) {
-      return id_matchers[key];
-    }
+  if (tag in Wrappers) {
+    return Wrappers[tag];
   }
 
-  return (element.tagName in Wrappers) ? Wrappers[element.tagName] : undefined;
+  return undefined;
 };

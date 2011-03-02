@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RightJS - Casting</title>
+    <script type="text/javascript" src="../util/tools.js?casting"></script>
+    <script type="text/javascript">
+      RightJS.$(document).onReady(function() {
+        var
+
+        // some RightJS locals
+        $             = RightJS.$,
+        $$            = RightJS.$$,
+        Class         = RightJS.Class,
+        Input         = RightJS.Input,
+        Element       = RightJS.Element,
+        Wrappers      = Element.Wrappers,
+
+        // some classes to test
+        BlueElement   = Wrappers.set('.blue',       new Class(Element)),
+        GreenElement  = Wrappers.set('.green',      new Class(Element)),
+
+        BlueDiv       = Wrappers.set('div.blue',    new Class(Element)),
+        BlueInput     = Wrappers.set('input.blue',  new Class(Input)),
+
+        FirstElement  = Wrappers.set('#first',      new Class(Element)),
+        SecondElement = Wrappers.set('#second',     new Class(Element)),
+
+        FirstDiv      = Wrappers.set('div#first',   new Class(Element)),
+        FirstInput    = Wrappers.set('input#first', new Class(Input)),
+
+        SimpleDiv     = Wrappers.set('div',         new Class(Element));
+
+        /**
+         * Testing the Wrappers interface
+         */
+        TestCase.create({
+          name: 'WrappersAPITest',
+
+          testSet: function() {
+            var Klass = new Class(Element);
+
+            this.assertSame(Klass, Wrappers.set('.some-rule', Klass));
+          },
+
+          testGet: function() {
+            var Klass = new Class(Element);
+            Wrappers.set('.some-rule', Klass);
+
+            this.assertSame(Klass, Wrappers.get('.some-rule'));
+            this.assert(Wrappers.get('.another-rule') === null);
+          },
+
+          testHas: function() {
+            var Klass = new Class(Element);
+            Wrappers.set('.some-rule', Klass);
+
+            this.assert(Wrappers.has('.some-rule') === true);
+            this.assert(Wrappers.has('.another-rule') === false);
+          },
+
+          testRemove: function() {
+            var Klass = new Class(Element);
+            Wrappers.set('.some-rule', Klass);
+
+            Wrappers.remove('.some-rule');
+
+            this.assert(Wrappers.has('.some-rule') === false);
+          },
+
+          testRemoveByClass: function() {
+            var Klass = new Class(Element);
+            Wrappers.set('.some-rule', Klass);
+            Wrappers.set('.another-rule', Klass);
+
+            Wrappers.remove(Klass);
+
+            this.assert(Wrappers.has('.some-rule') === false);
+            this.assert(Wrappers.has('.another-rule') === false);
+          }
+        }).run();
+
+
+        /**
+         * Testing direct instance without the dom attachments
+         */
+        TestCase.create({
+          name: 'DirectInstanceTest',
+
+          assertClass: function(klass, instance) {
+            this.assert(instance.constructor === klass);
+          },
+
+          testUnregistered: function() {
+            this.assertClass(Element, new Element('span'));
+          },
+
+          testByTagName: function() {
+            this.assertClass(SimpleDiv, new Element('div'));
+          },
+
+          testByClassName: function() {
+            this.assertClass(BlueElement,  new Element('span', {'class' : 'blue'}));
+            this.assertClass(GreenElement, new Element('span', {'class' : 'green'}));
+          },
+
+          testByTagNameAndClass: function() {
+            this.assertClass(BlueDiv,   new Element('div', {'class' : 'blue'}));
+            this.assertClass(BlueInput, new Element('input', {'class' : 'blue'}));
+          },
+
+          testByID: function() {
+            this.assertClass(FirstElement,  new Element('span', {id: 'first'}));
+            this.assertClass(SecondElement, new Element('span', {id: 'second'}));
+          },
+
+          testByTagAndID: function() {
+            this.assertClass(FirstDiv,   new Element('div', {id: 'first'}));
+            this.assertClass(FirstInput, new Element('input', {id: 'first'}));
+          }
+        }).run();
+
+        /**
+         * Testing instance from dom-tree attached elements
+         */
+        TestCase.create({
+          name: 'DirectInstanceTest',
+
+          assertClass: function(klass, element_id) {
+            this.assert($(element_id).constructor === klass);
+          },
+
+          testUnregistered: function() {
+            this.assertClass(Element, 'simple-span');
+          },
+
+          testByTagName: function() {
+            this.assertClass(SimpleDiv, 'simple-div');
+          },
+
+          testByClassName: function() {
+            this.assertClass(BlueElement,  'blue-span');
+            this.assertClass(GreenElement, 'green-span');
+          },
+
+          testByTagNameAndClass: function() {
+            this.assertClass(BlueDiv,   'blue-div');
+            this.assertClass(BlueInput, 'blue-input');
+          },
+
+          testByID: function() {
+            this.assertClass(FirstElement,  $$('span#first', true)[0]);
+            this.assertClass(SecondElement, $$('span#second', true)[0]);
+          },
+
+          testByTagAndID: function() {
+            this.assertClass(FirstDiv,   $$('div#first', true)[0]);
+            this.assertClass(FirstInput, $$('input#first', true)[0]);
+          }
+        }).run();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="test-elements-container" style="position: absolute; left: -9999em">
+      <span id="simple-span"></span>
+      <div id="simple-div"></div>
+      <span id="blue-span" class="blue"></span>
+      <span id="green-span" class="green"></span>
+      <div id="blue-div" class="blue"></div>
+      <input id="blue-input" class="blue" />
+      <span id="first"></span>
+      <span id="second"></span>
+      <div id="first"></div>
+      <input id="first" />
+    </div>
+  </body>
+</html>
