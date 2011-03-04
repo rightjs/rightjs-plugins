@@ -4,11 +4,15 @@
  *
  * USAGE:
  *
- *   Element.Wrappers.add('div#boo.hoo', new Class(Element, {
- *     // here you go
+ *   var MyClass = Element.Wrappers.add('div#boo', new Class(Element, {
+ *     // some methods in here
+ *   }));
+ *   var MyClass = Element.Wrappers.add('div.hoo', new Class(Input, {
+ *     // some methods in here
  *   }));
  *
- *   Element.Wrappers.remove('div#boo.hoo');
+ *   Element.Wrappers.remove('div#boo');
+ *   Element.Wrappers.remove(MyClass);
  *
  *
  * Copyright (C) 2010-2011 Alexey Dubinin <LemmingKing at ya dot ru>
@@ -51,15 +55,34 @@ RightJS.$ext(Wrappers, {
    * @return RightJS.Element or null
    */
   get: function(css_rule) {
-    if (css_rule.toUpperCase() in Wrappers) {
-      return Wrappers[css_rule.toUpperCase()];
-    } else if (id_matchers !== null && css_rule in id_matchers) {
-      return id_matchers[css_rule];
-    } else if (class_matchers !== null && css_rule in class_matchers) {
-      return class_matchers[css_rule];
+    var result = null;
+
+    if (typeof css_rule === 'string') {
+      if (css_rule.toUpperCase() in Wrappers) {
+        result = Wrappers[css_rule.toUpperCase()];
+      } else if (id_matchers !== null && css_rule in id_matchers) {
+        result = id_matchers[css_rule];
+      } else if (class_matchers !== null && css_rule in class_matchers) {
+        result = class_matchers[css_rule];
+      }
     } else {
-      return null;
+      result = RightJS([]);
+      RightJS([Wrappers, id_matchers || {}, class_matchers || {}]).each(function(hash) {
+        for (var key in hash) {
+          if (hash[key] === css_rule) {
+            result.push(key);
+          }
+        }
+      });
+
+      result = result.compact();
+
+      if (result.empty()) {
+        result = null;
+      }
     }
+
+    return result;
   },
 
   /**

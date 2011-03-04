@@ -50,12 +50,34 @@
             this.assert(Wrappers.get('.another-rule') === null);
           },
 
+          testGetWithlass: function() {
+            var Klass1 = new Class(Element);
+            var Klass2 = new Class(Element);
+
+            Wrappers.set('.some-rule1', Klass1);
+            Wrappers.set('.some-rule2', Klass1);
+            Wrappers.set('.some-rule3', Klass2);
+
+            this.assertEqual(['.some-rule1', '.some-rule2'], Wrappers.get(Klass1));
+            this.assertEqual(['.some-rule3'], Wrappers.get(Klass2));
+          },
+
           testHas: function() {
             var Klass = new Class(Element);
             Wrappers.set('.some-rule', Klass);
 
             this.assert(Wrappers.has('.some-rule') === true);
             this.assert(Wrappers.has('.another-rule') === false);
+          },
+
+          testHasWithClass: function() {
+            var Klass1 = new Class(Element);
+            var Klass2 = new Class(Element);
+
+            Wrappers.set('.some-rule', Klass1);
+
+            this.assert(Wrappers.has(Klass1) === true);
+            this.assert(Wrappers.has(Klass2) === false);
           },
 
           testRemove: function() {
