@@ -1,7 +1,7 @@
 /**
  * Underscored aliases for Ruby On Rails
  *
- * Copyright (C) 2009-2010 Nikolay Nemshilov
+ * Copyright (C) 2009-2011 Nikolay Nemshilov
  */
 
 // the language and window level aliases
@@ -13,12 +13,12 @@ R([
   RightJS.Options,
   RightJS.Observer,
   RightJS.Observer.prototype,
-  window,
-  document
+  RightJS.Window.prototype,
+  RightJS.Document.prototype
 ]).each(function(object) {
   for (var key in object) {
     try { // some keys are not accessable
-      
+
       if (/[A-Z]/.test(key) && typeof(object[key]) === 'function') {
         var u_key = R(key).underscored();
         if (object[u_key] === null || object[u_key] === undefined) {
@@ -38,9 +38,9 @@ R([
   RightJS.Input
 ]).each(function(object) {
   if (!object) { return; }
-  
+
   var aliases = {}, methods = object.prototype;
-    
+
   for (var key in methods) {
     if (/[A-Z]/.test(key) && typeof(methods[key]) === 'function') {
       object.prototype[R(key).underscored()] = methods[key];
