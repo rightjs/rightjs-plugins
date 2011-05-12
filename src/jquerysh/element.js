@@ -82,11 +82,11 @@ RightJS.Element.include({
     return this.fade('out');
   },
 
-  slideIn: function() {
+  slideDown: function() {
     return this.slide('in');
   },
 
-  slideOut: function() {
+  slideUp: function() {
     return this.slide('out');
   }
 
