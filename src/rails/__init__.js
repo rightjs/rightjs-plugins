@@ -9,10 +9,11 @@ var R      = RightJS,
     $$     = RightJS.$$,
     $E     = RightJS.$E,
     Xhr    = RightJS.Xhr,
-    Object = RightJS.Object;
+    Object = RightJS.Object,
+    Input  = RightJS.Input;
 
 RightJS.Rails = {
-  version: '2.2.2'
+  version: '2.3.0'
 };
 
 include_module_files(

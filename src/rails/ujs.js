@@ -15,11 +15,43 @@ function user_cancels(event, element) {
 // adds XHR events to the element
 function add_xhr_events(element, options) {
   return Object.merge({
-    onCreate:   function() { element.fire('ajax:loading',  {xhr: this}); },
-    onComplete: function() { element.fire('ajax:complete', {xhr: this}); },
+    onCreate:   function() {
+      disable_with(element);
+      element.fire('ajax:loading',  {xhr: this});
+    },
+    onComplete: function() {
+      enable_with(element);
+      element.fire('ajax:complete', {xhr: this});
+    },
     onSuccess:  function() { element.fire('ajax:success',  {xhr: this}); },
     onFailure:  function() { element.fire('ajax:failure',  {xhr: this}); }
   }, options);
+}
+
+// handles the data-disable-with option
+function disable_with(element) {
+  get_disable_with_elements(element).each(function(element) {
+    var method = element instanceof Input ? 'value' : 'html';
+    element.__disable_with_html = element[method]();
+    element[method](element.get('data-disable-with'));
+  });
+}
+
+// restores the elements state after the data-disable-with option
+function enable_with(element) {
+  get_disable_with_elements(element).each(function(element) {
+    if (element.__disable_with_html != null) {
+      var method = element instanceof Input ? 'value' : 'html';
+      element[method](element.__disable_with_html);
+      delete(element.__disable_with_html);
+    }
+  });
+}
+
+// finds all the suitable disable-with targets
+function get_disable_with_elements(element) {
+  return element.has('data-disable-with') ?
+    R([element]) : element.find('*[data-disable-with]');
 }
 
 // processes link clicks
@@ -51,6 +83,8 @@ function try_link_submit(event, link) {
 
     form.insert('<input type="hidden" name="_method" value="'+method+'"/>')
       .insertTo(document.body).submit();
+
+    disable_with(link);
   }
 }
 
