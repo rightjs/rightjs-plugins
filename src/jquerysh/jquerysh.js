@@ -4,7 +4,7 @@
  * Copyright (C) 2011 Nikolay Nemshilov
  */
 RightJS.jQuerysh = {
-  version: '2.2.0',
+  version: '2.2.1',
 
   // collection methods
   collectionMethods: {
