@@ -196,7 +196,7 @@ var RR = {
    * @return RR this
    */
   rescan: function(scope) {
-    $w('Draggable Droppable Tabs Tags Slider Selectable').each(function(name) {
+    $w('Draggable Droppable Tabs Tags Selectable').each(function(name) {
       if (name in window) {
         window[name].rescan(this.Options.rescanWithScopes ? scope : null);
       }

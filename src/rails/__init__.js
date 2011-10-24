@@ -13,7 +13,7 @@ var R      = RightJS,
     Input  = RightJS.Input;
 
 RightJS.Rails = {
-  version: '2.3.0'
+  version: '2.3.1'
 };
 
 include_module_files(
