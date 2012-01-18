@@ -1,11 +1,11 @@
 /**
  * Draggable unit
  *
- * Copyright (C) 2009-2011 Nikolay Nemshilov
+ * Copyright (C) 2009-2012 Nikolay Nemshilov
  */
 var Draggable = new Class(Observer, {
   extend: {
-    version: '2.2.2',
+    version: '2.2.3',
 
     EVENTS: $w('before start drag stop drop'),
 
@@ -57,7 +57,10 @@ var Draggable = new Class(Observer, {
     this.$super(options);
 
     this._dragStart = R(this.dragStart).bind(this);
-    this.handle.onMousedown(this._dragStart);
+    this.handle.on({
+      mousedown:  this._dragStart,
+      touchstart: this._dragStart
+    });
 
     this.element.draggable = this;
   },
@@ -68,7 +71,9 @@ var Draggable = new Class(Observer, {
    * @return this
    */
   destroy: function() {
-    this.handle.stopObserving('mousedown', this._dragStart);
+    this.handle
+      .stopObserving('mousedown',  this._dragStart)
+      .stopObserving('touchstart', this._dragStart);
     delete(this.element.draggable);
 
     return this;
