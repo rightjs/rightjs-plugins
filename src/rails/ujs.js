@@ -1,7 +1,7 @@
 /**
  * Rails 3 UJS support module
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 // tries to cancel the event via confirmation
 function user_cancels(event, element) {
@@ -91,6 +91,29 @@ function try_link_submit(event, link) {
 
 // global events listeners
 $(document).on({
+  ready: function() {
+    var param, token, modules = ['InEdit', 'Rater', 'Sortable'], i=0, xhr;
+
+    param  = $$('meta[name=csrf-param]')[0];
+    token  = $$('meta[name=csrf-token]')[0];
+
+    param = param && param.get('content');
+    token = token && token.get('content');
+
+    if (param && token) {
+      for (; i < modules.length; i++) {
+        if (modules[i] in RightJS) {
+          xhr = RightJS[modules[i]];
+
+          if (RightJS.isHash(xhr) && !RightJS.Object.empty(xhr)) {
+            xhr.params = RightJS.Object.merge(xhr.params, {});
+            xhr.params[param] = token;
+          }
+        }
+      }
+    }
+  },
+
   click: function(event) {
     var link = event.find('a');
     if (link) {

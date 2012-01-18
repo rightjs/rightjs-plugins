@@ -1,7 +1,7 @@
 /**
  * The Rails plugin initialization script
  *
- * Copyright (C) 2010-2011 Nikolay Nemshilov
+ * Copyright (C) 2010-2012 Nikolay Nemshilov
  */
 
 var R      = RightJS,
@@ -13,7 +13,7 @@ var R      = RightJS,
     Input  = RightJS.Input;
 
 RightJS.Rails = {
-  version: '2.3.1'
+  version: '2.3.2'
 };
 
 include_module_files(
