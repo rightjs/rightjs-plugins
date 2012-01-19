@@ -92,7 +92,7 @@ function try_link_submit(event, link) {
 // global events listeners
 $(document).on({
   ready: function() {
-    var param, token, modules = ['InEdit', 'Rater', 'Sortable'], i=0, xhr;
+    var param, token, xhr, modules, i;
 
     param  = $$('meta[name=csrf-param]')[0];
     token  = $$('meta[name=csrf-token]')[0];
@@ -101,12 +101,12 @@ $(document).on({
     token = token && token.get('content');
 
     if (param && token) {
-      for (; i < modules.length; i++) {
+      for (modules = ['InEdit', 'Rater', 'Sortable'], i=0; i < modules.length; i++) {
         if (modules[i] in RightJS) {
-          xhr = RightJS[modules[i]];
+          xhr = RightJS[modules[i]].Options.Xhr;
 
-          if (RightJS.isHash(xhr) && !RightJS.Object.empty(xhr)) {
-            xhr.params = RightJS.Object.merge(xhr.params, {});
+          if (RightJS.isHash(xhr)) {
+            xhr.params = Object.merge(xhr.params, {});
             xhr.params[param] = token;
           }
         }
