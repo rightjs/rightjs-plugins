@@ -3,7 +3,9 @@
  *
  * Copyright (C) 2010-2011 Nikolay Nemshilov
  */
-var rjs_$   = RightJS.$,
+var _jQuery = window.jQuery,
+    _$      = window.$,
+    rjs_$   = RightJS.$,
     $$      = RightJS.$$,
     $E      = RightJS.$E,
     $A      = RightJS.$A,
