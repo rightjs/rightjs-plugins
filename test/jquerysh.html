@@ -44,6 +44,14 @@
         $('li').live('click', function() {
           alert('UJS works!');
         });
+
+        check = true;
+        check &= $.noConflict() === jQuery;
+        check &= $ === RightJS.$;
+        check &= jQuery.noConflict(true) !== jQuery;
+
+        result.insert("<li>Checking jQuery.noConflict(): "+ (!!check) + "</li>");
+
       });
     // ]]>
     </script>
