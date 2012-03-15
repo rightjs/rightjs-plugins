@@ -5,7 +5,7 @@
  */
 var Draggable = new Class(Observer, {
   extend: {
-    version: '2.2.3',
+    version: '2.2.4',
 
     EVENTS: $w('before start drag stop drop'),
 
@@ -56,7 +56,11 @@ var Draggable = new Class(Observer, {
     this.element = $(element);
     this.$super(options);
 
-    this._dragStart = R(this.dragStart).bind(this);
+    this._dragStart = R(function(event) {
+      if (event.which === 1) {
+        this.dragStart(event);
+      }
+    }).bind(this);
     this.handle.on({
       mousedown:  this._dragStart,
       touchstart: this._dragStart
